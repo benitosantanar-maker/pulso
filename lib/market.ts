@@ -69,7 +69,7 @@ function dir(now: number, prev: number): MarketTick["dir"] {
 }
 
 function safeFetch(url: string): Promise<unknown> {
-  return fetch(url, { next: { revalidate: 3600 } })
+  return fetch(url, { next: { revalidate: 300 } }) // 5 min cache en servidor
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
 }

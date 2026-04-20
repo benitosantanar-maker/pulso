@@ -8,8 +8,8 @@ export async function GET() {
   const data = await getMarketTickers();
   return NextResponse.json(data, {
     headers: {
-      // Cache en CDN 55 min, stale-while-revalidate 5 min
-      "Cache-Control": "public, s-maxage=3300, stale-while-revalidate=300",
+      // Cache en CDN 5 min, stale-while-revalidate 1 min
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
     },
   });
 }

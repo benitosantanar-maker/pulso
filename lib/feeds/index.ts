@@ -10,7 +10,7 @@
  *  4. Ordena por fecha descendente
  *  5. Devuelve los primeros `limit` items
  *
- * Caché: unstable_cache de Next.js → 30 min por categoría.
+ * Caché: unstable_cache de Next.js → 2 min por categoría.
  * Así múltiples páginas/componentes comparten el mismo fetch.
  */
 
@@ -22,8 +22,8 @@ import type { FeedItem, Category } from "@/types";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
-/** Cada cuántos segundos se regenera el caché (30 min) */
-const REVALIDATE_SECONDS = 1800;
+/** Cada cuántos segundos se regenera el caché (2 min) */
+const REVALIDATE_SECONDS = 120;
 
 /** Items máximos a solicitar por fuente individual (subir = más cobertura, más tiempo de fetch) */
 const PER_SOURCE_LIMIT = 12;

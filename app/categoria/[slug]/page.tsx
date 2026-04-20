@@ -9,7 +9,7 @@ import { NewsCardRSSCard, NewsCardRSSCompact } from "@/components/news/NewsCardR
 import { Rss, Globe } from "lucide-react";
 import type { Category } from "@/types";
 
-export const revalidate = 1800;
+export const revalidate = 120; // revalidar cada 2 min
 
 interface Props {
   params: { slug: string };
