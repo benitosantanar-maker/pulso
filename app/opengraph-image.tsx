@@ -87,7 +87,7 @@ export default function OGImage() {
             display: "flex",
           }}
         >
-          cafecomercial.vercel.app — PUC · FEN UCHILE · UAI · UDD · UANDES
+          cafecomercial.vercel.app
         </div>
       </div>
     ),

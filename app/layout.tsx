@@ -20,10 +20,6 @@ export const metadata: Metadata = {
     "negocios",
     "noticias Chile",
     "brief",
-    "PUC",
-    "FEN UCHILE",
-    "UAI",
-    "UDD",
   ],
   metadataBase: new URL("https://cafecomercial.vercel.app"),
   openGraph: {

@@ -13,7 +13,7 @@ export default function Hero() {
         {/* Headline */}
         <div className="max-w-3xl mb-10">
           <p className="text-teal-400 text-xs font-semibold uppercase tracking-widest mb-4">
-            Plataforma editorial · PUC · FEN UCHILE · UAI · UDD · UANDES
+            Plataforma editorial
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] mb-4 text-white">
             Lo esencial para{" "}

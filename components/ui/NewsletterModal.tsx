@@ -99,7 +99,7 @@ export default function NewsletterModal() {
         )}
 
         <p className="text-[11px] text-gray-400 dark:text-gray-600 mt-3 text-center">
-          Sin spam. Para PUC · FEN UCHILE · UAI · UDD · UANDES
+          Sin spam. Puedes darte de baja cuando quieras.
         </p>
       </div>
     </div>

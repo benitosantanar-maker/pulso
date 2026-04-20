@@ -56,7 +56,7 @@ export default function Footer() {
               Las noticias y explicaciones que un ingeniero comercial necesita para entender el mundo de los negocios en pocos minutos.
             </p>
             <p className="text-xs text-gray-600 leading-relaxed">
-              Para estudiantes y profesionales de PUC · FEN UCHILE · UAI · UDD · UANDES
+              Para estudiantes y profesionales de Ingeniería Comercial.
             </p>
           </div>
 
