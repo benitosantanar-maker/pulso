@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ThemeProvider from "@/components/ui/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -17,14 +18,26 @@ export const metadata: Metadata = {
     "marketing",
     "innovación",
     "negocios",
-    "noticias",
+    "noticias Chile",
     "brief",
+    "PUC",
+    "FEN UCHILE",
+    "UAI",
+    "UDD",
   ],
+  metadataBase: new URL("https://cafecomercial.vercel.app"),
   openGraph: {
-    title: "Café Comercial",
+    title: "Café Comercial — Lo esencial para ingenieros comerciales",
     description:
-      "Noticias de economía, finanzas, marketing e innovación para ingenieros comerciales.",
+      "Noticias de economía, finanzas, marketing e innovación para ingenieros comerciales. Sin ruido, con contexto.",
     type: "website",
+    locale: "es_CL",
+    siteName: "Café Comercial",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Café Comercial",
+    description: "Lo esencial para ingenieros comerciales.",
   },
 };
 
@@ -34,11 +47,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+    <html lang="es" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col bg-[#F9FAFB] dark:bg-gray-950 transition-colors duration-200">
+        <ThemeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

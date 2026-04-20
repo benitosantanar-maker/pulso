@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Coffee } from "lucide-react";
+import { Coffee, ExternalLink } from "lucide-react";
 
 const LINKS_SECCIONES = [
   { href: "/categoria/economia", label: "Economía" },
@@ -14,18 +14,32 @@ const LINKS_SECCIONES = [
 
 const LINKS_PROYECTO = [
   { href: "/brief", label: "Brief diario" },
+  { href: "/datos-chile", label: "Datos Chile" },
   { href: "/recursos", label: "Recursos" },
   { href: "/acerca", label: "Acerca del proyecto" },
 ];
 
 const FUENTES = [
-  "Reuters", "Diario Financiero", "FMI", "OCDE", "MIT Tech Review",
-  "Marketing Brew", "TechCrunch", "World Bank",
+  { nombre: "Diario Financiero", url: "https://www.df.cl" },
+  { nombre: "Financial Times", url: "https://www.ft.com" },
+  { nombre: "The Economist", url: "https://www.economist.com" },
+  { nombre: "El Mercurio Economía", url: "https://www.emol.com/economia/" },
+  { nombre: "La Tercera Pulso", url: "https://www.latercera.com/pulso/" },
+  { nombre: "Reuters Markets", url: "https://www.reuters.com/markets/" },
+  { nombre: "MIT Technology Review", url: "https://www.technologyreview.com" },
+  { nombre: "Marketing Brew", url: "https://www.marketingbrew.com" },
+  { nombre: "TechCrunch", url: "https://techcrunch.com" },
+  { nombre: "BCCh", url: "https://www.bcentral.cl" },
+  { nombre: "CMF", url: "https://www.cmfchile.cl" },
+  { nombre: "INE", url: "https://www.ine.gob.cl" },
+  { nombre: "FMI WEO", url: "https://www.imf.org/en/publications/weo" },
+  { nombre: "OCDE", url: "https://www.oecd.org" },
+  { nombre: "World Bank", url: "https://data.worldbank.org" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1F2937] text-gray-300 mt-20">
+    <footer className="bg-[#1F2937] text-gray-300 mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
@@ -38,14 +52,17 @@ export default function Footer() {
                 Café <span className="text-teal-400">Comercial</span>
               </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-400 leading-relaxed mb-4">
               Las noticias y explicaciones que un ingeniero comercial necesita para entender el mundo de los negocios en pocos minutos.
+            </p>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              Para estudiantes y profesionales de PUC · FEN UCHILE · UAI · UDD · UANDES
             </p>
           </div>
 
           {/* Categorías */}
           <div>
-            <h3 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
               Secciones
             </h3>
             <ul className="space-y-2">
@@ -64,10 +81,10 @@ export default function Footer() {
 
           {/* Proyecto */}
           <div>
-            <h3 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
               Proyecto
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-8">
               {LINKS_PROYECTO.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -79,17 +96,28 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-            <h3 className="text-white text-sm font-semibold uppercase tracking-wider mb-4 mt-8">
+            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-3">
               Fuentes curadas
             </h3>
-            <p className="text-xs text-gray-500 leading-relaxed">
-              {FUENTES.join(" · ")}
-            </p>
+            <div className="flex flex-wrap gap-x-2 gap-y-1">
+              {FUENTES.map((f) => (
+                <a
+                  key={f.nombre}
+                  href={f.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-gray-500 hover:text-teal-400 transition-colors inline-flex items-center gap-0.5"
+                >
+                  {f.nombre}
+                  <ExternalLink className="w-2 h-2 opacity-50" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Newsletter */}
           <div id="suscribir">
-            <h3 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
+            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
               Brief semanal
             </h3>
             <p className="text-sm text-gray-400 mb-4 leading-relaxed">
@@ -108,15 +136,16 @@ export default function Footer() {
                 Suscribirse gratis
               </button>
             </form>
+            <p className="text-xs text-gray-600 mt-2">Sin spam. Puedes darte de baja cuando quieras.</p>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Café Comercial. Proyecto editorial independiente.
-          </p>
+        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-600">
-            Construido para estudiantes y profesionales de Ingeniería Comercial.
+            © {new Date().getFullYear()} Café Comercial · Proyecto editorial independiente
+          </p>
+          <p className="text-xs text-gray-700">
+            Construido para reducir la carga cognitiva de ingenieros comerciales chilenos.
           </p>
         </div>
       </div>

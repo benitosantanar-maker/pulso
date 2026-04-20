@@ -4,32 +4,28 @@ import CategoryBadge from "@/components/ui/CategoryBadge";
 import { formatDateShort } from "@/lib/utils";
 import type { Noticia } from "@/types";
 
-interface NewsCardPrincipalProps {
-  noticia: Noticia;
-}
-
-export default function NewsCardPrincipal({ noticia }: NewsCardPrincipalProps) {
+export default function NewsCardPrincipal({ noticia }: { noticia: Noticia }) {
   return (
-    <article className="group flex flex-col bg-white rounded-2xl border border-gray-100 p-6 hover:border-teal-200 hover:shadow-md transition-all duration-200">
+    <article className="group flex flex-col bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">
       <div className="flex items-center gap-2 mb-4">
         <CategoryBadge category={noticia.categoria} />
-        <span className="text-xs text-gray-400">{formatDateShort(noticia.fecha)}</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{formatDateShort(noticia.fecha)}</span>
       </div>
 
-      <Link href={`/noticia/${noticia.slug}`} className="flex-1 block group-hover:no-underline">
-        <h2 className="text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-teal-700 transition-colors">
+      <Link href={`/noticia/${noticia.slug}`} className="flex-1 block">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-snug mb-3 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors">
           {noticia.titulo}
         </h2>
-        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
           {noticia.bajada}
         </p>
       </Link>
 
-      <div className="bg-gray-50 rounded-xl p-4 mb-4">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+      <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 mb-4 border border-gray-100 dark:border-gray-700/50">
+        <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1.5">
           Por qué importa
         </p>
-        <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed line-clamp-3 italic">
           {noticia.porQueImporta}
         </p>
       </div>
@@ -40,19 +36,19 @@ export default function NewsCardPrincipal({ noticia }: NewsCardPrincipalProps) {
             href={noticia.fuenteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs text-gray-400 hover:text-teal-700 transition-colors"
+            className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-teal-700 dark:hover:text-teal-400 transition-colors"
           >
             <ExternalLink className="w-3 h-3" />
             {noticia.fuente}
           </a>
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+          <span className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
             <Clock className="w-3 h-3" />
             {noticia.tiempoLectura} min
           </span>
         </div>
         <Link
           href={`/noticia/${noticia.slug}`}
-          className="text-xs font-medium text-teal-700 hover:text-teal-800 transition-colors"
+          className="text-xs font-semibold text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors"
         >
           Leer más →
         </Link>
