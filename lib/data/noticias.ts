@@ -34,6 +34,9 @@ La pausa del BCCh, mientras la Fed también pausa, mantiene el diferencial de ta
     destacada: true,
     principal: true,
     tags: ["Banco Central", "TPM", "inflación", "Chile"],
+    conceptosRelacionados: [
+      { label: "TPM", slug: "tasa-de-politica-monetaria" },
+    ],
   },
   {
     slug: "df-retail-chileno-primer-trimestre",
@@ -70,6 +73,9 @@ Falabella anunció un plan de reducción de locales y enfoque en la experiencia 
     destacada: true,
     principal: false,
     tags: ["retail", "consumo", "Chile", "Falabella"],
+    conceptosRelacionados: [
+      { label: "5 Fuerzas de Porter", slug: "five-forces-porter" },
+    ],
   },
   {
     slug: "df-codelco-produccion-q1-2026",
@@ -171,6 +177,9 @@ El programa Startup Chile y el fondo de fondos de Corfo participaron en 8 de las
     destacada: false,
     principal: false,
     tags: ["startups", "venture capital", "Chile", "innovación"],
+    conceptosRelacionados: [
+      { label: "Unit Economics", slug: "unit-economics" },
+    ],
   },
 
   // ── FINANCIAL TIMES (3) ───────────────────────────────────────────────────
@@ -210,6 +219,9 @@ El BCCh enfrenta el mismo dilema: bajar tasas para estimular la economía local,
     destacada: true,
     principal: false,
     tags: ["Fed", "tasas de interés", "política monetaria", "aranceles"],
+    conceptosRelacionados: [
+      { label: "TPM", slug: "tasa-de-politica-monetaria" },
+    ],
   },
   {
     slug: "ft-global-trade-war-escalation",
@@ -279,6 +291,9 @@ El interés en Chile se concentra en energías renovables (solar, eólica, hidr�
     destacada: false,
     principal: false,
     tags: ["private equity", "LATAM", "inversión", "KKR"],
+    conceptosRelacionados: [
+      { label: "EBITDA", slug: "ebitda" },
+    ],
   },
 
   // ── THE ECONOMIST (2) ─────────────────────────────────────────────────────
@@ -349,6 +364,9 @@ Mientras Chile lucha por atraer IED, Colombia, Perú y México han aprovechado e
     destacada: false,
     principal: false,
     tags: ["Chile", "inversión", "riesgo país", "política"],
+    conceptosRelacionados: [
+      { label: "World Economic Outlook", slug: "imf-world-economic-outlook" },
+    ],
   },
 
   // ── REUTERS (2) ──────────────────────────────────────────────────────────
@@ -417,6 +435,9 @@ Cada centavo de aumento en el precio del cobre genera aproximadamente USD 60 mil
     destacada: false,
     principal: false,
     tags: ["FMI", "crecimiento global", "macroeconomía"],
+    conceptosRelacionados: [
+      { label: "World Economic Outlook", slug: "imf-world-economic-outlook" },
+    ],
   },
 
   // ── MEDIOS LOCALES (3): El Mercurio, La Tercera Pulso, Marketing Brew ─────
@@ -454,6 +475,10 @@ Las administradoras de fondos de pensiones verán aumentar sus activos bajo gest
     destacada: false,
     principal: false,
     tags: ["reforma previsional", "AFP", "Chile", "pensiones"],
+    conceptosRelacionados: [
+      { label: "TPM", slug: "tasa-de-politica-monetaria" },
+      { label: "EBITDA", slug: "ebitda" },
+    ],
   },
   {
     slug: "latercera-pulso-salarios-minimos-chile",
@@ -533,6 +558,10 @@ El trabajo se mueve desde ejecución táctica hacia arquitectura de datos propio
     destacada: false,
     principal: false,
     tags: ["publicidad digital", "Google", "Meta", "marketing"],
+    conceptosRelacionados: [
+      { label: "Funnel de Marketing", slug: "funnel-marketing" },
+      { label: "Think with Google", slug: "think-with-google" },
+    ],
   },
 ];
 

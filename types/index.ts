@@ -18,6 +18,11 @@ export interface CategoryMeta {
   description: string;
 }
 
+export interface ConceptoRelacionado {
+  label: string; // Nombre visible, e.g. "TPM", "EBITDA"
+  slug: string;  // Anchor en /recursos, e.g. "tpm", "ebitda"
+}
+
 export interface Noticia {
   slug: string;
   titulo: string;
@@ -35,6 +40,8 @@ export interface Noticia {
   principal: boolean;
   imagen?: string;
   tags?: string[];
+  /** Conceptos del glosario mencionados en la noticia — links a /recursos#slug */
+  conceptosRelacionados?: ConceptoRelacionado[];
 }
 
 export interface BriefItem {

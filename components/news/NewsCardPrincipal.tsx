@@ -31,6 +31,24 @@ export default function NewsCardPrincipal({ noticia }: { noticia: Noticia }) {
         </p>
       </div>
 
+      {/* Conceptos relacionados — links al glosario /recursos#slug */}
+      {noticia.conceptosRelacionados && noticia.conceptosRelacionados.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+          <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mr-0.5">
+            Conceptos:
+          </span>
+          {noticia.conceptosRelacionados.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/recursos#${c.slug}`}
+              className="text-[11px] text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline bg-teal-50 dark:bg-teal-950/30 px-2 py-0.5 rounded-full border border-teal-100 dark:border-teal-800/50 transition-colors"
+            >
+              {c.label}
+            </Link>
+          ))}
+        </div>
+      )}
+
       {/* Tags */}
       {noticia.tags && noticia.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-4">

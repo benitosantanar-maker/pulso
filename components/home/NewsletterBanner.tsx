@@ -40,9 +40,24 @@ export default function NewsletterBanner() {
         <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
           El brief semanal que sí vale la pena leer
         </h2>
-        <p className="text-gray-400 mb-8 leading-relaxed">
-          Cada semana, lo más importante en economía, finanzas, marketing e innovación explicado en 5 minutos. Para ingenieros comerciales que quieren entender el mundo.
+        <p className="text-gray-400 mb-6 leading-relaxed">
+          Cada semana, lo más importante en economía, finanzas, marketing e innovación — explicado en 5 minutos.
         </p>
+
+        <ul className="text-left max-w-sm mx-auto mb-8 space-y-2.5">
+          <li className="flex items-start gap-2.5 text-sm text-gray-400">
+            <span className="text-teal-400 font-bold mt-0.5 shrink-0">→</span>
+            <span>3–5 noticias clave con contexto para ingeniero comercial: qué pasó y por qué importa.</span>
+          </li>
+          <li className="flex items-start gap-2.5 text-sm text-gray-400">
+            <span className="text-teal-400 font-bold mt-0.5 shrink-0">→</span>
+            <span>Indicadores de Chile explicados: TPM, IPC, dólar, empleo — y qué significan para el mercado.</span>
+          </li>
+          <li className="flex items-start gap-2.5 text-sm text-gray-400">
+            <span className="text-teal-400 font-bold mt-0.5 shrink-0">→</span>
+            <span>Un concepto de finanzas o estrategia explicado simple, listo para usar en clases o entrevistas.</span>
+          </li>
+        </ul>
 
         {state === "done" ? (
           <div className="inline-flex items-center gap-2 bg-teal-700/20 border border-teal-700/40 text-teal-300 px-6 py-3 rounded-full text-sm font-medium">

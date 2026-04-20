@@ -21,7 +21,7 @@ export default function DatosChile() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {datosChile.map((d) => {
             const isUp = d.dir === "up";
             const isDown = d.dir === "down";
@@ -30,7 +30,7 @@ export default function DatosChile() {
               ? "text-emerald-600 dark:text-emerald-400"
               : isDown
               ? "text-red-500 dark:text-red-400"
-              : "text-gray-400";
+              : "text-gray-400 dark:text-gray-500";
 
             return (
               <a
@@ -39,21 +39,30 @@ export default function DatosChile() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={d.descripcion}
-                className="group flex flex-col gap-1 bg-gray-50 dark:bg-gray-800 hover:bg-teal-50 dark:hover:bg-teal-950/30 border border-gray-100 dark:border-gray-700 hover:border-teal-200 dark:hover:border-teal-800 rounded-xl p-3 transition-all duration-200"
+                className="group flex flex-col gap-1.5 bg-gray-50 dark:bg-gray-800 hover:bg-teal-50 dark:hover:bg-teal-950/30 border border-gray-100 dark:border-gray-700 hover:border-teal-200 dark:hover:border-teal-800 rounded-xl p-4 transition-all duration-200"
               >
-                <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider truncate">
-                  {d.indicador}
-                </span>
-                <span className="text-sm font-bold text-gray-900 dark:text-white tabular-nums leading-tight">
-                  {d.valor}
-                </span>
-                <span className={`inline-flex items-center gap-0.5 text-[10px] font-semibold ${varColor}`}>
-                  <Icon className="w-2.5 h-2.5" />
-                  {d.variacion}
-                </span>
-                <span className="text-[10px] text-gray-400 dark:text-gray-600 mt-0.5 flex items-center gap-1">
-                  {d.fuente}
-                  <ExternalLink className="w-2 h-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    {d.indicador}
+                  </span>
+                  <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-base font-bold text-gray-900 dark:text-white tabular-nums leading-tight">
+                    {d.valor}
+                  </span>
+                  <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold ${varColor}`}>
+                    <Icon className="w-3 h-3" />
+                    {d.variacion}
+                  </span>
+                </div>
+                {d.microNota && (
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-0.5">
+                    {d.microNota}
+                  </p>
+                )}
+                <span className="text-[10px] text-gray-300 dark:text-gray-600 mt-auto pt-1 border-t border-gray-100 dark:border-gray-700/50">
+                  {d.fuente} · {d.periodo}
                 </span>
               </a>
             );
