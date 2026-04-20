@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, ExternalLink } from "lucide-react";
 import CategoryBadge from "@/components/ui/CategoryBadge";
+import FavoriteButton from "@/components/ui/FavoriteButton";
 import { formatDateShort } from "@/lib/utils";
 import type { Noticia } from "@/types";
 
@@ -30,6 +31,20 @@ export default function NewsCardPrincipal({ noticia }: { noticia: Noticia }) {
         </p>
       </div>
 
+      {/* Tags */}
+      {noticia.tags && noticia.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {noticia.tags.slice(0, 4).map((tag) => (
+            <span
+              key={tag}
+              className="text-[11px] text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <a
@@ -45,6 +60,7 @@ export default function NewsCardPrincipal({ noticia }: { noticia: Noticia }) {
             <Clock className="w-3 h-3" />
             {noticia.tiempoLectura} min
           </span>
+          <FavoriteButton id={noticia.slug} />
         </div>
         <Link
           href={`/noticia/${noticia.slug}`}

@@ -7,6 +7,7 @@ import { Menu, X, Coffee } from "lucide-react";
 import { cn } from "@/lib/utils";
 import DarkModeToggle from "@/components/ui/DarkModeToggle";
 import MarketTicker from "@/components/layout/MarketTicker";
+import { SearchButton } from "@/components/ui/SearchModal";
 
 const NAV_LINKS = [
   { href: "/categoria/economia", label: "Economía" },
@@ -57,6 +58,7 @@ export default function Header() {
 
           {/* Right side CTAs */}
           <div className="hidden lg:flex items-center gap-2">
+            <SearchButton />
             <DarkModeToggle />
             <Link
               href="/acerca"
@@ -74,6 +76,7 @@ export default function Header() {
 
           {/* Mobile right */}
           <div className="lg:hidden flex items-center gap-1">
+            <SearchButton />
             <DarkModeToggle />
             <button
               className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

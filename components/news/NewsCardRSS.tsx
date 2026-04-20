@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import CategoryBadge from "@/components/ui/CategoryBadge";
+import FavoriteButton from "@/components/ui/FavoriteButton";
 import type { FeedItem } from "@/types";
 
 function relativeTime(iso: string): string {
@@ -46,8 +47,20 @@ export function NewsCardRSSCompact({ item }: { item: FeedItem }) {
         <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-snug group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors line-clamp-2">
           {item.titulo}
         </h4>
+        {item.tags && item.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {item.tags.slice(0, 3).map((tag) => (
+              <span key={tag} className="text-[10px] text-gray-400 dark:text-gray-500">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-      <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 mt-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="flex items-center gap-0.5 ml-1 shrink-0">
+        <FavoriteButton id={item.link} />
+        <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
     </a>
   );
 }
@@ -80,10 +93,24 @@ export function NewsCardRSSCard({ item }: { item: FeedItem }) {
         </p>
       )}
 
-      {/* Footer: fuente/país + icono externo */}
+      {/* Tags */}
+      {item.tags && item.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-2">
+          {item.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="text-[10px] text-gray-400 dark:text-gray-500">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Footer: fuente/país + fav + icono externo */}
       <div className="flex items-center gap-1 pt-3 border-t border-gray-50 dark:border-gray-700/50 mt-auto">
         <SourceBadge fuente={item.fuente} pais={item.pais} />
-        <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="ml-auto flex items-center gap-0.5">
+          <FavoriteButton id={item.link} />
+          <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </div>
       </div>
     </a>
   );
