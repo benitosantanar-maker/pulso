@@ -1,15 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Loader2 } from "lucide-react";
 
 export default function NewsletterBanner() {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (email) setSent(true);
+    if (!email) return;
+    setState("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.error ?? "Error");
+      }
+      setState("done");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Intenta de nuevo.");
+      setState("error");
+    }
   }
 
   return (
@@ -27,30 +44,41 @@ export default function NewsletterBanner() {
           Cada semana, lo más importante en economía, finanzas, marketing e innovación explicado en 5 minutos. Para ingenieros comerciales que quieren entender el mundo.
         </p>
 
-        {sent ? (
+        {state === "done" ? (
           <div className="inline-flex items-center gap-2 bg-teal-700/20 border border-teal-700/40 text-teal-300 px-6 py-3 rounded-full text-sm font-medium">
             ✓ ¡Listo! Te avisamos cuando salgamos.
           </div>
         ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              required
-              className="flex-1 bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
-            />
-            <button
-              type="submit"
-              className="flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-600 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
+          <>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
             >
-              Suscribirme <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setState("idle"); }}
+                placeholder="tu@email.com"
+                required
+                disabled={state === "loading"}
+                className="flex-1 bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={state === "loading"}
+                className="flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-600 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap disabled:opacity-60"
+              >
+                {state === "loading" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>Suscribirme <ArrowRight className="w-4 h-4" /></>
+                )}
+              </button>
+            </form>
+            {state === "error" && (
+              <p className="text-red-400 text-xs mt-2">{errorMsg}</p>
+            )}
+          </>
         )}
 
         <p className="text-xs text-gray-600 mt-4">

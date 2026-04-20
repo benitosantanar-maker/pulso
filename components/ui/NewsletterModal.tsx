@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Mail, ArrowRight, Check } from "lucide-react";
+import { X, Mail, ArrowRight, Check, Loader2 } from "lucide-react";
 
 export default function NewsletterModal() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem("cc-nl-dismissed");
@@ -20,14 +20,24 @@ export default function NewsletterModal() {
     setOpen(false);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (email) {
-      setSent(true);
+    if (!email) return;
+    setState("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error();
+      setState("done");
       setTimeout(() => {
         sessionStorage.setItem("cc-nl-dismissed", "1");
         setTimeout(() => setOpen(false), 1500);
-      }, 1500);
+      }, 2000);
+    } catch {
+      setState("error");
     }
   }
 
@@ -35,13 +45,10 @@ export default function NewsletterModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={dismiss}
       />
-
-      {/* Modal */}
       <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full p-7 border border-gray-100 dark:border-gray-700 animate-in slide-in-from-bottom-4 duration-300">
         <button
           onClick={dismiss}
@@ -69,7 +76,7 @@ export default function NewsletterModal() {
           Economía, finanzas, marketing e innovación explicados en 5 minutos. Para ingenieros comerciales que quieren entender el mundo.
         </p>
 
-        {sent ? (
+        {state === "done" ? (
           <div className="flex items-center gap-3 bg-teal-50 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-800 rounded-xl p-4">
             <div className="w-8 h-8 bg-teal-700 rounded-full flex items-center justify-center shrink-0">
               <Check className="w-4 h-4 text-white" />
@@ -84,16 +91,25 @@ export default function NewsletterModal() {
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setState("idle"); }}
               placeholder="tu@email.com"
               required
-              className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+              disabled={state === "loading"}
+              className="w-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition disabled:opacity-60"
             />
+            {state === "error" && (
+              <p className="text-red-500 text-xs -mt-1">Error al enviar. Intenta de nuevo.</p>
+            )}
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 w-full bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold py-3 rounded-xl transition-colors"
+              disabled={state === "loading"}
+              className="flex items-center justify-center gap-2 w-full bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold py-3 rounded-xl transition-colors disabled:opacity-60"
             >
-              Suscribirme gratis <ArrowRight className="w-4 h-4" />
+              {state === "loading" ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>Suscribirme gratis <ArrowRight className="w-4 h-4" /></>
+              )}
             </button>
           </form>
         )}

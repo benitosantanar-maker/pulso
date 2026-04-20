@@ -1,12 +1,10 @@
 /**
  * lib/rss.ts — Motor RSS de Café Comercial
- * Corre exclusivamente en el servidor (Node.js).
- * Cada feed tiene un fallback silencioso si falla.
+ * Solo fuentes en español. Corre exclusivamente en el servidor (Node.js).
  */
 
 import Parser from "rss-parser";
-import type { FeedItem } from "@/types";
-import type { Category } from "@/types";
+import type { FeedItem, Category } from "@/types";
 
 const parser = new Parser({
   timeout: 8000,
@@ -14,162 +12,155 @@ const parser = new Parser({
     "User-Agent": "CafeComercial/1.0 (https://cafecomercial.vercel.app)",
     Accept: "application/rss+xml, application/xml, text/xml, */*",
   },
-  customFields: {
-    item: [["media:content", "mediaContent"]],
-  },
 });
 
-// ─── Feeds por categoría ────────────────────────────────────────────────────
+// ─── Feeds en español por categoría ─────────────────────────────────────────
 
-export const FEEDS: Record<Category, string[]> = {
+export const FEEDS: Record<Category, { url: string; fuente: string }[]> = {
   economia: [
-    "https://www.latercera.com/economia/feed/",
-    "https://www.latercera.com/pulso/feed/",
-    "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada",
-    "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",
+    { url: "https://www.latercera.com/economia/feed/", fuente: "La Tercera" },
+    { url: "https://www.latercera.com/pulso/feed/", fuente: "La Tercera Pulso" },
+    { url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada", fuente: "El País Economía" },
+    { url: "https://feeds.bbci.co.uk/mundo/economia/rss.xml", fuente: "BBC Mundo" },
+    { url: "https://www.elmostrador.cl/mercados/feed/", fuente: "El Mostrador" },
   ],
   finanzas: [
-    "https://feeds.reuters.com/reuters/businessNews",
-    "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+    { url: "https://www.latercera.com/pulso/feed/", fuente: "La Tercera Pulso" },
+    { url: "https://feeds.bbci.co.uk/mundo/economia/rss.xml", fuente: "BBC Mundo" },
+    { url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada", fuente: "El País" },
   ],
   marketing: [
-    "https://feeds.adweek.com/news",
-    "https://digiday.com/marketing/feed/",
-    "https://feeds.feedburner.com/entrepreneur/latest",
+    { url: "https://www.puromarketing.com/rss.xml", fuente: "Puro Marketing" },
+    { url: "https://www.marketingdirecto.com/feed/", fuente: "Marketing Directo" },
+    { url: "https://www.america-retail.com/feed/", fuente: "América Retail" },
   ],
   innovacion: [
-    "https://techcrunch.com/feed/",
-    "https://feeds.feedburner.com/TechCrunch",
+    { url: "https://www.fayerwayer.com/feed/", fuente: "FayerWayer" },
+    { url: "https://feeds.bbci.co.uk/mundo/rss.xml", fuente: "BBC Mundo" },
+    { url: "https://cnnespanol.cnn.com/seccion/tecnologia/feed/", fuente: "CNN Español" },
   ],
   negocios: [
-    "https://feeds.reuters.com/reuters/companyNews",
-    "https://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml",
+    { url: "https://www.latercera.com/feed/", fuente: "La Tercera" },
+    { url: "https://www.elmostrador.cl/mercados/feed/", fuente: "El Mostrador" },
+    { url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada", fuente: "El País" },
   ],
   estrategia: [
-    "https://hbr.org/stories.rss",
+    { url: "https://www.latercera.com/pulso/feed/", fuente: "La Tercera Pulso" },
+    { url: "https://www.elmostrador.cl/mercados/feed/", fuente: "El Mostrador" },
   ],
   mercados: [
-    "https://feeds.reuters.com/reuters/businessNews",
-    "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+    { url: "https://www.latercera.com/economia/feed/", fuente: "La Tercera" },
+    { url: "https://feeds.bbci.co.uk/mundo/economia/rss.xml", fuente: "BBC Mundo" },
+    { url: "https://cnnespanol.cnn.com/seccion/negocios/feed/", fuente: "CNN Español" },
   ],
   emprendimiento: [
-    "https://techcrunch.com/feed/",
-    "https://feeds.feedburner.com/entrepreneur/latest",
+    { url: "https://www.fayerwayer.com/feed/", fuente: "FayerWayer" },
+    { url: "https://www.elmostrador.cl/mercados/feed/", fuente: "El Mostrador" },
+    { url: "https://www.america-retail.com/feed/", fuente: "América Retail" },
   ],
 };
 
-// ─── Fuentes "amigables" para mostrar en UI ─────────────────────────────────
-
-function inferSource(feedUrl: string): string {
-  if (feedUrl.includes("latercera")) return "La Tercera";
-  if (feedUrl.includes("df.cl")) return "Diario Financiero";
-  if (feedUrl.includes("emol")) return "Emol";
-  if (feedUrl.includes("reuters")) return "Reuters";
-  if (feedUrl.includes("nytimes")) return "New York Times";
-  if (feedUrl.includes("elpais")) return "El País";
-  if (feedUrl.includes("adweek")) return "AdWeek";
-  if (feedUrl.includes("digiday")) return "Digiday";
-  if (feedUrl.includes("entrepreneur")) return "Entrepreneur";
-  if (feedUrl.includes("techcrunch")) return "TechCrunch";
-  if (feedUrl.includes("hbr.org")) return "Harvard Business Review";
-  if (feedUrl.includes("ft.com")) return "Financial Times";
-  if (feedUrl.includes("economist")) return "The Economist";
-  if (feedUrl.includes("marketingbrew")) return "Marketing Brew";
-  return new URL(feedUrl).hostname.replace("www.", "");
-}
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function stripHtml(html: string | undefined): string {
   if (!html) return "";
-  return html.replace(/<[^>]*>/g, "").replace(/&[a-z]+;/g, " ").trim();
+  return html
+    .replace(/<[^>]*>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function toFeedItem(
   item: Parser.Item,
-  feedUrl: string,
+  fuente: string,
   categoria: Category
 ): FeedItem {
-  const summary =
-    stripHtml(item.contentSnippet ?? item.content ?? item.summary ?? "")
-      .slice(0, 200)
-      .trim();
+  const raw = stripHtml(
+    item.contentSnippet ?? item.content ?? item.summary ?? ""
+  );
+  const resumen = raw.slice(0, 200).trim();
 
   return {
-    id: item.guid ?? item.link ?? Math.random().toString(36),
+    id: item.guid ?? item.link ?? `${fuente}-${Date.now()}-${Math.random()}`,
     titulo: stripHtml(item.title ?? "Sin título"),
-    resumen: summary ? summary + (summary.length >= 200 ? "…" : "") : "",
-    fuente: inferSource(feedUrl),
+    resumen: resumen ? resumen + (raw.length > 200 ? "…" : "") : "",
+    fuente,
     categoria,
     fecha: item.pubDate ?? item.isoDate ?? new Date().toISOString(),
-    link: item.link ?? feedUrl,
+    link: item.link ?? "",
     esRSS: true,
   };
 }
 
-// ─── Función principal ───────────────────────────────────────────────────────
+// ─── API pública ─────────────────────────────────────────────────────────────
 
-/**
- * Obtiene los artículos más recientes del RSS.
- * @param categoria  "all" o una categoría concreta
- * @param limit      cuántos items devolver
- * @returns FeedItem[] ordenados de más nuevo a más antiguo
- */
 export async function getLatestFeedItems(
   categoria: "all" | Category = "all",
   limit = 12
 ): Promise<{ items: FeedItem[]; fetchedAt: string }> {
   const allItems: FeedItem[] = [];
 
-  const feedMap =
+  const feedMap: [Category, { url: string; fuente: string }[]][] =
     categoria === "all"
-      ? (Object.entries(FEEDS) as [Category, string[]][])
-      : ([[categoria, FEEDS[categoria]]] as [Category, string[]][]);
+      ? (Object.entries(FEEDS) as [Category, { url: string; fuente: string }[]][])
+      : [[categoria, FEEDS[categoria]]];
 
   const perFeedLimit = categoria === "all" ? 2 : 4;
 
   await Promise.allSettled(
-    feedMap.flatMap(([cat, urls]) =>
-      urls.map(async (url) => {
+    feedMap.flatMap(([cat, feeds]) =>
+      feeds.map(async ({ url, fuente }) => {
         try {
           const feed = await parser.parseURL(url);
           const items = feed.items
             .slice(0, perFeedLimit)
-            .map((i) => toFeedItem(i, url, cat));
+            .map((i) => toFeedItem(i, fuente, cat));
           allItems.push(...items);
         } catch {
-          // feed fails silently — mock data sigue disponible
+          // feed falla silenciosamente
         }
       })
     )
   );
 
-  // Ordenar por fecha más reciente
   allItems.sort(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 
+  // Deduplicar por título similar
+  const seen = new Set<string>();
+  const deduped = allItems.filter((item) => {
+    const key = item.titulo.slice(0, 60).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
   return {
-    items: allItems.slice(0, limit),
+    items: deduped.slice(0, limit),
     fetchedAt: new Date().toISOString(),
   };
 }
 
-/**
- * Obtiene los top 5 items para el "Brief del día" dinámico.
- * Mezcla economía + finanzas + mercados.
- */
 export async function getBriefFeedItems(
-  limit = 5
+  limit = 3
 ): Promise<{ items: FeedItem[]; fetchedAt: string }> {
   const briefCats: Category[] = ["economia", "finanzas", "mercados"];
   const allItems: FeedItem[] = [];
 
   await Promise.allSettled(
     briefCats.flatMap((cat) =>
-      FEEDS[cat].slice(0, 2).map(async (url) => {
+      FEEDS[cat].slice(0, 2).map(async ({ url, fuente }) => {
         try {
           const feed = await parser.parseURL(url);
           allItems.push(
-            ...feed.items.slice(0, 2).map((i) => toFeedItem(i, url, cat))
+            ...feed.items.slice(0, 2).map((i) => toFeedItem(i, fuente, cat))
           );
         } catch {
           // silencioso
@@ -182,8 +173,16 @@ export async function getBriefFeedItems(
     (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 
+  const seen = new Set<string>();
+  const deduped = allItems.filter((item) => {
+    const key = item.titulo.slice(0, 60).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
   return {
-    items: allItems.slice(0, limit),
+    items: deduped.slice(0, limit),
     fetchedAt: new Date().toISOString(),
   };
 }

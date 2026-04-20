@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Coffee, ExternalLink } from "lucide-react";
+import FooterNewsletterForm from "@/components/layout/FooterNewsletterForm";
 
 const LINKS_SECCIONES = [
   { href: "/categoria/economia", label: "Economía" },
@@ -123,19 +124,7 @@ export default function Footer() {
             <p className="text-sm text-gray-400 mb-4 leading-relaxed">
               Recibe cada semana lo más importante en economía, finanzas y negocios. Sin ruido.
             </p>
-            <form className="flex flex-col gap-2">
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
-              />
-              <button
-                type="submit"
-                className="w-full bg-teal-700 text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-teal-600 transition-colors"
-              >
-                Suscribirse gratis
-              </button>
-            </form>
+            <FooterNewsletterForm />
             <p className="text-xs text-gray-600 mt-2">Sin spam. Puedes darte de baja cuando quieras.</p>
           </div>
         </div>
