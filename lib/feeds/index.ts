@@ -25,8 +25,8 @@ import type { FeedItem, Category } from "@/types";
 /** Cada cuántos segundos se regenera el caché (30 min) */
 const REVALIDATE_SECONDS = 1800;
 
-/** Items máximos a solicitar por fuente individual */
-const PER_SOURCE_LIMIT = 6;
+/** Items máximos a solicitar por fuente individual (subir = más cobertura, más tiempo de fetch) */
+const PER_SOURCE_LIMIT = 12;
 
 // ─── Deduplicación ───────────────────────────────────────────────────────────
 
@@ -148,6 +148,30 @@ export async function fetchNewsByCategory(
     console.error("[feeds] error crítico en fetchNewsByCategory:", err);
     return { items: [], fetchedAt: new Date().toISOString(), totalSources: 0 };
   }
+}
+
+/**
+ * fetchTendencias — 1 item destacado por cada categoría activa.
+ * Usado en la sección "Tendencias del día" del Home.
+ * Reutiliza el caché de "all" para no hacer fetches extra.
+ */
+export async function fetchTendencias(): Promise<{
+  byCategory: Partial<Record<Category, FeedItem>>;
+  fetchedAt: string;
+  total: number;
+}> {
+  const { items, fetchedAt } = await fetchNewsByCategory("all", 100);
+
+  const byCategory: Partial<Record<Category, FeedItem>> = {};
+  for (const item of items) {
+    if (!byCategory[item.categoria]) {
+      byCategory[item.categoria] = item;
+    }
+    // Una vez que tenemos 1 por cada categoría posible, podemos salir
+    if (Object.keys(byCategory).length >= 8) break;
+  }
+
+  return { byCategory, fetchedAt, total: items.length };
 }
 
 // ─── Re-exports útiles ────────────────────────────────────────────────────────

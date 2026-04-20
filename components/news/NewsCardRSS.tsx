@@ -3,15 +3,28 @@ import CategoryBadge from "@/components/ui/CategoryBadge";
 import type { FeedItem } from "@/types";
 
 function relativeTime(iso: string): string {
-  const diff = Math.floor(
-    (Date.now() - new Date(iso).getTime()) / 60000
-  );
+  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
   if (diff < 1) return "ahora";
   if (diff < 60) return `hace ${diff} min`;
   const h = Math.floor(diff / 60);
   if (h < 24) return `hace ${h}h`;
   const d = Math.floor(h / 24);
   return `hace ${d}d`;
+}
+
+/** "DF / Chile" o "TechCrunch / USA" */
+function SourceBadge({ fuente, pais }: { fuente: string; pais: string }) {
+  return (
+    <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium">
+      {fuente}
+      {pais && pais !== fuente && (
+        <>
+          <span className="mx-0.5 opacity-40">/</span>
+          <span>{pais}</span>
+        </>
+      )}
+    </span>
+  );
 }
 
 export function NewsCardRSSCompact({ item }: { item: FeedItem }) {
@@ -25,18 +38,16 @@ export function NewsCardRSSCompact({ item }: { item: FeedItem }) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
           <CategoryBadge category={item.categoria} size="sm" />
-          <span className="text-xs text-gray-400 dark:text-gray-500">
+          <SourceBadge fuente={item.fuente} pais={item.pais} />
+          <span className="text-[10px] text-gray-400 dark:text-gray-500 ml-auto tabular-nums">
             {relativeTime(item.fecha)}
           </span>
         </div>
         <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-snug group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors line-clamp-2">
           {item.titulo}
         </h4>
-        <div className="flex items-center gap-1 mt-0.5">
-          <p className="text-xs text-gray-400 dark:text-gray-500">{item.fuente}</p>
-          <ExternalLink className="w-2.5 h-2.5 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-        </div>
       </div>
+      <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 mt-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
     </a>
   );
 }
@@ -49,22 +60,29 @@ export function NewsCardRSSCard({ item }: { item: FeedItem }) {
       rel="noopener noreferrer"
       className="group flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 hover:border-teal-200 dark:hover:border-teal-700 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
     >
+      {/* Header: categoría + tiempo */}
       <div className="flex items-center justify-between mb-3">
         <CategoryBadge category={item.categoria} />
-        <span className="text-xs text-gray-400 dark:text-gray-500">
+        <span className="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
           {relativeTime(item.fecha)}
         </span>
       </div>
+
+      {/* Título */}
       <h3 className="text-base font-semibold text-gray-900 dark:text-white leading-snug mb-2 group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors line-clamp-2 flex-1">
         {item.titulo}
       </h3>
+
+      {/* Resumen */}
       {item.resumen && (
         <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2 mb-3">
           {item.resumen}
         </p>
       )}
+
+      {/* Footer: fuente/país + icono externo */}
       <div className="flex items-center gap-1 pt-3 border-t border-gray-50 dark:border-gray-700/50 mt-auto">
-        <span className="text-xs text-gray-400 dark:text-gray-500">{item.fuente}</span>
+        <SourceBadge fuente={item.fuente} pais={item.pais} />
         <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
     </a>
