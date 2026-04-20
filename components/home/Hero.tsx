@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { getCategoryMeta } from "@/lib/categories";
-import { getBriefFeedItems } from "@/lib/rss";
+import { fetchNewsByCategory } from "@/lib/feeds";
 import { getLatestBrief } from "@/lib/data/brief";
 
 function relativeTime(iso: string): string {
@@ -16,14 +16,10 @@ function relativeTime(iso: string): string {
 export default async function Hero() {
   const fallbackBrief = getLatestBrief();
 
-  let liveFeed: Awaited<ReturnType<typeof getBriefFeedItems>> | null = null;
-  try {
-    liveFeed = await getBriefFeedItems(3);
-  } catch {
-    liveFeed = null;
-  }
-
-  const useLive = liveFeed && liveFeed.items.length >= 2;
+  // Brief dinámico: top 3 de economia + finanzas + mercados
+  const { items: liveItems, fetchedAt } = await fetchNewsByCategory("economia", 5);
+  const useLive = liveItems.length >= 2;
+  const briefItems = useLive ? liveItems.slice(0, 3) : null;
 
   return (
     <section className="bg-[#1F2937] dark:bg-gray-950 text-white pt-32 pb-14 px-4 sm:px-6 lg:px-8">
@@ -55,7 +51,7 @@ export default async function Hero() {
               </span>
               {useLive ? (
                 <span className="text-xs text-gray-500">
-                  Actualizado {relativeTime(liveFeed!.fetchedAt)}
+                  Actualizado {relativeTime(fetchedAt)}
                 </span>
               ) : (
                 <span className="text-xs text-gray-600">{fallbackBrief.fecha}</span>
@@ -69,10 +65,10 @@ export default async function Hero() {
             </Link>
           </div>
 
-          {/* 3 cards */}
+          {/* 3 cards dinámicas */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {useLive
-              ? liveFeed!.items.map((item, i) => {
+            {briefItems
+              ? briefItems.map((item, i) => {
                   const cat = getCategoryMeta(item.categoria);
                   return (
                     <a
@@ -86,7 +82,9 @@ export default async function Hero() {
                         <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
                           {cat.label}
                         </span>
-                        <span className="text-[10px] text-gray-600">{item.fuente}</span>
+                        <span className="text-[10px] text-gray-600">
+                          {item.fuente} · {item.pais}
+                        </span>
                         <ExternalLink className="w-2.5 h-2.5 text-gray-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                       <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">

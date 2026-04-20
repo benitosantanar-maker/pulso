@@ -4,8 +4,8 @@ const nextConfig = {
     remotePatterns: [],
   },
   experimental: {
-    // rss-parser usa módulos Node.js nativos — excluir del bundle cliente
-    serverComponentsExternalPackages: ["rss-parser"],
+    // rss-parser y cheerio usan APIs Node.js — excluir del bundle cliente
+    serverComponentsExternalPackages: ["rss-parser", "cheerio"],
   },
 };
 

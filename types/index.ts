@@ -56,11 +56,15 @@ export interface FeedItem {
   id: string;
   titulo: string;
   resumen: string;
+  porQueImporta?: string; // hook para enriquecimiento IA futuro
   fuente: string;
+  pais: string;           // "Chile", "México", "LatAm", "Global", "UK", "USA"
   categoria: Category;
+  tags: string[];
   fecha: string;
-  link: string;         // URL externa — no tiene slug interno
+  link: string;           // URL externa — sin slug interno
   esRSS: true;
+  origen: "rss" | "scrape";
 }
 
 export interface MarketTick {
