@@ -22,18 +22,22 @@ export const metadata: Metadata = {
     "brief",
   ],
   metadataBase: new URL("https://cafecomercial.vercel.app"),
+  alternates: { canonical: "https://cafecomercial.vercel.app" },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Café Comercial — Lo esencial para ingenieros comerciales",
     description:
       "Noticias de economía, finanzas, marketing e innovación para ingenieros comerciales. Sin ruido, con contexto.",
+    url: "https://cafecomercial.vercel.app",
     type: "website",
     locale: "es_CL",
     siteName: "Café Comercial",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Café Comercial",
-    description: "Lo esencial para ingenieros comerciales.",
+    title: "Café Comercial — Lo esencial para ingenieros comerciales",
+    description: "Economía · Finanzas · Marketing · Innovación. Sin ruido, con contexto.",
+    site: "@cafecomercial",
   },
 };
 
