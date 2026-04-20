@@ -3,6 +3,7 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { getCategoryMeta } from "@/lib/categories";
 import { fetchNewsByCategory } from "@/lib/feeds";
 import { getLatestBrief } from "@/lib/data/brief";
+import HeroEmailForm from "./HeroEmailForm";
 
 function relativeTime(iso: string): string {
   const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -24,17 +25,22 @@ export default async function Hero() {
   return (
     <section className="bg-[#1F2937] dark:bg-gray-950 text-white pt-32 pb-14 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Headline */}
-        <div className="max-w-3xl mb-10">
+        {/* Headline + form */}
+        <div className="max-w-2xl mx-auto text-center mb-10">
           <p className="text-teal-400 text-xs font-semibold uppercase tracking-widest mb-4">
-            Plataforma editorial
+            Para ingenieros comerciales
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] mb-4 text-white">
-            Lo esencial para{" "}
-            <span className="text-teal-400">ingenieros comerciales</span>
+            Lo esencial en economía y negocios —{" "}
+            <span className="text-teal-400">en 5 minutos.</span>
           </h1>
-          <p className="text-gray-400 text-lg leading-relaxed max-w-xl">
-            Noticias con contexto de economía, finanzas, marketing e innovación. Sin ruido. Solo lo que realmente importa.
+          <p className="text-gray-400 text-lg leading-relaxed mb-8">
+            Curamos las noticias que importan y explicamos por qué son relevantes
+            para tus ramos, entrevistas y decisiones de negocio.
+          </p>
+          <HeroEmailForm />
+          <p className="text-xs text-gray-600 mt-4">
+            Sin spam. Puedes darte de baja cuando quieras.
           </p>
         </div>
 
@@ -47,7 +53,7 @@ export default async function Hero() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500" />
               </span>
               <span className="text-xs font-bold text-teal-300 uppercase tracking-widest">
-                Brief del día
+                Lo esencial de hoy
               </span>
               {useLive ? (
                 <span className="text-xs text-gray-500">
