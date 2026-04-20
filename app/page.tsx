@@ -1,3 +1,5 @@
+export const revalidate = 1800; // ISR: revalidar cada 30 min
+
 import Hero from "@/components/home/Hero";
 import CategoriasGrid from "@/components/home/CategoriasGrid";
 import NoticiasGrid from "@/components/home/NoticiasGrid";

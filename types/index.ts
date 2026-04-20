@@ -52,6 +52,24 @@ export interface Brief {
   items: BriefItem[];
 }
 
+export interface FeedItem {
+  id: string;
+  titulo: string;
+  resumen: string;
+  fuente: string;
+  categoria: Category;
+  fecha: string;
+  link: string;         // URL externa — no tiene slug interno
+  esRSS: true;
+}
+
+export interface MarketTick {
+  label: string;
+  value: string;
+  change: string;
+  dir: "up" | "down" | "flat";
+}
+
 export interface Recurso {
   slug: string;
   titulo: string;

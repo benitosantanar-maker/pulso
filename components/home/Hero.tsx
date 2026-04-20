@@ -1,11 +1,29 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { getLatestBrief } from "@/lib/data/brief";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { getCategoryMeta } from "@/lib/categories";
-import { formatDateShort } from "@/lib/utils";
+import { getBriefFeedItems } from "@/lib/rss";
+import { getLatestBrief } from "@/lib/data/brief";
 
-export default function Hero() {
-  const brief = getLatestBrief();
+function relativeTime(iso: string): string {
+  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (diff < 1) return "ahora mismo";
+  if (diff < 60) return `hace ${diff} min`;
+  const h = Math.floor(diff / 60);
+  if (h < 24) return `hace ${h}h`;
+  return `hace ${Math.floor(h / 24)}d`;
+}
+
+export default async function Hero() {
+  const fallbackBrief = getLatestBrief();
+
+  let liveFeed: Awaited<ReturnType<typeof getBriefFeedItems>> | null = null;
+  try {
+    liveFeed = await getBriefFeedItems(3);
+  } catch {
+    liveFeed = null;
+  }
+
+  const useLive = liveFeed && liveFeed.items.length >= 2;
 
   return (
     <section className="bg-[#1F2937] dark:bg-gray-950 text-white pt-32 pb-14 px-4 sm:px-6 lg:px-8">
@@ -24,18 +42,24 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Brief del día — 3 cards horizontal */}
+        {/* Brief del día */}
         <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500" />
               </span>
               <span className="text-xs font-bold text-teal-300 uppercase tracking-widest">
                 Brief del día
               </span>
-              <span className="text-xs text-gray-600">{formatDateShort(brief.fecha)}</span>
+              {useLive ? (
+                <span className="text-xs text-gray-500">
+                  Actualizado {relativeTime(liveFeed!.fetchedAt)}
+                </span>
+              ) : (
+                <span className="text-xs text-gray-600">{fallbackBrief.fecha}</span>
+              )}
             </div>
             <Link
               href="/brief"
@@ -45,30 +69,60 @@ export default function Hero() {
             </Link>
           </div>
 
+          {/* 3 cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {brief.items.map((item, i) => {
-              const cat = getCategoryMeta(item.categoria);
-              return (
-                <Link
-                  key={i}
-                  href={`/noticia/${item.slug}`}
-                  className="group flex flex-col gap-2 bg-white/[0.04] hover:bg-white/10 border border-white/5 hover:border-teal-600/50 rounded-xl p-4 transition-all duration-200"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
-                      {cat.label}
-                    </span>
-                    <span className="text-[10px] text-gray-600">{item.fuente}</span>
-                  </div>
-                  <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
-                    {item.titulo}
-                  </p>
-                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">
-                    {item.resumen}
-                  </p>
-                </Link>
-              );
-            })}
+            {useLive
+              ? liveFeed!.items.map((item, i) => {
+                  const cat = getCategoryMeta(item.categoria);
+                  return (
+                    <a
+                      key={i}
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex flex-col gap-2 bg-white/[0.04] hover:bg-white/10 border border-white/5 hover:border-teal-600/50 rounded-xl p-4 transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
+                          {cat.label}
+                        </span>
+                        <span className="text-[10px] text-gray-600">{item.fuente}</span>
+                        <ExternalLink className="w-2.5 h-2.5 text-gray-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
+                        {item.titulo}
+                      </p>
+                      {item.resumen && (
+                        <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">
+                          {item.resumen}
+                        </p>
+                      )}
+                    </a>
+                  );
+                })
+              : fallbackBrief.items.map((item, i) => {
+                  const cat = getCategoryMeta(item.categoria);
+                  return (
+                    <Link
+                      key={i}
+                      href={`/noticia/${item.slug}`}
+                      className="group flex flex-col gap-2 bg-white/[0.04] hover:bg-white/10 border border-white/5 hover:border-teal-600/50 rounded-xl p-4 transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
+                          {cat.label}
+                        </span>
+                        <span className="text-[10px] text-gray-600">{item.fuente}</span>
+                      </div>
+                      <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
+                        {item.titulo}
+                      </p>
+                      <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">
+                        {item.resumen}
+                      </p>
+                    </Link>
+                  );
+                })}
           </div>
         </div>
       </div>

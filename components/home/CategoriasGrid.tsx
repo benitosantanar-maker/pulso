@@ -4,8 +4,10 @@ import {
   Briefcase, Target, Activity, Rocket,
 } from "lucide-react";
 import { CATEGORIES } from "@/lib/categories";
+import { noticias } from "@/lib/data/noticias";
+import type { Category } from "@/types";
 
-const ICONS = {
+const ICONS: Record<Category, React.ElementType> = {
   economia: TrendingUp,
   finanzas: BarChart2,
   marketing: Megaphone,
@@ -16,14 +18,20 @@ const ICONS = {
   emprendimiento: Rocket,
 };
 
+// Conteo de noticias curadas por categoría
+const COUNTS: Record<string, number> = noticias.reduce(
+  (acc, n) => ({ ...acc, [n.categoria]: (acc[n.categoria] ?? 0) + 1 }),
+  {} as Record<string, number>
+);
+
 export default function CategoriasGrid() {
   return (
     <section className="py-5 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mobile: horizontal scroll. Desktop: flex wrap */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {CATEGORIES.map((cat) => {
             const Icon = ICONS[cat.slug];
+            const count = COUNTS[cat.slug] ?? 0;
             return (
               <Link
                 key={cat.slug}
@@ -35,6 +43,13 @@ export default function CategoriasGrid() {
                 <span className={`text-sm font-semibold whitespace-nowrap ${cat.textColor}`}>
                   {cat.label}
                 </span>
+                {count > 0 && (
+                  <span
+                    className={`text-[10px] font-bold ${cat.textColor} opacity-60`}
+                  >
+                    {count}
+                  </span>
+                )}
               </Link>
             );
           })}
