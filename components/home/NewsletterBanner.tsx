@@ -1,0 +1,62 @@
+"use client";
+
+import { useState } from "react";
+import { Mail, ArrowRight } from "lucide-react";
+
+export default function NewsletterBanner() {
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (email) setSent(true);
+  }
+
+  return (
+    <section className="py-16 bg-[#1F2937]">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="flex justify-center mb-5">
+          <div className="w-12 h-12 bg-teal-700/30 rounded-xl flex items-center justify-center border border-teal-700/30">
+            <Mail className="w-5 h-5 text-teal-400" />
+          </div>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+          El brief semanal que sí vale la pena leer
+        </h2>
+        <p className="text-gray-400 mb-8 leading-relaxed">
+          Cada semana, lo más importante en economía, finanzas, marketing e innovación explicado en 5 minutos. Para ingenieros comerciales que quieren entender el mundo.
+        </p>
+
+        {sent ? (
+          <div className="inline-flex items-center gap-2 bg-teal-700/20 border border-teal-700/40 text-teal-300 px-6 py-3 rounded-full text-sm font-medium">
+            ✓ ¡Listo! Te avisamos cuando salgamos.
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="tu@email.com"
+              required
+              className="flex-1 bg-white/10 border border-white/20 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
+            />
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-600 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
+            >
+              Suscribirme <ArrowRight className="w-4 h-4" />
+            </button>
+          </form>
+        )}
+
+        <p className="text-xs text-gray-600 mt-4">
+          Sin spam. Puedes darte de baja cuando quieras.
+        </p>
+      </div>
+    </section>
+  );
+}
