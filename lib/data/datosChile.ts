@@ -1,143 +1,169 @@
-export interface DatoOficial {
-  indicador: string;
-  valor: string;
-  variacion: string;
-  dir: "up" | "down" | "flat";
-  periodo: string;
-  fuente: string;
-  fuenteUrl: string;
-  descripcion: string;
-  /** Nota editorial breve (1 línea). PLACEHOLDER — reemplazar cada semana. */
+/**
+ * INDICATOR_INSIGHTS — capa editorial de indicadores de Chile.
+ *
+ * Contiene SOLO los textos interpretativos (insights) y metadatos fijos.
+ * Los VALORES reales (valor, variación, fecha) vienen de mindicador.cl
+ * a través de lib/api/indicators.ts.
+ *
+ * Claves = códigos de mindicador.cl
+ * PLACEHOLDER — revisar microNota e insights cada semana con datos actuales.
+ */
+
+export interface IndicatorInsight {
+  /** Nombre completo del indicador */
+  name: string;
+  /** Código corto para display */
+  code: string;
+  /** Descripción técnica */
+  description: string;
+  source: string;
+  sourceUrl: string;
+  /** Nota editorial de 1 línea — PLACEHOLDER, actualizar semanalmente */
   microNota?: string;
-  /**
-   * Explicación pedagógica: qué significa este indicador para estudiantes,
-   * profesionales y ciudadanos. PLACEHOLDER — reemplazar con contexto real.
-   */
-  contextoParaTi?: string;
-  /** Slug del glosario en /recursos — para linkear el concepto relacionado */
-  conceptoSlug?: string;
-  /** Nombre visible del concepto en el glosario */
-  conceptoLabel?: string;
+  // ── Insights por persona — PLACEHOLDER, actualizar semanalmente ──
+  /** Cómo aparece en ramos, qué concepto conecta */
+  insight_student: string;
+  /** Impacto en empresas, sectores, decisiones profesionales */
+  insight_worker: string;
+  /** Impacto en vida cotidiana: bolsillo, créditos, empleo */
+  insight_citizen: string;
+  /** Slug del glosario en /recursos */
+  relatedConceptSlug?: string;
+  relatedConceptLabel?: string;
 }
 
-export const datosChile: DatoOficial[] = [
-  // Banco Central
-  {
-    indicador: "TPM",
-    valor: "5,00%",
-    variacion: "Sin cambios",
-    dir: "flat",
-    periodo: "Abril 2026",
-    fuente: "BCCh",
-    fuenteUrl: "https://www.bcentral.cl",
-    descripcion: "Tasa de Política Monetaria del Banco Central de Chile",
+export const INDICATOR_INSIGHTS: Record<string, IndicatorInsight> = {
+  tpm: {
+    name: "Tasa de Política Monetaria",
+    code: "TPM",
+    description: "Tasa de referencia que fija el Banco Central para influir en el costo del crédito y la inflación",
+    source: "BCCh",
+    sourceUrl: "https://www.bcentral.cl",
     microNota: "BCCh mantiene pausa — crédito hipotecario y consumo seguirán caros.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: la TPM es el eje de los modelos de política monetaria en Macro — úsala para explicar la transmisión al consumo y la inversión. Para el profesional: determina el costo de financiamiento de empresas y proyectos. Para el ciudadano: si tienes crédito hipotecario o de consumo, la TPM afecta directamente tu dividendo o cuota.",
-    conceptoSlug: "tasa-de-politica-monetaria",
-    conceptoLabel: "TPM",
+    insight_student:
+      "La TPM es el eje de los modelos de política monetaria en Macro. Con ella explicas la transmisión al consumo y la inversión (canal tasa de interés). Cuando el BCCh pausa, la brecha respecto a la meta de inflación se cierra — úsalo para discutir el IPoM en tus ramos.",
+    insight_worker:
+      "Determina el costo de financiamiento corporativo: deuda flotante, líneas de crédito, factoring. Una pausa prolongada justifica renegociar deuda flotante a tasa fija y postergar capex no urgente. En banca, el spread de créditos cambia con cada movimiento.",
+    insight_citizen:
+      "Si tienes crédito hipotecario o de consumo, la TPM define el piso de tu tasa. Mientras no baje, tus cuotas no mejoran. Si ahorras en depósito a plazo, tasas del 7–8% anuales siguen siendo atractivas frente a la inflación.",
+    relatedConceptSlug: "tasa-de-politica-monetaria",
+    relatedConceptLabel: "TPM",
   },
-  {
-    indicador: "IPC mensual",
-    valor: "−0,1%",
-    variacion: "−0,3pp",
-    dir: "down",
-    periodo: "Marzo 2026",
-    fuente: "INE / BCCh",
-    fuenteUrl: "https://www.ine.gob.cl",
-    descripcion: "Índice de Precios al Consumidor, variación mensual",
-    microNota: "Baja mensual por energía — presión inflacionaria cede.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: el IPC mensual es el dato central en macroeconomía — úsalo para discutir la brecha de inflación respecto a la meta del BCCh. Para el profesional: empresas ajustan precios de lista y contratos en UF según la inflación real. Para el ciudadano: una baja mensual significa que la canasta básica no se encareció este mes.",
+
+  ipc: {
+    name: "IPC (inflación anual)",
+    code: "IPC",
+    description: "Índice de Precios al Consumidor — variación porcentual acumulada en 12 meses",
+    source: "INE",
+    sourceUrl: "https://www.ine.gob.cl",
+    microNota: "Inflación sobre meta BCCh — presión de precios activa.",
+    insight_student:
+      "El IPC anual vs la meta del BCCh (3% ±1%) es el dato central para discutir política monetaria. Cuando el IPC supera la banda, el BCCh tiene presión para no recortar la TPM — así se conectan ambos indicadores en Macro.",
+    insight_worker:
+      "Las negociaciones salariales, contratos en UF y márgenes en empresas con costos importados se calibran contra el IPC real. Si el IPC baja más rápido que los salarios, el poder adquisitivo real sube — dato clave para RRHH y análisis de consumo.",
+    insight_citizen:
+      "El IPC mide cuánto se encarece la canasta que consumes. Si tu sueldo no subió al menos lo que subió el IPC en el año, perdiste poder de compra. Monitoréalo para calibrar negociaciones salariales o renovaciones de arriendo.",
   },
-  {
-    indicador: "IPC anual",
-    valor: "3,8%",
-    variacion: "+0,2pp",
-    dir: "up",
-    periodo: "Marzo 2026",
-    fuente: "INE",
-    fuenteUrl: "https://www.ine.gob.cl",
-    descripcion: "Inflación acumulada en 12 meses",
-    microNota: "Inflación sobre meta BCCh — ajuste de precios sigue activo.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: la meta de inflación del BCCh es 3% ± 1%. Que el IPC anual esté en 3,8% justifica la pausa en la TPM — buen caso de política monetaria en acción. Para el profesional: negociaciones salariales y contratos de largo plazo se indexan a la inflación real. Para el ciudadano: tu poder adquisitivo se erosiona si tu sueldo no subió al menos un 3,8% este año.",
+
+  dolar: {
+    name: "Dólar observado",
+    code: "USD/CLP",
+    description: "Tipo de cambio dólar-peso chileno, publicado diariamente por el Banco Central",
+    source: "BCCh",
+    sourceUrl: "https://www.bcentral.cl",
+    microNota: "Dólar al alza — importaciones más caras, poder de compra en USD comprimido.",
+    insight_student:
+      "El tipo de cambio conecta con Economía Internacional (modelos Mundell-Fleming, paridad de tasas de interés). Úsalo para explicar por qué un dólar más caro encarece la inflación importada y qué puede hacer el BCCh al respecto sin sacrificar el crecimiento.",
+    insight_worker:
+      "Importadores ven costos subir directamente. Exportadoras (cobre, fruta, vino) mejoran márgenes en pesos. En consultoría y banca, el tipo de cambio es el contexto macro que hay que tener claro antes de cualquier análisis de empresa con operaciones internacionales.",
+    insight_citizen:
+      "Un dólar más caro encarece electrónica, combustible, viajes y productos con componentes importados. Si tienes ahorros en USD, tu poder de compra en pesos sube. Si debes en dólares, tu deuda real aumenta.",
   },
-  {
-    indicador: "USD/CLP",
-    valor: "$950",
-    variacion: "+0,3%",
-    dir: "up",
-    periodo: "18 Abr 2026",
-    fuente: "BCCh",
-    fuenteUrl: "https://www.bcentral.cl",
-    descripcion: "Dólar observado Banco Central de Chile",
-    microNota: "Dólar al alza por tensión global — importaciones más caras.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: el tipo de cambio afecta la balanza comercial, la inflación importada y la competitividad exportadora — conecta con modelos Mundell-Fleming. Para el profesional: importadores ven costos subir; exportadoras (cobre, fruta, vino) mejoran márgenes en pesos. Para el ciudadano: electrónica, combustible y viajes al extranjero se encarecen cuando sube el dólar.",
+
+  uf: {
+    name: "Unidad de Fomento",
+    code: "UF",
+    description: "Unidad de cuenta indexada a la inflación, publicada diariamente por la CMF",
+    source: "CMF",
+    sourceUrl: "https://www.cmfchile.cl",
+    microNota: "UF sigue subiendo — créditos indexados y arriendos se encarecen.",
+    insight_student:
+      "La UF es un instrumento de indexación único en Chile que aparece en créditos hipotecarios, contratos de arriendo y emisiones de bonos. En Finanzas, úsala para calcular el costo real de un crédito hipotecario: si el IPC proyectado es 4%, una tasa UF+3% equivale a ~7% nominal.",
+    insight_worker:
+      "La mayoría de los contratos de arrendamiento de oficinas, leasing y contratos B2B de largo plazo se pactan en UF. Una UF en alza encarece esos compromisos en pesos — argumento para revisar contratos o fijar precios en UF cuando el proveedor eres tú.",
+    insight_citizen:
+      "Si tu dividendo hipotecario o arriendo está en UF, sube cada mes mientras haya inflación. Calcula cuánto ha subido tu UF en el año y súmalo a tu presupuesto mensual. Si puedes renegociar a tasa fija en pesos, evalúalo.",
   },
-  // INE
-  {
-    indicador: "Desempleo",
-    valor: "8,1%",
-    variacion: "+0,4pp",
-    dir: "up",
-    periodo: "Ene–Mar 2026",
-    fuente: "INE",
-    fuenteUrl: "https://www.ine.gob.cl",
-    descripcion: "Tasa de desocupación trimestral",
-    microNota: "Empleo formal estancado — presión sobre salarios y consumo.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: la tasa de desempleo es un indicador rezagado del ciclo económico — úsala junto al PIB para analizar el mercado laboral en Macro. Para el profesional: más desempleo reduce el poder negociador de los trabajadores y puede presionar salarios a la baja en sectores con alta rotación. Para el ciudadano: mercado laboral más difícil = más competencia por empleos formales.",
+
+  euro: {
+    name: "Euro",
+    code: "EUR/CLP",
+    description: "Tipo de cambio euro-peso chileno",
+    source: "BCCh",
+    sourceUrl: "https://www.bcentral.cl",
+    microNota: "Euro sigue la dinámica del dólar — relevante para importaciones europeas.",
+    insight_student:
+      "El euro vs peso ilustra la dependencia del tipo de cambio chileno a factores externos: dólar global, precios del cobre y riesgo político local. Úsalo para discutir determinantes del tipo de cambio en Economía Internacional.",
+    insight_worker:
+      "Chile importa maquinaria, autos y vinos europeos. Un euro más caro encarece esas importaciones. Para empresas con proveedores europeos, es señal para revisar contratos o buscar proveedores alternativos.",
+    insight_citizen:
+      "Si viajas a Europa o compras productos de marcas europeas, el tipo de cambio EUR/CLP determina cuánto pagas en pesos. También afecta el costo de estudios o programas en Europa.",
   },
-  {
-    indicador: "PIB 2026",
-    valor: "2,1%",
-    variacion: "−0,3pp",
-    dir: "down",
-    periodo: "2026 (FMI)",
-    fuente: "FMI / BCCh",
-    fuenteUrl: "https://www.imf.org",
-    descripcion: "Crecimiento del PIB real proyectado para el año",
-    microNota: "Crecimiento moderado — inversión privada sigue lenta.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: el PIB real es la base de modelos de crecimiento en Macro y de valoración de mercados en Finanzas. Un 2,1% es crecimiento modesto para Chile. Para el profesional: economías lentas implican menor demanda interna, presupuestos de inversión más conservadores y menos espacio para alzas de precio. Para el ciudadano: crecimiento bajo se traduce en menos creación de empleo y menores alzas de sueldo.",
-    conceptoSlug: "imf-world-economic-outlook",
-    conceptoLabel: "IMF WEO",
+
+  libra_cobre: {
+    name: "Cobre (LME)",
+    code: "Cobre",
+    description: "Precio internacional del cobre en USD por libra, en el London Metal Exchange",
+    source: "LME / BCCh",
+    sourceUrl: "https://www.bcentral.cl",
+    microNota: "Cobre sobre USD 4,7/lb — impacto fiscal positivo para Chile.",
+    insight_student:
+      "El precio del cobre es el commodity más relevante para Chile: cada centavo adicional genera ~USD 60M en ingresos fiscales. En Macro, úsalo para calcular el impacto en la regla fiscal, el PIB y el tipo de cambio (el peso chileno es una 'moneda cuprícola').",
+    insight_worker:
+      "Empresas proveedoras de Codelco, fondos con exposición minera y bancos con crédito al sector ajustan sus modelos cuando el cobre se mueve. Si trabajas en esos sectores, el precio del cobre es el primer dato que revisas en la mañana.",
+    insight_citizen:
+      "Un cobre caro llena las arcas del Estado — más margen para gasto en salud, educación y pensiones, o para reducir deuda. El impacto en tu vida cotidiana es indirecto pero real: depende de si el gobierno ahorra el excedente o lo gasta.",
   },
-  // CMF
-  {
-    indicador: "UF",
-    valor: "$38.420",
-    variacion: "+0,01%",
-    dir: "up",
-    periodo: "18 Abr 2026",
-    fuente: "CMF",
-    fuenteUrl: "https://www.cmfchile.cl",
-    descripcion: "Unidad de Fomento — valor diario",
-    microNota: "UF sigue subiendo — créditos indexados y arriendos encarecen.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: la UF es un instrumento de indexación única en Chile — aparece en contratos, créditos hipotecarios y análisis de política de vivienda. Para el profesional: muchos contratos B2B, arriendos de oficinas y proyectos inmobiliarios se pactan en UF. Para el ciudadano: si tu arriendo o dividendo está en UF, sube todos los meses junto a la inflación.",
+
+  tasa_desempleo: {
+    name: "Desempleo",
+    code: "Desempleo",
+    description: "Tasa de desocupación trimestral móvil del Gran Santiago y total nacional",
+    source: "INE",
+    sourceUrl: "https://www.ine.gob.cl",
+    microNota: "Empleo formal estancado — mercado laboral más competitivo.",
+    insight_student:
+      "El desempleo es un indicador rezagado del ciclo económico — cuando el PIB cae, el desempleo sube meses después. En Macro, úsalo junto al PIB y la brecha de producto para analizar el ciclo completo. En Economía Laboral, discute por qué el desempleo estructural en Chile se mantiene sobre 7% incluso en expansión.",
+    insight_worker:
+      "Más desempleo implica mayor oferta de trabajo, lo que reduce el poder negociador de los empleados y puede frenar alzas salariales. Para empresas en sectores con alta rotación (retail, servicios), más desempleo baja los costos de contratación pero también puede indicar menor demanda futura.",
+    insight_citizen:
+      "Si estás buscando trabajo o pensando en cambiarte, el mercado laboral más competitivo significa más candidatos por cada vacante. Invierte en diferenciarte. Si tienes trabajo, menos presión salarial significa que los aumentos serán más difíciles de negociar en el corto plazo.",
   },
-  {
-    indicador: "IPSA",
-    valor: "7.218 pts",
-    variacion: "−0,8%",
-    dir: "down",
-    periodo: "18 Abr 2026",
-    fuente: "Bolsa de Santiago / CMF",
-    fuenteUrl: "https://www.bolsadesantiago.com",
-    descripcion: "Índice de Precio Selectivo de Acciones",
-    microNota: "Bolsa a la baja — incertidumbre global pesa en blue chips.",
-    // PLACEHOLDER — reemplazar con análisis real cada semana
-    contextoParaTi:
-      "Para el estudiante: el IPSA es el benchmark de la bolsa chilena — úsalo en Finanzas para calcular retornos del mercado, betas y el costo del equity (CAPM). Para el profesional: el IPSA refleja expectativas sobre la economía y empresas chilenas; una baja sostenida puede afectar planes de IPO o emisión de deuda. Para el ciudadano: si tienes APV en fondos de acciones, el IPSA incide en tu rentabilidad.",
+
+  bitcoin: {
+    name: "Bitcoin",
+    code: "BTC/USD",
+    description: "Precio del Bitcoin en dólares estadounidenses",
+    source: "Referencia de mercado",
+    sourceUrl: "https://www.bcentral.cl",
+    microNota: "Bitcoin volátil — activo de riesgo que sigue el ciclo global.",
+    insight_student:
+      "Bitcoin es el caso de estudio más vigente para discutir teoría monetaria, la definición de dinero y los activos de riesgo. En Finanzas, úsalo para hablar de volatilidad, correlación con otros activos de riesgo y regulación de criptomonedas (que Chile aún debate).",
+    insight_worker:
+      "Empresas de servicios financieros, exchanges y algunas tesorerías corporativas monitorean Bitcoin como proxy del apetito global por riesgo. Una correlación alta con el Nasdaq en ciclos de alza/baja hace que sea indicador de sentimiento para activos de mayor riesgo.",
+    insight_citizen:
+      "Si tienes ahorro en Bitcoin, es un activo altamente volátil — no recomendable como fondo de emergencia. Úsalo solo si tienes horizonte largo y tolerancia a caídas del 50% o más. La regulación en Chile aún es difusa, así que considera los riesgos de custodia.",
   },
-];
+};
+
+/** Indicadores que se muestran en el dashboard, en ese orden */
+export const DASHBOARD_INDICATOR_IDS = [
+  "tpm",
+  "ipc",
+  "dolar",
+  "uf",
+  "libra_cobre",
+  "tasa_desempleo",
+  "euro",
+  "bitcoin",
+] as const;

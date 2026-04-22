@@ -1,23 +1,16 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import EssentialStoryCard from "@/components/home/EssentialStoryCard";
-import {
-  getNoticiasPrincipales,
-  getNoticiasDestacadas,
-  getUltimasNoticias,
-} from "@/lib/data/noticias";
+import { getEssentialStories } from "@/lib/api/stories";
 
 export default function LoEsencial() {
-  const principales = getNoticiasPrincipales();
-  const destacadas = getNoticiasDestacadas();
-  const ultimas = getUltimasNoticias(12).filter(
-    (n) => !n.principal && !n.destacada
-  );
+  const all = getEssentialStories();
 
-  const principal = principales[0];
-  const secundarias = destacadas.slice(0, 2);
-  const grid4 = [...destacadas.slice(2), ...ultimas].slice(0, 4);
-  const listaCompacta = [...ultimas].slice(0, 8);
+  // La primera "principal" va en el hero grande; las 2 siguientes como secundarias
+  const principal = all[0];
+  const secundarias = all.slice(1, 3);
+  const grid4 = all.slice(3, 7);
+  const listaCompacta = all.slice(7, 15);
 
   if (!principal) return null;
 
@@ -49,11 +42,11 @@ export default function LoEsencial() {
         {/* Row 1: Principal (3/5 del ancho) + 2 secundarias apiladas */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 mb-5">
           <div className="lg:col-span-3">
-            <EssentialStoryCard noticia={principal} variant="principal" />
+            <EssentialStoryCard story={principal} variant="principal" />
           </div>
           <div className="lg:col-span-2 flex flex-col gap-4">
-            {secundarias.map((n) => (
-              <EssentialStoryCard key={n.slug} noticia={n} variant="secondary" />
+            {secundarias.map((s) => (
+              <EssentialStoryCard key={s.slug} story={s} variant="secondary" />
             ))}
           </div>
         </div>
@@ -61,21 +54,21 @@ export default function LoEsencial() {
         {/* Row 2: grid 4 columnas */}
         {grid4.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {grid4.map((n) => (
-              <EssentialStoryCard key={n.slug} noticia={n} variant="secondary" />
+            {grid4.map((s) => (
+              <EssentialStoryCard key={s.slug} story={s} variant="secondary" />
             ))}
           </div>
         )}
 
-        {/* Row 3: lista compacta — más análisis y contexto */}
+        {/* Row 3: lista compacta */}
         {listaCompacta.length > 0 && (
           <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
             <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
               Más análisis y contexto
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10">
-              {listaCompacta.map((n) => (
-                <EssentialStoryCard key={n.slug} noticia={n} variant="compact" />
+              {listaCompacta.map((s) => (
+                <EssentialStoryCard key={s.slug} story={s} variant="compact" />
               ))}
             </div>
           </div>

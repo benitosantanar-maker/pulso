@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { ExternalLink, TrendingUp, TrendingDown, Minus } from "lucide-react";
-import { datosChile } from "@/lib/data/datosChile";
+import { getChileIndicators } from "@/lib/api/indicators";
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Datos Chile",
   description: "Indicadores económicos oficiales de Chile: BCCh, INE, CMF y Bolsa de Santiago.",
 };
 
-export default function DatosChilePage() {
+export default async function DatosChilePage() {
+  const indicadores = await getChileIndicators();
+
   return (
     <div className="pt-16 bg-[#F9FAFB] dark:bg-gray-950 min-h-screen">
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-10 px-4 sm:px-6 lg:px-8">
@@ -19,7 +23,7 @@ export default function DatosChilePage() {
             Indicadores económicos de Chile
           </h1>
           <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
-            Datos extraídos de fuentes oficiales: Banco Central, INE, CMF y Bolsa de Santiago. Actualizados con frecuencia periódica.
+            Datos en tiempo real desde mindicador.cl (BCCh, INE, CMF). Actualizados cada 5 minutos.
           </p>
         </div>
       </div>
@@ -31,7 +35,7 @@ export default function DatosChilePage() {
             { name: "Banco Central", url: "https://www.bcentral.cl", desc: "Política monetaria, tipo de cambio" },
             { name: "INE", url: "https://www.ine.gob.cl", desc: "IPC, desempleo, actividad" },
             { name: "CMF", url: "https://www.cmfchile.cl", desc: "UF, mercado financiero" },
-            { name: "Bolsa de Santiago", url: "https://www.bolsadesantiago.com", desc: "IPSA, acciones" },
+            { name: "mindicador.cl", url: "https://mindicador.cl", desc: "API pública de indicadores" },
           ].map((f) => (
             <a
               key={f.name}
@@ -54,9 +58,9 @@ export default function DatosChilePage() {
           Indicadores actuales
         </h2>
         <div className="space-y-3">
-          {datosChile.map((d) => {
-            const isUp = d.dir === "up";
-            const isDown = d.dir === "down";
+          {indicadores.map((ind) => {
+            const isUp = ind.dir === "up";
+            const isDown = ind.dir === "down";
             const Icon = isUp ? TrendingUp : isDown ? TrendingDown : Minus;
             const varColor = isUp
               ? "text-emerald-600 dark:text-emerald-400"
@@ -66,36 +70,41 @@ export default function DatosChilePage() {
 
             return (
               <div
-                key={d.indicador}
+                key={ind.id}
                 className="flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl px-5 py-4"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
                     <span className="text-base font-bold text-gray-900 dark:text-white">
-                      {d.indicador}
+                      {ind.name}
                     </span>
                     <span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">
-                      {d.descripcion}
+                      {ind.code}
                     </span>
                   </div>
                   <div className="flex items-center gap-3 mt-1">
-                    <span className="text-xs text-gray-400 dark:text-gray-500">{d.periodo}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{ind.period}</span>
                     <a
-                      href={d.fuenteUrl}
+                      href={ind.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-teal-700 dark:text-teal-400 hover:underline flex items-center gap-0.5"
                     >
-                      {d.fuente} <ExternalLink className="w-2.5 h-2.5" />
+                      {ind.source} <ExternalLink className="w-2.5 h-2.5" />
                     </a>
                   </div>
+                  {ind.microNota && (
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+                      {ind.microNota}
+                    </p>
+                  )}
                 </div>
                 <div className="flex flex-col items-end gap-1 ml-4">
                   <span className="text-lg font-bold text-gray-900 dark:text-white tabular-nums">
-                    {d.valor}
+                    {ind.value}
                   </span>
                   <span className={`inline-flex items-center gap-1 text-xs font-semibold ${varColor}`}>
-                    <Icon className="w-3 h-3" /> {d.variacion}
+                    <Icon className="w-3 h-3" /> {ind.variation}
                   </span>
                 </div>
               </div>
@@ -104,7 +113,7 @@ export default function DatosChilePage() {
         </div>
 
         <p className="text-xs text-gray-300 dark:text-gray-700 mt-6 text-center">
-          Datos con fines educativos. No usar como referencia financiera. Actualización periódica.
+          Datos con fines educativos. No usar como referencia financiera. Fuente: mindicador.cl
         </p>
       </div>
     </div>

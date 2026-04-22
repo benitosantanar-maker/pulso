@@ -57,6 +57,8 @@ La pausa del BCCh, mientras la Fed también pausa, mantiene el diferencial de ta
     ],
     paraLaPega:
       "En la próxima reunión de planificación financiera, menciona que la pausa del BCCh prolonga el encarecimiento del crédito — útil para justificar postergación de inversiones no urgentes o renegociación de deuda flotante a tasa fija. Si estás en banca o consultoría, este es el argumento para recomendar cobertura cambiaria a clientes exportadores.",
+    paraElBolsillo:
+      "Si tienes crédito hipotecario o de consumo, la TPM en 5% significa que tus cuotas no bajan pronto. Si ahorras en depósito a plazo, las tasas siguen siendo buenas frente a la inflación. Si piensas en comprar una propiedad, espera señales de recorte antes de tomar la decisión.",
   },
   {
     slug: "df-retail-chileno-primer-trimestre",
@@ -115,6 +117,8 @@ Falabella anunció un plan de reducción de locales y enfoque en la experiencia 
     ],
     paraLaPega:
       "Si trabajas en retail, consumo masivo o consultoría de ese sector, usa esta data para fundamentar decisiones de optimización de canales: el e-commerce crece 8% mientras las tiendas físicas caen 6%. Argumento para priorizar inversión digital sobre apertura de locales. En entrevistas de estrategia, el caso Falabella/Ripley ilustra cómo una empresa grande responde a un ciclo adverso: reducción de locales, marketplace, renegociación con proveedores.",
+    paraElBolsillo:
+      "El consumidor ya ajustó: supermercados en verde mientras vestuario cae 8%. Si trabajas en retail, tu estabilidad laboral se ve presionada. Si eres consumidor, los descuentos son reales — buen momento para compras grandes de vestuario o tecnología. Pero ojo: las empresas que aprietan costos también presionan a proveedores, lo que puede impactar empleos en la cadena.",
   },
   {
     slug: "df-codelco-produccion-q1-2026",
@@ -162,6 +166,8 @@ La nueva administración de Codelco se comprometió a recuperar producción haci
     ],
     paraLaPega:
       "Si tu empresa o cliente tiene exposición al precio del cobre (proveedores de Codelco, bancos con crédito al sector minero, fondos con activos en materias primas), este trimestre obliga a revisar proyecciones de ingresos. En consultoría estratégica, el caso Codelco es referencia obligada para discutir cómo una empresa estatal gestiona proyectos de capital intensivo con capex multimillonario.",
+    paraElBolsillo:
+      "Codelco aporta ~10% de los ingresos fiscales de Chile. Si produce menos, el Estado tiene menos margen para gastar en salud, educación o pensiones — o debe endeudarse más. El impacto es indirecto pero real: cada retraso en Rajo Inca es dinero que no llega al presupuesto público que financia servicios que usas.",
   },
   {
     slug: "df-fintechs-chile-regulacion-cmf",
@@ -209,6 +215,8 @@ FinteChile, el gremio del sector, celebró la claridad regulatoria pero advirti�
     ],
     paraLaPega:
       "En banca, consultoría o fondos de inversión en el sector fintech, dominar este marco regulatorio es diferenciador. En una entrevista de PE o M&A, el argumento es claro: más certeza jurídica = menor prima de riesgo = mayor múltiplo de valoración para las sobrevivientes. Si estás en una startup fintech, tienes hasta julio para adecuarte o buscar un socio estratégico.",
+    paraElBolsillo:
+      "Si usas aplicaciones de crédito digital, inversión colectiva o pagos (Mach, Tenpo, Cumplo, Destacame), la regulación de la CMF añade protección: requisitos de capital mínimo y ciberseguridad reducen el riesgo de que tu dinero desaparezca. Menos fintechs sobrevivirán, pero las que queden serán más seguras.",
   },
   {
     slug: "df-startups-chile-q1-inversiones",
@@ -261,6 +269,8 @@ El programa Startup Chile y el fondo de fondos de Corfo participaron en 8 de las
     ],
     paraLaPega:
       "Si aspiras a venture capital, banca de inversión o emprendimiento, citar estos números demuestra que sigues el ecosistema. En una reunión de estrategia corporativa, el mapa sectorial (agtech 28%, fintech 24%, climatech 19%) es evidencia de dónde va el capital inteligente — argumento para que tu empresa explore alianzas o inversiones en esos sectores antes de que suban los precios.",
+    paraElBolsillo:
+      "El ecosistema de startups crea empleos calificados y bien pagados en tecnología, ingeniería y diseño. Sectores como agtech y climatech tienen impacto directo en alimentos y medio ambiente. Si estás buscando trabajo o pensando en emprender, los sectores donde fluye el capital son una guía concreta de dónde están las oportunidades.",
   },
 
   // ── FINANCIAL TIMES (3) ───────────────────────────────────────────────────
@@ -317,6 +327,8 @@ El BCCh enfrenta el mismo dilema: bajar tasas para estimular la economía local,
     ],
     paraLaPega:
       "La postura de la Fed es el contexto macro que explica casi todo en los mercados globales. En cualquier reunión con inversores, ejecutivos o clientes internacionales, poder explicar por qué la Fed pausa — y qué significa para Chile — te posiciona como alguien que entiende el panorama completo. Si tu empresa importa o tiene deuda en dólares, la pausa de la Fed es el argumento para revisar coberturas antes de que se mueva.",
+    paraElBolsillo:
+      "Cuando la Fed pausa con tasas altas, el dólar se mantiene fuerte — eso encarece tus compras en USD (Amazon, Netflix, viajes internacionales). Si tienes ahorros en USD o depósitos en dólares, la alta tasa en EE.UU. hace esos instrumentos relativamente atractivos. Si tienes deuda en dólares, el costo real sube.",
   },
   {
     slug: "ft-global-trade-war-escalation",
@@ -369,6 +381,8 @@ El organismo estimó que una escalada completa de la guerra comercial reduciría
     ],
     paraLaPega:
       "Si tu empresa importa insumos desde EE.UU. o Europa, o tiene clientes en esos mercados, este es el contexto para revisar contratos, diversificar proveedores y evaluar si hay oportunidad en productos que antes compraban a Asia o Europa. En consultoría estratégica, la guerra comercial es el argumento para recomendar nearshoring o regionalization de cadenas de valor — un mandato concreto que las grandes empresas están ejecutando ahora.",
+    paraElBolsillo:
+      "Una guerra comercial EE.UU.-UE encarece productos importados que usas a diario: electrodomésticos, autos europeos, tecnología. También puede reducir el crecimiento global y afectar empleos en sectores exportadores chilenos. Como ciudadano, presta atención a cómo los aranceles se trasladan al precio en la góndola.",
   },
   {
     slug: "ft-private-equity-latam-2026",
@@ -417,6 +431,8 @@ El interés en Chile se concentra en energías renovables (solar, eólica, hidr�
     ],
     paraLaPega:
       "En entrevistas de banca de inversión, M&A o PE, demostrar que conoces qué sectores buscan los fondos globales en LATAM es diferenciador. Si trabajas en una empresa chilena de infraestructura, energías renovables o servicios financieros, este es el momento de prepararse para due diligence: formalizar estados financieros, documentar contratos y proyectar EBITDA con supuestos defendibles.",
+    paraElBolsillo:
+      "La llegada de grandes fondos de PE a Chile beneficia indirectamente a todos: más capital para infraestructura y energías renovables significa más proyectos, más empleos y potencialmente tarifas más competitivas. Para Chile como país, que Blackstone y KKR vean la estabilidad local como diferenciador es una señal de reputación que impacta el costo de financiamiento de la deuda soberana.",
   },
 
   // ── THE ECONOMIST (2) ─────────────────────────────────────────────────────
@@ -468,6 +484,8 @@ El sector donde más se esperaba desplazamiento —servicios profesionales, lega
     ],
     paraLaPega:
       "En consultoría o estrategia, el debate IA-productividad tiene dos posiciones: el cliente cínico ('no veo el ROI') y el entusiasta ('esto cambia todo'). Conocer el argumento de Brynjolfsson — el retorno llega, pero requiere reorganización, no solo tecnología — te da una posición intermedia y más sólida. Si tu empresa está evaluando invertir en IA, usa este marco para estructurar el business case: ¿qué proceso específico vas a rediseñar, no solo qué herramienta vas a comprar?",
+    paraElBolsillo:
+      "La IA ya impacta tu vida cotidiana aunque no lo veas en el PIB: atención al cliente, búsquedas, recomendaciones de contenido. Si trabajas en servicios profesionales, legales o contables, la evidencia muestra que la IA aumenta cuánto puedes producir — lo que puede significar más salario o más competencia. El consejo práctico: aprende a usar estas herramientas antes de que sean obligatorias en tu industria.",
   },
   {
     slug: "economist-chile-democracia-economia",
@@ -518,6 +536,8 @@ Mientras Chile lucha por atraer IED, Colombia, Perú y México han aprovechado e
     ],
     paraLaPega:
       "En banca de inversión, consultoría o empresas multinacionales con operaciones en Chile, el riesgo regulatorio es una pregunta explícita en cualquier comité de inversión. Tener los números concretos (IED -34%, 67% de multinacionales preocupadas) te permite cuantificar lo cualitativo. En entrevistas para puestos con exposición a Chile o LATAM, este análisis demuestra que entiendes el contexto institucional, no solo los números del PIB.",
+    paraElBolsillo:
+      "Menos inversión extranjera directa significa menos proyectos, menos empleos de calidad y menor crecimiento. Si Chile atrae USD 4.300M menos al año que hace una década, eso es expansión que no ocurrió, puestos de trabajo que no se crearon. Como ciudadano, el costo de la inestabilidad política lo pagas en un crecimiento más lento y en un Estado con menos recursos para financiar servicios.",
   },
 
   // ── REUTERS (2) ──────────────────────────────────────────────────────────
@@ -563,6 +583,8 @@ Cada centavo de aumento en el precio del cobre genera aproximadamente USD 60 mil
     ],
     paraLaPega:
       "En cualquier análisis macro de Chile, el precio del cobre es el primer input — quien lo entiende lidera la conversación. Si estás en banca, fondos de inversión o consultoría con clientes del sector minero o exportador, la paradoja actual (precio récord + producción Codelco en baja) es el argumento para analizar proveedores alternativos de cobre y la tesis de largo plazo en electrificación global.",
+    paraElBolsillo:
+      "Un cobre caro le llena los bolsillos al Estado chileno: cada centavo adicional son ~USD 60M fiscales que pueden ir a salud, educación o reducir deuda. En el corto plazo no lo sientes en tu billetera, pero sí en los servicios públicos y en el tipo de cambio — un peso más fuerte abarata tus compras en dólares y viajes internacionales.",
   },
   {
     slug: "reuters-imf-growth-2026",
@@ -617,6 +639,8 @@ Cada centavo de aumento en el precio del cobre genera aproximadamente USD 60 mil
     ],
     paraLaPega:
       "Citar el WEO del FMI da peso institucional a cualquier análisis. 'Según el FMI, el crecimiento global se desacelera a 2.8%' es más convincente que una opinión propia. Úsalo para justificar conservadurismo en presupuestos de expansión, reducción de capex o diversificación de mercados. En reuniones con directorio o comités de inversión, el FMI como respaldo cierra preguntas.",
+    paraElBolsillo:
+      "Un crecimiento global más lento significa menos demanda por lo que Chile exporta (cobre, frutas, servicios), lo que presiona el tipo de cambio y los ingresos fiscales. A nivel personal, una economía que crece menos genera menos empleos y menos oportunidades salariales. Es el escenario en que conviene priorizar el ahorro y aplazar gastos grandes financiados con deuda.",
   },
 
   // ── MEDIOS LOCALES (3): El Mercurio, La Tercera Pulso, Marketing Brew ─────
@@ -672,6 +696,8 @@ Las administradoras de fondos de pensiones verán aumentar sus activos bajo gest
     ],
     paraLaPega:
       "En banca, AFP, gestión de activos o finanzas corporativas, la reforma previsional es el cambio estructural más relevante del mercado de capitales chileno en años. El flujo adicional de pensiones al mercado de renta fija local es el argumento para que los CFOs consideren emisiones de bonos corporativos en 2026-2027, cuando la demanda institucional aumenta y los spreads se comprimen.",
+    paraElBolsillo:
+      "El 3% adicional a tu cuenta individual es plata tuya que se acumula con interés compuesto durante décadas. A los 25 años, ese 3% extra puede significar un 20-30% más de pensión al retiro. Revisa tu saldo en AFC Chile y haz el cálculo con tu renta actual — el impacto es concreto y personalizable. La reforma también mejora la pensión de quienes viven más de lo esperado, reduciendo el riesgo de quedar sin ingresos en la vejez.",
   },
   {
     slug: "latercera-pulso-salarios-minimos-chile",
@@ -726,6 +752,8 @@ El ministro de Hacienda defendió el proyecto argumentando que el crecimiento de
     ],
     paraLaPega:
       "En áreas de finanzas, estrategia o RRHH de empresas con empleados a salario mínimo, este es un input obligado para el presupuesto 2026. Actualiza la proyección de costos laborales antes de que lo haga el CFO. Si el traspaso a precios no es viable por la caída del consumo, la alternativa es automatización o reducción de dotación — decisión estratégica que se discute en los C-levels ahora.",
+    paraElBolsillo:
+      "Si ganas el salario mínimo o cerca de él, un alza al $620.000 es un +24% en tu ingreso nominal — real ganancia de poder adquisitivo si tu arriendo y gastos básicos no suben al mismo ritmo. Si eres empleador de pequeña empresa, prepara el flujo de caja: el alza llega en julio y el margen para ajustar precios es limitado con un consumo débil. Si consumes en gastronomía, seguridad o retail, espera que los precios suban levemente por el mayor costo laboral.",
   },
   {
     slug: "marketing-brew-google-meta-ia-publicidad",
@@ -783,6 +811,8 @@ El trabajo se mueve desde ejecución táctica hacia arquitectura de datos propio
     ],
     paraLaPega:
       "Si estás en marketing, agencias o en el área comercial de cualquier empresa que invierte en publicidad digital, este contexto define tu cancha. El argumento para más inversión en Google/Meta es el performance medible; el argumento en contra es la pérdida de control y la dependencia. Tener esa dualidad clara te permite asesorar con matices — no con dogmas de 'todo a digital' o 'nada a plataformas'. En entrevistas de marketing, demostrar que conoces los trade-offs del ecosistema publicitario actual es diferenciador.",
+    paraElBolsillo:
+      "Como usuario, la consolidación de Google y Meta significa que tu atención vale más — y que te van a disputar con algoritmos cada vez más sofisticados. Como consumidor expuesto a publicidad, las campañas están más optimizadas para convertir: eso significa que los anuncios que ves son más relevantes, pero también más efectivos en hacerte comprar. Tener conciencia de ese mecanismo te ayuda a tomar decisiones de compra más reflexivas.",
   },
 ];
 
