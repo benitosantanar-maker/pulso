@@ -23,6 +23,12 @@ export interface ConceptoRelacionado {
   slug: string;  // Anchor en /recursos, e.g. "tpm", "ebitda"
 }
 
+/** Contexto de un ramo universitario vinculado a la noticia */
+export interface RamoContexto {
+  nombre: string;  // e.g. "Macroeconomía", "Finanzas Corporativas", "Marketing Estratégico"
+  contexto: string; // Cómo usar esta noticia en ese ramo (para prueba, caso, presentación)
+}
+
 export interface Noticia {
   slug: string;
   titulo: string;
@@ -42,6 +48,10 @@ export interface Noticia {
   tags?: string[];
   /** Conceptos del glosario mencionados en la noticia — links a /recursos#slug */
   conceptosRelacionados?: ConceptoRelacionado[];
+  /** Ramos universitarios donde aplica esta noticia, con contexto de uso */
+  paraTusRamos?: RamoContexto[];
+  /** Cómo usar esta noticia en una reunión, entrevista o presentación de trabajo */
+  paraLaPega?: string;
 }
 
 export interface BriefItem {

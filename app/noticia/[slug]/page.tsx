@@ -5,6 +5,7 @@ import { Clock, ExternalLink, ArrowLeft, ChevronRight } from "lucide-react";
 import { getNoticiaBySlug, noticias, getNoticiasByCategoria } from "@/lib/data/noticias";
 import CategoryBadge from "@/components/ui/CategoryBadge";
 import NewsCardSecundaria from "@/components/news/NewsCardSecundaria";
+import StudyWorkBlock from "@/components/news/StudyWorkBlock";
 import { formatDate } from "@/lib/utils";
 
 interface Props {
@@ -227,6 +228,12 @@ export default function NoticiaPage({ params }: Props) {
               </p>
               <p className="text-sm text-gray-300 leading-relaxed">{noticia.impactoIC}</p>
             </div>
+
+            {/* Para tus ramos / Para la pega */}
+            <StudyWorkBlock
+              paraTusRamos={noticia.paraTusRamos}
+              paraLaPega={noticia.paraLaPega}
+            />
 
             {/* Main content */}
             <div className="text-gray-700 leading-relaxed">

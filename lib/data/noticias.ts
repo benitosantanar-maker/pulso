@@ -37,6 +37,26 @@ La pausa del BCCh, mientras la Fed también pausa, mantiene el diferencial de ta
     conceptosRelacionados: [
       { label: "TPM", slug: "tasa-de-politica-monetaria" },
     ],
+    // Para tus ramos y para la pega — ejemplos reales de uso pedagógico
+    paraTusRamos: [
+      {
+        nombre: "Macroeconomía",
+        contexto:
+          "Caso de libro: el BCCh en modo pausa ilustra la transmisión de política monetaria cuando la inflación supera la meta. Úsalo para explicar el mecanismo de transmisión TPM → crédito → consumo → PIB.",
+      },
+      {
+        nombre: "Finanzas Corporativas",
+        contexto:
+          "La TPM en 5% eleva la tasa de descuento en modelos DCF y encarece la deuda flotante. Calcula cómo cambia el valor de una empresa si el WACC sube 50 pb.",
+      },
+      {
+        nombre: "Economía Internacional",
+        contexto:
+          "El diferencial TPM Chile vs Fed Funds Rate explica flujos de capital y presión sobre el tipo de cambio. Úsalo para ilustrar paridad descubierta de tasas.",
+      },
+    ],
+    paraLaPega:
+      "En la próxima reunión de planificación financiera, menciona que la pausa del BCCh prolonga el encarecimiento del crédito — útil para justificar postergación de inversiones no urgentes o renegociación de deuda flotante a tasa fija. Si estás en banca o consultoría, este es el argumento para recomendar cobertura cambiaria a clientes exportadores.",
   },
   {
     slug: "df-retail-chileno-primer-trimestre",
@@ -76,6 +96,25 @@ Falabella anunció un plan de reducción de locales y enfoque en la experiencia 
     conceptosRelacionados: [
       { label: "5 Fuerzas de Porter", slug: "five-forces-porter" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Marketing Estratégico",
+        contexto:
+          "El consumer shift hacia e-commerce y productos básicos versus aspiracionales es un caso real de cambio en comportamiento del consumidor. Úsalo para analizar cómo las marcas adaptan su mix de marketing ante contracción del ingreso disponible.",
+      },
+      {
+        nombre: "Análisis Financiero",
+        contexto:
+          "Las caídas de ventas de Falabella y Ripley impactan márgenes, rotación de inventarios y ratio de deuda. Buen ejercicio: comparar estados financieros 2025 vs 2026 de ambas empresas y calcular el impacto en EBITDA.",
+      },
+      {
+        nombre: "Macroeconomía",
+        contexto:
+          "El consumo privado representa ~65% del PIB chileno. Una caída del retail de 3,2% real es señal de enfriamiento de demanda interna — útil para cuantificar el impacto en el PIB y el multiplicador fiscal.",
+      },
+    ],
+    paraLaPega:
+      "Si trabajas en retail, consumo masivo o consultoría de ese sector, usa esta data para fundamentar decisiones de optimización de canales: el e-commerce crece 8% mientras las tiendas físicas caen 6%. Argumento para priorizar inversión digital sobre apertura de locales. En entrevistas de estrategia, el caso Falabella/Ripley ilustra cómo una empresa grande responde a un ciclo adverso: reducción de locales, marketplace, renegociación con proveedores.",
   },
   {
     slug: "df-codelco-produccion-q1-2026",
@@ -109,6 +148,20 @@ La nueva administración de Codelco se comprometió a recuperar producción haci
     destacada: false,
     principal: false,
     tags: ["Codelco", "cobre", "minería", "Chile"],
+    paraTusRamos: [
+      {
+        nombre: "Finanzas Públicas",
+        contexto:
+          "Codelco aporta ~10% de los ingresos fiscales de Chile. Una caída de producción con precio alto del cobre implica ingreso fiscal menor al proyectado — úsalo para ilustrar la dependencia fiscal del cobre y el riesgo de concentración de ingresos en commodities.",
+      },
+      {
+        nombre: "Gestión de Proyectos / Estrategia",
+        contexto:
+          "Rajo Inca con retraso de 8 meses y sobrecosto de 35% es un caso clásico de project overrun en megaproyectos. Ideal para discutir gestión de riesgos, sesgos de optimismo y gobernanza en empresas estatales.",
+      },
+    ],
+    paraLaPega:
+      "Si tu empresa o cliente tiene exposición al precio del cobre (proveedores de Codelco, bancos con crédito al sector minero, fondos con activos en materias primas), este trimestre obliga a revisar proyecciones de ingresos. En consultoría estratégica, el caso Codelco es referencia obligada para discutir cómo una empresa estatal gestiona proyectos de capital intensivo con capex multimillonario.",
   },
   {
     slug: "df-fintechs-chile-regulacion-cmf",
@@ -142,6 +195,20 @@ FinteChile, el gremio del sector, celebró la claridad regulatoria pero advirti�
     destacada: false,
     principal: false,
     tags: ["fintech", "CMF", "regulación", "Chile"],
+    paraTusRamos: [
+      {
+        nombre: "Regulación Financiera / Derecho Económico",
+        contexto:
+          "La Ley Fintech chilena es la primera en su tipo en LATAM. Úsala para discutir el balance regulación-innovación: la CMF intenta proteger al consumidor sin matar el modelo de negocio. Buen caso para analizar cómo las barreras de entrada regulatorias reconfiguran una industria.",
+      },
+      {
+        nombre: "Emprendimiento e Innovación",
+        contexto:
+          "El capital mínimo exigido actúa como barrera de entrada (Porter). Analiza cómo la regulación empuja a las fintechs a fusionarse o desaparecer — fenómeno de consolidación inducida. Aplica unit economics para ver qué startups sobreviven el compliance.",
+      },
+    ],
+    paraLaPega:
+      "En banca, consultoría o fondos de inversión en el sector fintech, dominar este marco regulatorio es diferenciador. En una entrevista de PE o M&A, el argumento es claro: más certeza jurídica = menor prima de riesgo = mayor múltiplo de valoración para las sobrevivientes. Si estás en una startup fintech, tienes hasta julio para adecuarte o buscar un socio estratégico.",
   },
   {
     slug: "df-startups-chile-q1-inversiones",
@@ -180,6 +247,20 @@ El programa Startup Chile y el fondo de fondos de Corfo participaron en 8 de las
     conceptosRelacionados: [
       { label: "Unit Economics", slug: "unit-economics" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Emprendimiento e Innovación",
+        contexto:
+          "Los USD 180M de Q1 2026 muestran tesis de inversión en agtech, fintech y climatech. Úsalos para discutir cómo los fondos VC seleccionan sectores, qué hace a una startup invertible y por qué Corfo usa co-inversión para apalancar capital privado.",
+      },
+      {
+        nombre: "Finanzas Corporativas / Valoración",
+        contexto:
+          "Las rondas Serie A, B y D implican valoraciones progresivas. Ejercicio: con los montos publicados y benchmarks de participación típica por ronda, estima la valoración post-money de NotCo y Capitalizr. Conecta con múltiplos de revenue y unit economics.",
+      },
+    ],
+    paraLaPega:
+      "Si aspiras a venture capital, banca de inversión o emprendimiento, citar estos números demuestra que sigues el ecosistema. En una reunión de estrategia corporativa, el mapa sectorial (agtech 28%, fintech 24%, climatech 19%) es evidencia de dónde va el capital inteligente — argumento para que tu empresa explore alianzas o inversiones en esos sectores antes de que suban los precios.",
   },
 
   // ── FINANCIAL TIMES (3) ───────────────────────────────────────────────────
@@ -222,6 +303,20 @@ El BCCh enfrenta el mismo dilema: bajar tasas para estimular la economía local,
     conceptosRelacionados: [
       { label: "TPM", slug: "tasa-de-politica-monetaria" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Macroeconomía",
+        contexto:
+          "La Fed en pausa con inflación alta y empleo que se enfría es el caso de libro de estanflación incipiente. Úsalo para discutir el trilema de política monetaria: ¿bajas tasas para estimular empleo y arriesgas más inflación, o las mantienes y frenas la economía?",
+      },
+      {
+        nombre: "Finanzas Internacionales / Tipo de Cambio",
+        contexto:
+          "El diferencial de tasas Fed vs BCCh determina flujos de capital. Cuando ambos pausan, el carry trade se neutraliza. Ejercicio: modela cómo cambia el tipo de cambio CLP/USD si la Fed recorta antes que el BCCh, versus si lo hace después.",
+      },
+    ],
+    paraLaPega:
+      "La postura de la Fed es el contexto macro que explica casi todo en los mercados globales. En cualquier reunión con inversores, ejecutivos o clientes internacionales, poder explicar por qué la Fed pausa — y qué significa para Chile — te posiciona como alguien que entiende el panorama completo. Si tu empresa importa o tiene deuda en dólares, la pausa de la Fed es el argumento para revisar coberturas antes de que se mueva.",
   },
   {
     slug: "ft-global-trade-war-escalation",
@@ -260,6 +355,20 @@ El organismo estimó que una escalada completa de la guerra comercial reduciría
     destacada: false,
     principal: false,
     tags: ["comercio", "aranceles", "EE.UU.", "Europa"],
+    paraTusRamos: [
+      {
+        nombre: "Economía Internacional / Comercio Exterior",
+        contexto:
+          "Los aranceles recíprocos entre EE.UU. y la UE son el ejemplo más vigente de barreras arancelarias y sus efectos: reducción de comercio, represalias y pérdida de bienestar global. Calcula el deadweight loss con la estimación del FMI (-1,2% del PIB mundial) y discute los ganadores inesperados — proveedores alternativos como Chile.",
+      },
+      {
+        nombre: "Estrategia de Negocios",
+        contexto:
+          "La guerra comercial obliga a las empresas con cadenas de suministro globales a elegir entre eficiencia (un solo proveedor global más barato) y resiliencia (múltiples proveedores regionales más seguros). Es el caso de estrategia de sourcing más relevante de la última década.",
+      },
+    ],
+    paraLaPega:
+      "Si tu empresa importa insumos desde EE.UU. o Europa, o tiene clientes en esos mercados, este es el contexto para revisar contratos, diversificar proveedores y evaluar si hay oportunidad en productos que antes compraban a Asia o Europa. En consultoría estratégica, la guerra comercial es el argumento para recomendar nearshoring o regionalization de cadenas de valor — un mandato concreto que las grandes empresas están ejecutando ahora.",
   },
   {
     slug: "ft-private-equity-latam-2026",
@@ -294,6 +403,20 @@ El interés en Chile se concentra en energías renovables (solar, eólica, hidr�
     conceptosRelacionados: [
       { label: "EBITDA", slug: "ebitda" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Finanzas Corporativas / Valoración",
+        contexto:
+          "PE valora empresas con múltiplos EBITDA. Ejercicio: si Blackstone paga 8× EBITDA en infraestructura chilena y el EBITDA de un activo es USD 50M, ¿cuál es la valoración implícita? Discute cómo el costo de deuda (LBO) determina el retorno esperado para el fondo.",
+      },
+      {
+        nombre: "Estrategia de Negocios",
+        contexto:
+          "El nearshoring como driver de inversión es una ventaja competitiva sistémica que beneficia a México y Colombia. Úsalo para discutir cómo la proximidad geográfica y los TLCs crean ventajas de localización que atraen capital productivo, no solo financiero.",
+      },
+    ],
+    paraLaPega:
+      "En entrevistas de banca de inversión, M&A o PE, demostrar que conoces qué sectores buscan los fondos globales en LATAM es diferenciador. Si trabajas en una empresa chilena de infraestructura, energías renovables o servicios financieros, este es el momento de prepararse para due diligence: formalizar estados financieros, documentar contratos y proyectar EBITDA con supuestos defendibles.",
   },
 
   // ── THE ECONOMIST (2) ─────────────────────────────────────────────────────
@@ -331,6 +454,20 @@ El sector donde más se esperaba desplazamiento —servicios profesionales, lega
     destacada: false,
     principal: false,
     tags: ["IA", "productividad", "macroeconomía", "tecnología"],
+    paraTusRamos: [
+      {
+        nombre: "Estrategia e Innovación",
+        contexto:
+          "La paradoja de Solow aplicada a IA es el marco para discutir por qué las tecnologías disruptivas demoran en impactar la PTF. Brynjolfsson estima 20-30 años de rezago porque la tecnología requiere reorganización organizacional — no solo adoptar el software, sino rediseñar procesos y competencias.",
+      },
+      {
+        nombre: "Macroeconomía",
+        contexto:
+          "La Productividad Total de Factores (PTF) es el driver de crecimiento de largo plazo que no viene del capital ni del trabajo. Si la IA eventualmente se refleja en PTF, el potencial de crecimiento global sube estructuralmente. Discute qué nivel de mejora en PTF justificaría las valuaciones actuales de las big tech.",
+      },
+    ],
+    paraLaPega:
+      "En consultoría o estrategia, el debate IA-productividad tiene dos posiciones: el cliente cínico ('no veo el ROI') y el entusiasta ('esto cambia todo'). Conocer el argumento de Brynjolfsson — el retorno llega, pero requiere reorganización, no solo tecnología — te da una posición intermedia y más sólida. Si tu empresa está evaluando invertir en IA, usa este marco para estructurar el business case: ¿qué proceso específico vas a rediseñar, no solo qué herramienta vas a comprar?",
   },
   {
     slug: "economist-chile-democracia-economia",
@@ -367,6 +504,20 @@ Mientras Chile lucha por atraer IED, Colombia, Perú y México han aprovechado e
     conceptosRelacionados: [
       { label: "World Economic Outlook", slug: "imf-world-economic-outlook" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Entorno de Negocios / Estrategia",
+        contexto:
+          "El 'Chile premium' — la prima de estabilidad que hacía más barato financiarse y más fácil atraer IED — se erosionó. Úsalo para discutir cómo el riesgo país se construye y destruye, y cómo se mide (CDS spreads, calificadoras, encuestas de clima de negocios).",
+      },
+      {
+        nombre: "Economía Política / Política Económica",
+        contexto:
+          "La caída de IED de 34% en cuatro años es evidencia de que la incertidumbre institucional tiene costos económicos reales y medibles. Discute el canal de transmisión: incertidumbre → postergación de inversiones → menor crecimiento → menor empleo → presión política adicional.",
+      },
+    ],
+    paraLaPega:
+      "En banca de inversión, consultoría o empresas multinacionales con operaciones en Chile, el riesgo regulatorio es una pregunta explícita en cualquier comité de inversión. Tener los números concretos (IED -34%, 67% de multinacionales preocupadas) te permite cuantificar lo cualitativo. En entrevistas para puestos con exposición a Chile o LATAM, este análisis demuestra que entiendes el contexto institucional, no solo los números del PIB.",
   },
 
   // ── REUTERS (2) ──────────────────────────────────────────────────────────
@@ -398,6 +549,20 @@ Cada centavo de aumento en el precio del cobre genera aproximadamente USD 60 mil
     destacada: false,
     principal: false,
     tags: ["cobre", "Chile", "commodities", "China"],
+    paraTusRamos: [
+      {
+        nombre: "Macroeconomía / Finanzas Públicas",
+        contexto:
+          "Cada centavo de aumento en el precio del cobre genera ~USD 60M fiscales adicionales. Ejercicio: con el precio actual de USD 4.78/lb, calcula el ingreso fiscal adicional respecto al precio del presupuesto base y evalúa si Chile puede relajar la regla fiscal o debe ahorrar el excedente.",
+      },
+      {
+        nombre: "Mercados Financieros / Commodities",
+        contexto:
+          "El cobre es un leading indicator del ciclo industrial global — más demanda China implica más actividad manufacturera. Úsalo para discutir la relación entre PMI manufacturero chino y precio del cobre, y cómo esa correlación entra en modelos de tipo de cambio para el peso chileno.",
+      },
+    ],
+    paraLaPega:
+      "En cualquier análisis macro de Chile, el precio del cobre es el primer input — quien lo entiende lidera la conversación. Si estás en banca, fondos de inversión o consultoría con clientes del sector minero o exportador, la paradoja actual (precio récord + producción Codelco en baja) es el argumento para analizar proveedores alternativos de cobre y la tesis de largo plazo en electrificación global.",
   },
   {
     slug: "reuters-imf-growth-2026",
@@ -438,6 +603,20 @@ Cada centavo de aumento en el precio del cobre genera aproximadamente USD 60 mil
     conceptosRelacionados: [
       { label: "World Economic Outlook", slug: "imf-world-economic-outlook" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Macroeconomía",
+        contexto:
+          "El WEO del FMI es la referencia macro más citada en el mundo. Compara Chile (2.1%) con la proyección global (2.8%) y con pares de la región. ¿Somos un outlier positivo? ¿Qué explica la brecha? Úsalo para construir un análisis de convergencia y divergencia de ciclos económicos.",
+      },
+      {
+        nombre: "Finanzas / Valoración de Activos",
+        contexto:
+          "Un menor crecimiento global implica menores flujos de caja esperados y múltiplos de valoración comprimidos. Ejercicio: si el DCF de una empresa asume un crecimiento perpetuo ligado al PIB global y este baja 0.3pp, ¿cuánto cae el valor terminal y el precio justo de la acción?",
+      },
+    ],
+    paraLaPega:
+      "Citar el WEO del FMI da peso institucional a cualquier análisis. 'Según el FMI, el crecimiento global se desacelera a 2.8%' es más convincente que una opinión propia. Úsalo para justificar conservadurismo en presupuestos de expansión, reducción de capex o diversificación de mercados. En reuniones con directorio o comités de inversión, el FMI como respaldo cierra preguntas.",
   },
 
   // ── MEDIOS LOCALES (3): El Mercurio, La Tercera Pulso, Marketing Brew ─────
@@ -479,6 +658,20 @@ Las administradoras de fondos de pensiones verán aumentar sus activos bajo gest
       { label: "TPM", slug: "tasa-de-politica-monetaria" },
       { label: "EBITDA", slug: "ebitda" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Finanzas Personales / Sistemas de Pensión",
+        contexto:
+          "El 3% adicional a tu cuenta individual transforma tu trayectoria de ahorro. Ejercicio de ciclo de vida: calcula cuánto acumulas adicional al retiro si empiezas a trabajar a los 25 con el 3% extra durante 40 años, asumiendo 5% de retorno real anual. Conecta con modelos de consumo-ahorro intertemporal.",
+      },
+      {
+        nombre: "Mercado de Capitales",
+        contexto:
+          "USD 4.500M adicionales anuales en fondos de pensión locales elevarán la demanda de acciones y bonos chilenos. Discute cómo un flujo nuevo y predecible de capital impacta los precios de activos, los spreads de bonos corporativos y el IPSA en equilibrio.",
+      },
+    ],
+    paraLaPega:
+      "En banca, AFP, gestión de activos o finanzas corporativas, la reforma previsional es el cambio estructural más relevante del mercado de capitales chileno en años. El flujo adicional de pensiones al mercado de renta fija local es el argumento para que los CFOs consideren emisiones de bonos corporativos en 2026-2027, cuando la demanda institucional aumenta y los spreads se comprimen.",
   },
   {
     slug: "latercera-pulso-salarios-minimos-chile",
@@ -519,6 +712,20 @@ El ministro de Hacienda defendió el proyecto argumentando que el crecimiento de
     destacada: false,
     principal: false,
     tags: ["salario mínimo", "empleo", "Chile", "política económica"],
+    paraTusRamos: [
+      {
+        nombre: "Economía Laboral",
+        contexto:
+          "El debate Card & Krueger versus la curva de demanda de trabajo estándar cobra vida aquí. Un alza del 24% nominal en el salario mínimo es un experimento natural inusualmente grande para Chile. Úsalo para discutir elasticidad-empleo del salario mínimo, efectos diferenciales por nivel de formalidad y el monopsonio en mercados laborales locales.",
+      },
+      {
+        nombre: "Gestión de Personas / Costos Laborales",
+        contexto:
+          "Para empresas con empleados a salario mínimo (retail, gastronomía, seguridad), un alza del 24% puede representar 3-5% de aumento en costos totales. Ejercicio: toma el estado de resultados de un supermercado con 60% de costos laborales e impacta el margen EBITDA con el alza propuesta.",
+      },
+    ],
+    paraLaPega:
+      "En áreas de finanzas, estrategia o RRHH de empresas con empleados a salario mínimo, este es un input obligado para el presupuesto 2026. Actualiza la proyección de costos laborales antes de que lo haga el CFO. Si el traspaso a precios no es viable por la caída del consumo, la alternativa es automatización o reducción de dotación — decisión estratégica que se discute en los C-levels ahora.",
   },
   {
     slug: "marketing-brew-google-meta-ia-publicidad",
@@ -562,6 +769,20 @@ El trabajo se mueve desde ejecución táctica hacia arquitectura de datos propio
       { label: "Funnel de Marketing", slug: "funnel-marketing" },
       { label: "Think with Google", slug: "think-with-google" },
     ],
+    paraTusRamos: [
+      {
+        nombre: "Marketing Digital",
+        contexto:
+          "La concentración del 62% en Google y Meta no es casualidad: es el resultado de la ventaja de datos propios (first-party data) y de la automatización con IA. Úsalo para analizar el funnel publicitario completo — desde la segmentación hasta la medición — y discute cómo las marcas compiten cuando el canal de distribución no les pertenece.",
+      },
+      {
+        nombre: "Estrategia de Negocios",
+        contexto:
+          "La dependencia de plataformas de terceros es un riesgo estratégico de concentración. Aplica las 5 fuerzas de Porter: Google y Meta como proveedores con altísimo poder de negociación. Discute qué pueden hacer las marcas para construir moats propios: datos first-party, comunidades propias, canales directos (D2C).",
+      },
+    ],
+    paraLaPega:
+      "Si estás en marketing, agencias o en el área comercial de cualquier empresa que invierte en publicidad digital, este contexto define tu cancha. El argumento para más inversión en Google/Meta es el performance medible; el argumento en contra es la pérdida de control y la dependencia. Tener esa dualidad clara te permite asesorar con matices — no con dogmas de 'todo a digital' o 'nada a plataformas'. En entrevistas de marketing, demostrar que conoces los trade-offs del ecosistema publicitario actual es diferenciador.",
   },
 ];
 
