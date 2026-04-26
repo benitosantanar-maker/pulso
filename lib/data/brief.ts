@@ -1,36 +1,44 @@
+/**
+ * lib/data/brief.ts
+ *
+ * El brief diario se genera dinámicamente desde fetchDailyBrief() en lib/feeds/index.ts.
+ * Este archivo solo exporta helpers de fecha y formateo usados en las páginas del brief.
+ */
+
 import type { Brief } from "@/types";
 
-export const briefs: Brief[] = [
-  {
-    fecha: "2026-04-19",
-    titulo: "Brief del día — Sábado 19 de abril",
-    intro: "Semana cargada: BCCh pausó recortes, el FMI rebajó proyecciones, el cobre sigue subiendo y la reforma previsional avanza en el Congreso.",
-    items: [
-      {
-        titulo: "BCCh mantiene TPM en 5% y sube proyección de inflación",
-        resumen: "Decisión unánime. El IPoM revisó la inflación de 3,6% a 4,1% para 2026. Próximo recorte se postergó a julio o septiembre.",
-        fuente: "Diario Financiero",
-        slug: "df-bcentral-tpm-5-proyecciones-2026",
-        categoria: "economia",
-      },
-      {
-        titulo: "FMI recorta crecimiento global a 2.8%",
-        resumen: "La revisión más baja desde 2008 (sin pandemia). Las tensiones comerciales se materializan en datos reales.",
-        fuente: "Reuters",
-        slug: "reuters-imf-growth-2026",
-        categoria: "economia",
-      },
-      {
-        titulo: "Cobre alcanza USD 4.78/lb impulsado por China",
-        resumen: "PMI manufacturero chino subió a 51.3. La electrificación global sigue siendo el driver estructural de largo plazo.",
-        fuente: "Reuters Markets",
-        slug: "reuters-cobre-record-china",
-        categoria: "mercados",
-      },
-    ],
-  },
-];
+// ─── Helpers de fecha ─────────────────────────────────────────────────────────
+
+export function todayDateStr(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function formatBriefTitle(dateStr: string): string {
+  const d = new Date(dateStr + "T12:00:00Z");
+  return d.toLocaleDateString("es-CL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+/** Capitaliza la primera letra */
+export function capitalize(s: string): string {
+  if (!s) return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// ─── Compatibilidad con código que aún use getLatestBrief ─────────────────────
+// Solo para no romper imports existentes — retorna un brief vacío.
 
 export function getLatestBrief(): Brief {
-  return briefs[0];
+  return {
+    fecha: todayDateStr(),
+    titulo: `Brief del día — ${capitalize(formatBriefTitle(todayDateStr()))}`,
+    intro: "Cargando las noticias más relevantes del día…",
+    items: [],
+  };
 }
+
+export const briefs: Brief[] = [];
