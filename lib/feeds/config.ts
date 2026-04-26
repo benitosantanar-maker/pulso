@@ -34,6 +34,7 @@ export interface FeedSource {
   type: "rss" | "scrape";
   url: string;
   categorias: Category[];
+  idioma?: "es" | "en"; // default "es"
   tags?: string[];
   scrape?: ScrapeSelectors;
 }
@@ -361,118 +362,9 @@ export const ALL_FEEDS: FeedSource[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // GLOBAL EN INGLÉS ── 12 fuentes
+  // ESPAÑA — FINANZAS/NEGOCIOS extra ── 3 fuentes
   // ═══════════════════════════════════════════════════════════════════════════
 
-  {
-    // NYT Economy — auditado 200
-    id: "nyt-economy",
-    fuente: "New York Times",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",
-    categorias: ["economia"],
-    tags: ["usa", "global", "macroeconomía"],
-  },
-  {
-    // NYT Business — auditado 200
-    id: "nyt-business",
-    fuente: "New York Times",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
-    categorias: ["negocios", "finanzas"],
-    tags: ["usa", "global"],
-  },
-  {
-    // NYT Technology — auditado 200
-    id: "nyt-tech",
-    fuente: "New York Times",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
-    categorias: ["innovacion"],
-    tags: ["usa", "tecnología", "ia"],
-  },
-  {
-    // TechCrunch — auditado 200
-    id: "techcrunch",
-    fuente: "TechCrunch",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://techcrunch.com/feed/",
-    categorias: ["innovacion"],
-    tags: ["usa", "tecnología", "startups"],
-  },
-  {
-    id: "techcrunch-funding",
-    fuente: "TechCrunch",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://techcrunch.com/tag/funding/feed/",
-    categorias: ["emprendimiento"],
-    tags: ["usa", "vc", "funding"],
-  },
-  {
-    // MIT Technology Review — auditado 200
-    id: "mit-tech",
-    fuente: "MIT Technology Review",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://www.technologyreview.com/feed/",
-    categorias: ["innovacion"],
-    tags: ["usa", "ia", "ciencia"],
-  },
-  {
-    // The Verge — auditado 200
-    id: "theverge",
-    fuente: "The Verge",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://www.theverge.com/rss/index.xml",
-    categorias: ["innovacion"],
-    tags: ["usa", "tecnología", "gadgets"],
-  },
-  {
-    // Wired — auditado 200
-    id: "wired",
-    fuente: "Wired",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://www.wired.com/feed/rss",
-    categorias: ["innovacion", "estrategia"],
-    tags: ["usa", "tecnología", "ia"],
-  },
-  {
-    // Hacker News Best — auditado 200
-    id: "hackernews",
-    fuente: "Hacker News",
-    pais: "Global",
-    region: "Global",
-    type: "rss",
-    url: "https://hnrss.org/best",
-    categorias: ["innovacion", "emprendimiento"],
-    tags: ["global", "tecnología", "startups"],
-  },
-  {
-    // Seeking Alpha — mercados/finanzas, auditado 200
-    id: "seekingalpha",
-    fuente: "Seeking Alpha",
-    pais: "USA",
-    region: "US",
-    type: "rss",
-    url: "https://seekingalpha.com/market_currents.xml",
-    categorias: ["finanzas", "mercados"],
-    tags: ["usa", "mercados", "inversiones"],
-  },
   {
     // Cinco Días (El País) — finanzas España/global
     id: "cincodias",
@@ -494,6 +386,77 @@ export const ALL_FEEDS: FeedSource[] = [
     url: "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
     categorias: ["economia", "finanzas"],
     tags: ["mexico"],
+  },
+  {
+    // Gestión (Perú) — economía y negocios LatAm
+    id: "gestion-pe",
+    fuente: "Gestión",
+    pais: "Perú",
+    region: "LatAm",
+    type: "rss",
+    url: "https://gestion.pe/arc/outboundfeeds/rss/",
+    categorias: ["economia", "negocios", "finanzas"],
+    tags: ["peru", "latam"],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TECNOLOGÍA E INNOVACIÓN EN ESPAÑOL ── 5 fuentes
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  {
+    // Xataka — tecnología en español, referencia hispana
+    id: "xataka",
+    fuente: "Xataka",
+    pais: "España",
+    region: "ES",
+    type: "rss",
+    url: "https://www.xataka.com/feedburner.xml",
+    categorias: ["innovacion"],
+    tags: ["españa", "tecnología", "ia", "gadgets"],
+  },
+  {
+    // Hipertextual — tecnología y ciencia en español
+    id: "hipertextual",
+    fuente: "Hipertextual",
+    pais: "España",
+    region: "ES",
+    type: "rss",
+    url: "https://hipertextual.com/feed",
+    categorias: ["innovacion", "emprendimiento"],
+    tags: ["españa", "tecnología", "startups"],
+  },
+  {
+    // Genbeta — software y apps en español
+    id: "genbeta",
+    fuente: "Genbeta",
+    pais: "España",
+    region: "ES",
+    type: "rss",
+    url: "https://www.genbeta.com/feedburner.xml",
+    categorias: ["innovacion"],
+    tags: ["españa", "tecnología", "digital"],
+  },
+  {
+    // MIT Technology Review en Español
+    id: "mit-tech-es",
+    fuente: "MIT Technology Review ES",
+    pais: "España",
+    region: "ES",
+    type: "rss",
+    url: "https://www.technologyreview.es/feed",
+    categorias: ["innovacion"],
+    tags: ["global", "ia", "ciencia"],
+  },
+  {
+    // Wired España
+    id: "wired-es",
+    fuente: "Wired España",
+    pais: "España",
+    region: "ES",
+    type: "rss",
+    url: "https://www.wired.com/feed/tag/espanol/rss",
+    categorias: ["innovacion", "estrategia"],
+    tags: ["españa", "tecnología", "ia"],
   },
 ];
 

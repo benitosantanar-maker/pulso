@@ -48,7 +48,8 @@ export interface BriefItem {
   titulo: string;
   resumen: string;
   fuente: string;
-  slug: string;
+  slug?: string;   // ruta interna /noticia/[slug]
+  link?: string;   // URL externa (RSS)
   categoria: Category;
 }
 
