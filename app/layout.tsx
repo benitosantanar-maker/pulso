@@ -48,7 +48,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-[#F9FAFB] dark:bg-gray-950 transition-colors duration-200">
+      <body className="min-h-screen flex flex-col" style={{ background: "var(--paper)", color: "var(--ink)" }}>
         <ThemeProvider>
           <Header />
           <main className="flex-1">{children}</main>

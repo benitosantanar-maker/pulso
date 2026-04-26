@@ -1,77 +1,83 @@
 import Link from "next/link";
-import { Coffee, ExternalLink } from "lucide-react";
 import FooterNewsletterForm from "@/components/layout/FooterNewsletterForm";
 
 const LINKS_SECCIONES = [
-  { href: "/categoria/economia", label: "Economía" },
-  { href: "/categoria/finanzas", label: "Finanzas" },
-  { href: "/categoria/marketing", label: "Marketing" },
-  { href: "/categoria/innovacion", label: "Innovación" },
-  { href: "/categoria/negocios", label: "Negocios" },
-  { href: "/categoria/estrategia", label: "Estrategia" },
-  { href: "/categoria/mercados", label: "Mercados" },
+  { href: "/categoria/economia",       label: "Economía" },
+  { href: "/categoria/finanzas",       label: "Finanzas" },
+  { href: "/categoria/mercados",       label: "Mercados" },
+  { href: "/categoria/negocios",       label: "Negocios" },
+  { href: "/categoria/innovacion",     label: "Innovación" },
   { href: "/categoria/emprendimiento", label: "Emprendimiento" },
+  { href: "/categoria/marketing",      label: "Marketing" },
+  { href: "/categoria/estrategia",     label: "Estrategia" },
 ];
 
 const LINKS_PROYECTO = [
-  { href: "/brief", label: "Brief diario" },
-  { href: "/datos-chile", label: "Datos Chile" },
-  { href: "/recursos", label: "Recursos" },
-  { href: "/acerca", label: "Acerca del proyecto" },
+  { href: "/brief",        label: "Brief diario" },
+  { href: "/datos-chile",  label: "Datos Chile" },
+  { href: "/recursos",     label: "Aprende" },
+  { href: "/acerca",       label: "Acerca" },
 ];
 
 const FUENTES = [
-  { nombre: "Diario Financiero", url: "https://www.df.cl" },
-  { nombre: "Financial Times", url: "https://www.ft.com" },
-  { nombre: "The Economist", url: "https://www.economist.com" },
-  { nombre: "El Mercurio Economía", url: "https://www.emol.com/economia/" },
-  { nombre: "La Tercera Pulso", url: "https://www.latercera.com/pulso/" },
-  { nombre: "Reuters Markets", url: "https://www.reuters.com/markets/" },
-  { nombre: "MIT Technology Review", url: "https://www.technologyreview.com" },
-  { nombre: "Marketing Brew", url: "https://www.marketingbrew.com" },
-  { nombre: "TechCrunch", url: "https://techcrunch.com" },
-  { nombre: "BCCh", url: "https://www.bcentral.cl" },
-  { nombre: "CMF", url: "https://www.cmfchile.cl" },
-  { nombre: "INE", url: "https://www.ine.gob.cl" },
-  { nombre: "FMI WEO", url: "https://www.imf.org/en/publications/weo" },
-  { nombre: "OCDE", url: "https://www.oecd.org" },
-  { nombre: "World Bank", url: "https://data.worldbank.org" },
+  "Diario Financiero", "Financial Times", "The Economist",
+  "El Mercurio", "La Tercera Pulso", "Reuters Markets",
+  "BCCh", "CMF", "INE", "FMI", "OCDE", "World Bank",
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1F2937] text-gray-300 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer style={{ background: "var(--dark-mid)", borderTop: "3px solid var(--dark-bg)" }}>
+      <div className="max-w-[1320px] mx-auto px-6 lg:px-10 py-12 lg:py-14">
+
+        {/* Grid 5 cols */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_1.2fr] gap-8 lg:gap-10 mb-10">
+
           {/* Brand */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center">
-                <Coffee className="w-4 h-4 text-white" />
+          <div>
+            <Link href="/">
+              <div
+                className="font-serif text-2xl font-black mb-2 transition-colors hover:text-white/80"
+                style={{ color: "#F0EDE8" }}
+              >
+                Café Comercial
               </div>
-              <span className="text-white font-bold text-lg tracking-tight">
-                Café <span className="text-teal-400">Comercial</span>
-              </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed mb-4">
-              Las noticias y explicaciones que un ingeniero comercial necesita para entender el mundo de los negocios en pocos minutos.
+            <p
+              className="font-body text-[12.5px] leading-[1.6] mb-4"
+              style={{ color: "#6B6760" }}
+            >
+              Portal de referencia para informarse sobre economía y negocios. Noticias, análisis, indicadores y conceptos — sin ruido, con contexto.
             </p>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Para estudiantes y profesionales de Ingeniería Comercial.
-            </p>
+            {/* Source tags */}
+            <div className="flex flex-wrap gap-x-2 gap-y-1 mt-3">
+              {FUENTES.map((f) => (
+                <span
+                  key={f}
+                  className="font-mono text-[9px] tracking-[0.06em] cursor-default transition-colors"
+                  style={{ color: "#3A3630" }}
+                >
+                  {f}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* Categorías */}
+          {/* Secciones */}
           <div>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
+            <h3
+              className="font-sans text-[9.5px] font-bold uppercase tracking-[0.14em] mb-3 pb-2"
+              style={{ color: "#6B6760", borderBottom: "1px solid #2A2620" }}
+            >
               Secciones
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {LINKS_SECCIONES.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-teal-400 transition-colors"
+                    className="font-sans text-[12.5px] transition-colors hover:text-white"
+                    style={{ color: "#8A8680" }}
                   >
                     {link.label}
                   </Link>
@@ -82,59 +88,58 @@ export default function Footer() {
 
           {/* Proyecto */}
           <div>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
+            <h3
+              className="font-sans text-[9.5px] font-bold uppercase tracking-[0.14em] mb-3 pb-2"
+              style={{ color: "#6B6760", borderBottom: "1px solid #2A2620" }}
+            >
               Proyecto
             </h3>
-            <ul className="space-y-2 mb-8">
+            <ul className="space-y-1.5">
               {LINKS_PROYECTO.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-teal-400 transition-colors"
+                    className="font-sans text-[12.5px] transition-colors hover:text-white"
+                    style={{ color: "#8A8680" }}
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-3">
-              Fuentes curadas
-            </h3>
-            <div className="flex flex-wrap gap-x-2 gap-y-1">
-              {FUENTES.map((f) => (
-                <a
-                  key={f.nombre}
-                  href={f.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-gray-500 hover:text-teal-400 transition-colors inline-flex items-center gap-0.5"
-                >
-                  {f.nombre}
-                  <ExternalLink className="w-2 h-2 opacity-50" />
-                </a>
-              ))}
-            </div>
           </div>
 
+          {/* Placeholder col for spacing on wide */}
+          <div className="hidden lg:block" />
+
           {/* Newsletter */}
-          <div id="suscribir">
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
+          <div>
+            <h3
+              className="font-sans text-[9.5px] font-bold uppercase tracking-[0.14em] mb-3 pb-2"
+              style={{ color: "#6B6760", borderBottom: "1px solid #2A2620" }}
+            >
               Brief semanal
             </h3>
-            <p className="text-sm text-gray-400 mb-4 leading-relaxed">
-              Recibe cada semana lo más importante en economía, finanzas y negocios. Sin ruido.
+            <p
+              className="font-body text-[12.5px] leading-[1.55] mb-4"
+              style={{ color: "#6B6760" }}
+            >
+              Recibe lo más importante en economía y negocios. Sin ruido.
             </p>
             <FooterNewsletterForm />
-            <p className="text-xs text-gray-600 mt-2">Sin spam. Puedes darte de baja cuando quieras.</p>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600">
+        {/* Bottom bar */}
+        <div
+          className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-5"
+          style={{ borderTop: "1px solid #2A2620" }}
+        >
+          <p className="font-mono text-[10px] tracking-[0.04em]" style={{ color: "#4A4740" }}>
             © {new Date().getFullYear()} Café Comercial · Proyecto editorial independiente
           </p>
-          <p className="text-xs text-gray-700">
-            Construido para reducir la carga cognitiva de ingenieros comerciales chilenos.
+          <p className="font-mono text-[10px] tracking-[0.04em]" style={{ color: "#3A3630" }}>
+            Economía · Negocios · Mercados · Innovación
           </p>
         </div>
       </div>

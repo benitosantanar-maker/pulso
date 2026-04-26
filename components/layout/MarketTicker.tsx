@@ -1,19 +1,14 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { TrendingUp, TrendingDown, Minus, RefreshCw } from "lucide-react";
 import type { MarketTick } from "@/types";
 
-// ─── Fallback visible mientras llega el fetch ─────────────────────────────────
-
 const PLACEHOLDER: MarketTick[] = [
-  { label: "Dólar",   value: "–",   change: "–", dir: "flat" },
-  { label: "UF",      value: "–",   change: "–", dir: "flat" },
-  { label: "TPM",     value: "–",   change: "–", dir: "flat" },
-  { label: "IPC",     value: "–",   change: "–", dir: "flat" },
+  { label: "Dólar", value: "–", change: "–", dir: "flat" },
+  { label: "UF",    value: "–", change: "–", dir: "flat" },
+  { label: "TPM",   value: "–", change: "–", dir: "flat" },
+  { label: "IPC",   value: "–", change: "–", dir: "flat" },
 ];
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function relativeTime(iso: string): string {
   const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -22,48 +17,39 @@ function relativeTime(iso: string): string {
   return `hace ${Math.floor(diff / 60)}h`;
 }
 
-// ─── Componente Tick individual ───────────────────────────────────────────────
-
-function Tick({ t }: { t: MarketTick }) {
-  const upDown =
-    t.dir === "up"
-      ? "text-emerald-400"
-      : t.dir === "down"
-        ? "text-red-400"
-        : "text-gray-400";
-
-  const Icon =
-    t.dir === "up" ? TrendingUp : t.dir === "down" ? TrendingDown : Minus;
-
+function TickerItem({ t }: { t: MarketTick }) {
+  const changeColor =
+    t.dir === "up" ? "#4DB87A" : t.dir === "down" ? "#F06B55" : "#8A8680";
+  const arrow = t.dir === "up" ? "▲" : t.dir === "down" ? "▼" : "—";
   const showChange = t.change && t.change !== "–";
 
   return (
-    <span className="inline-flex items-center gap-1.5 shrink-0 select-none">
-      <span className="text-gray-400 text-[11px] font-medium">{t.label}</span>
-      <span className="text-white text-[11px] font-bold tabular-nums">{t.value}</span>
+    <span
+      className="inline-flex items-center gap-1.5 shrink-0 select-none px-7"
+      style={{ fontFamily: "'DM Mono', monospace" }}
+    >
+      <span
+        className="text-[10px] uppercase tracking-[0.08em]"
+        style={{ color: "#8A8680" }}
+      >
+        {t.label}
+      </span>
+      <span className="text-[11px] font-medium tabular-nums" style={{ color: "#F0EDE8" }}>
+        {t.value}
+      </span>
       {showChange && (
-        <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold ${upDown}`}>
-          <Icon className="w-2.5 h-2.5" />
-          {t.change}
+        <span className="text-[10px] font-medium" style={{ color: changeColor }}>
+          {arrow} {t.change}
         </span>
       )}
     </span>
   );
 }
 
-// ─── Separador ───────────────────────────────────────────────────────────────
-
-function Sep() {
-  return <span className="text-gray-700 text-xs select-none">|</span>;
-}
-
-// ─── MarketTicker ─────────────────────────────────────────────────────────────
-
 export default function MarketTicker() {
   const [tickers, setTickers] = useState<MarketTick[]>(PLACEHOLDER);
   const [fetchedAt, setFetchedAt] = useState<string>("");
   const [live, setLive] = useState(false);
-  const [loading, setLoading] = useState(true);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function loadData() {
@@ -77,56 +63,63 @@ export default function MarketTicker() {
       }
     } catch {
       // silencioso
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
     loadData();
-    // Refrescar cada 60 minutos en el cliente
     intervalRef.current = setInterval(loadData, 60 * 60 * 1000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, []);
 
+  /* duplicate items for seamless loop */
+  const items = [...tickers, ...tickers];
+
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-teal-950 border-b border-slate-800 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3 py-2 overflow-x-auto scrollbar-hide">
+    <div
+      className="overflow-hidden"
+      style={{
+        background: "#12100D",
+        borderBottom: "1px solid #2A2620",
+        height: "34px",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {/* Fixed label */}
+      <span
+        className="shrink-0 font-sans text-[9px] font-semibold uppercase tracking-[0.12em] px-5"
+        style={{ color: "#B5450A", whiteSpace: "nowrap" }}
+      >
+        ▸ Mercados
+      </span>
+      <span style={{ color: "#2A2620", fontSize: "16px" }}>|</span>
 
-          {/* Label fijo */}
-          <span className="text-[10px] font-bold text-teal-400 uppercase tracking-widest shrink-0">
-            Mercados
-          </span>
-
-          <Sep />
-
-          {/* Tickers */}
-          {tickers.map((t, i) => (
-            <span key={t.label} className="contents">
-              <Tick t={t} />
-              {i < tickers.length - 1 && <Sep />}
-            </span>
+      {/* Scrolling track */}
+      <div className="flex-1 overflow-hidden relative">
+        <div
+          style={{
+            display: "flex",
+            whiteSpace: "nowrap",
+            animation: "ticker-scroll 40s linear infinite",
+          }}
+        >
+          {items.map((t, i) => (
+            <TickerItem key={`${t.label}-${i}`} t={t} />
           ))}
-
-          {/* Timestamp + fuente */}
-          <span className="text-[10px] text-gray-600 shrink-0 ml-auto hidden sm:flex items-center gap-1.5">
-            {loading ? (
-              <RefreshCw className="w-2.5 h-2.5 animate-spin text-gray-600" />
-            ) : live && fetchedAt ? (
-              <>
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 inline-block" />
-                Act. {relativeTime(fetchedAt)} · mindicador.cl
-              </>
-            ) : (
-              "datos de referencia"
-            )}
-          </span>
-
         </div>
       </div>
+
+      {/* Timestamp */}
+      {live && fetchedAt && (
+        <span
+          className="shrink-0 hidden sm:flex items-center gap-1.5 font-mono text-[10px] px-4"
+          style={{ color: "#4A4740", whiteSpace: "nowrap" }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: "#4DB87A" }} />
+          {relativeTime(fetchedAt)}
+        </span>
+      )}
     </div>
   );
 }

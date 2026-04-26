@@ -10,21 +10,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        slate: {
-          950: "#0f172a",
+        paper: {
+          DEFAULT: "#F6F3EE",
+          dark: "#EDE9E1",
         },
-        brand: {
-          teal: "#0F766E",
-          "teal-light": "#B2D4D1",
-          "teal-dark": "#0a5c55",
-          amber: "#F59E0B",
-          red: "#DC2626",
-          green: "#059669",
+        ink: {
+          DEFAULT: "#12100D",
+          mid: "#3A3731",
+          light: "#6B6760",
+          faint: "#A09C95",
+        },
+        ed: {
+          amber: "#B5450A",
+          "amber-hover": "#8A3208",
+          "amber-light": "#F5EDE6",
+          blue: "#1347CC",
+          "blue-light": "#EBF0FB",
+          "blue-mid": "#1A56DB",
+          green: "#0A6E4E",
+          red: "#C0260F",
+          border: "#CCC8BF",
+          "border-light": "#E2DED6",
+          dark: "#12100D",
+          "dark-mid": "#1E1B17",
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["Inter Mono", "monospace"],
+        sans: ["DM Sans", "system-ui", "sans-serif"],
+        mono: ["DM Mono", "Courier New", "monospace"],
+        serif: ["Playfair Display", "Georgia", "serif"],
+        body: ["Source Serif 4", "Georgia", "serif"],
       },
       typography: {
         DEFAULT: {

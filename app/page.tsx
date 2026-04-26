@@ -13,6 +13,8 @@ import NewsletterModal from "@/components/ui/NewsletterModal";
 export default function HomePage() {
   return (
     <>
+      {/* Spacer for fixed editorial header: ticker(34) + header-top(~74) + nav(~40) */}
+      <div style={{ height: "148px" }} aria-hidden="true" />
       <Hero />
       <CategoriasGrid />
       <TendenciasSection />

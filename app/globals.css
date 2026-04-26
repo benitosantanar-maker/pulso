@@ -2,21 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --paper: #F6F3EE;
+  --paper-dark: #EDE9E1;
+  --ink: #12100D;
+  --ink-mid: #3A3731;
+  --ink-light: #6B6760;
+  --ink-faint: #A09C95;
+  --border: #CCC8BF;
+  --border-light: #E2DED6;
+  --amber: #B5450A;
+  --amber-light: #F5EDE6;
+  --blue: #1347CC;
+  --blue-light: #EBF0FB;
+  --green: #0A6E4E;
+  --red: #C0260F;
+  --dark-bg: #12100D;
+  --dark-mid: #1E1B17;
+}
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-[#F9FAFB] dark:bg-gray-950 text-[#1F2937] dark:text-gray-100;
+    background: var(--paper);
+    color: var(--ink);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
   }
 }
 
@@ -43,48 +64,60 @@
     -webkit-box-orient: vertical;
   }
 
+  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+  .font-body  { font-family: 'Source Serif 4', Georgia, serif; }
+  .font-mono  { font-family: 'DM Mono', 'Courier New', monospace; }
+  .font-sans  { font-family: 'DM Sans', system-ui, sans-serif; }
+
   /* Editorial prose content */
   .prose-editorial h2 {
-    @apply text-xl font-bold text-gray-900 dark:text-white mt-8 mb-3;
+    font-family: 'Playfair Display', Georgia, serif;
+    @apply text-xl font-bold mt-8 mb-3;
+    color: var(--ink);
   }
   .prose-editorial h3 {
-    @apply text-lg font-semibold text-gray-900 dark:text-white mt-6 mb-2;
+    font-family: 'Playfair Display', Georgia, serif;
+    @apply text-lg font-semibold mt-6 mb-2;
+    color: var(--ink);
   }
   .prose-editorial p {
-    @apply text-gray-700 dark:text-gray-300 leading-relaxed mb-4;
+    font-family: 'Source Serif 4', Georgia, serif;
+    @apply leading-relaxed mb-4;
+    color: var(--ink-mid);
   }
   .prose-editorial ul {
-    @apply list-disc list-inside space-y-1 mb-4 text-gray-700 dark:text-gray-300;
+    font-family: 'Source Serif 4', Georgia, serif;
+    @apply list-disc list-inside space-y-1 mb-4;
+    color: var(--ink-mid);
   }
   .prose-editorial ol {
-    @apply list-decimal list-inside space-y-1 mb-4 text-gray-700 dark:text-gray-300;
+    font-family: 'Source Serif 4', Georgia, serif;
+    @apply list-decimal list-inside space-y-1 mb-4;
+    color: var(--ink-mid);
   }
   .prose-editorial strong {
-    @apply font-semibold text-gray-900 dark:text-white;
+    @apply font-semibold;
+    color: var(--ink);
   }
   .prose-editorial table {
     @apply w-full text-sm border-collapse mb-6;
   }
   .prose-editorial th {
-    @apply text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider py-2 px-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    @apply text-left text-xs font-semibold uppercase tracking-wider py-2 px-3;
+    color: var(--ink-faint);
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--border);
   }
   .prose-editorial td {
-    @apply py-2 px-3 border-b border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300;
+    @apply py-2 px-3;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--ink-mid);
   }
   .prose-editorial blockquote {
-    @apply border-l-4 border-teal-300 pl-4 italic text-gray-600 dark:text-gray-400 my-4;
-  }
-
-  /* Card hover lift */
-  .card-hover {
-    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
-  }
-}
-
-/* Dark mode card and surface overrides */
-@layer components {
-  .surface {
-    @apply bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700;
+    border-left: 4px solid var(--amber);
+    @apply pl-4 italic my-4;
+    color: var(--ink-light);
   }
 }
 
@@ -98,4 +131,10 @@
 }
 .slide-in-from-bottom-4 {
   animation: slideInFromBottom 0.3s ease-out both;
+}
+
+/* Ticker animation */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }

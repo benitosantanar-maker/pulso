@@ -3,116 +3,171 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Coffee } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import DarkModeToggle from "@/components/ui/DarkModeToggle";
 import MarketTicker from "@/components/layout/MarketTicker";
 import { SearchButton } from "@/components/ui/SearchModal";
 
 const NAV_LINKS = [
+  { href: "/", label: "Inicio" },
   { href: "/categoria/economia", label: "Economía" },
   { href: "/categoria/finanzas", label: "Finanzas" },
-  { href: "/categoria/marketing", label: "Marketing" },
+  { href: "/categoria/mercados", label: "Mercados" },
+  { href: "/categoria/negocios", label: "Negocios" },
   { href: "/categoria/innovacion", label: "Innovación" },
-  { href: "/brief", label: "Brief" },
+  { href: "/categoria/emprendimiento", label: "Emprendimiento" },
   { href: "/datos-chile", label: "Datos Chile" },
-  { href: "/recursos", label: "Recursos" },
+  { href: "/recursos", label: "Aprende" },
+  { href: "/brief", label: "Brief diario" },
 ];
+
+function todayLabel() {
+  return new Date().toLocaleDateString("es-CL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800">
+    <header
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ background: "var(--paper)", borderBottom: "3px solid var(--ink)" }}
+    >
+      {/* Market ticker */}
       <MarketTicker />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <div className="w-7 h-7 bg-teal-700 rounded-lg flex items-center justify-center group-hover:bg-teal-800 transition-colors">
-              <Coffee className="w-3.5 h-3.5 text-white" />
+
+      {/* Header top: date | logo | actions */}
+      <div style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+          <div className="flex items-center justify-between py-3 lg:py-4">
+            {/* Left: date */}
+            <div
+              className="hidden lg:block font-mono text-[10px] uppercase tracking-[0.06em] leading-relaxed"
+              style={{ color: "var(--ink-faint)" }}
+            >
+              <div className="capitalize">{todayLabel()}</div>
+              <div className="mt-0.5" style={{ color: "var(--ed-amber, #B5450A)" }}>
+                ✦ Edición matinal disponible
+              </div>
             </div>
-            <span className="text-[#1F2937] dark:text-white font-bold text-base tracking-tight">
-              Café <span className="text-teal-700 dark:text-teal-400">Comercial</span>
-            </span>
-          </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "px-2.5 py-1.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap",
-                  pathname === link.href || pathname.startsWith(link.href)
-                    ? "text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/50"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800"
-                )}
+            {/* Center: logo */}
+            <Link href="/" className="flex-1 lg:flex-none text-center group">
+              <div
+                className="font-serif text-2xl lg:text-[38px] font-black leading-none tracking-tight transition-colors"
+                style={{ color: "var(--ink)" }}
               >
-                {link.label}
+                Café Comercial
+              </div>
+              <div
+                className="font-mono text-[8px] lg:text-[9px] uppercase tracking-[0.2em] mt-1 hidden sm:block"
+                style={{ color: "var(--ink-faint)" }}
+              >
+                Economía · Negocios · Mercados · Innovación
+              </div>
+            </Link>
+
+            {/* Right: actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              <SearchButton />
+              <Link
+                href="/acerca"
+                className="font-mono text-[10px] uppercase tracking-[0.06em] transition-colors"
+                style={{ color: "var(--ink-light)" }}
+              >
+                Acerca
               </Link>
-            ))}
-          </nav>
+              <Link
+                href="#suscribir"
+                className="font-sans text-[11px] font-semibold uppercase tracking-[0.08em] px-4 py-1.5 text-white transition-colors"
+                style={{ background: "var(--ed-amber, #B5450A)" }}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#8A3208")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "var(--ed-amber, #B5450A)")}
+              >
+                Suscribirse
+              </Link>
+            </div>
 
-          {/* Right side CTAs */}
-          <div className="hidden lg:flex items-center gap-2">
-            <SearchButton />
-            <DarkModeToggle />
-            <Link
-              href="/acerca"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors px-2"
-            >
-              Acerca
-            </Link>
-            <Link
-              href="#suscribir"
-              className="bg-teal-700 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-teal-800 transition-colors"
-            >
-              Suscribirse
-            </Link>
-          </div>
-
-          {/* Mobile right */}
-          <div className="lg:hidden flex items-center gap-1">
-            <SearchButton />
-            <DarkModeToggle />
-            <button
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              onClick={() => setOpen(!open)}
-              aria-label="Abrir menú"
-            >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            {/* Mobile right */}
+            <div className="lg:hidden flex items-center gap-2">
+              <SearchButton />
+              <button
+                className="p-1.5"
+                style={{ color: "var(--ink-mid)" }}
+                onClick={() => setOpen(!open)}
+                aria-label="Abrir menú"
+              >
+                {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Desktop nav */}
+      <nav
+        className="hidden lg:flex items-center justify-center overflow-x-auto scrollbar-hide"
+        style={{ borderBottom: "none" }}
+      >
+        {NAV_LINKS.map((link) => {
+          const isActive =
+            link.href === "/"
+              ? pathname === "/"
+              : pathname === link.href || pathname.startsWith(link.href);
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "font-sans text-[11.5px] font-semibold uppercase tracking-[0.06em] px-4 py-2.5 whitespace-nowrap border-b-2 transition-colors",
+                isActive
+                  ? "border-[#B5450A] text-[#12100D]"
+                  : "border-transparent text-[#3A3731] hover:text-[#12100D] hover:border-[#B5450A]"
+              )}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </nav>
+
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
-          <div className="px-4 py-3 space-y-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={cn(
-                  "block px-3 py-2.5 text-sm font-medium rounded-lg transition-colors",
-                  pathname === link.href
-                    ? "text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/50"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-2 pb-1 border-t border-gray-100 dark:border-gray-800 mt-2">
+        <div
+          className="lg:hidden"
+          style={{ background: "var(--paper)", borderTop: "1px solid var(--border)" }}
+        >
+          <div className="px-4 py-3 space-y-0.5">
+            {NAV_LINKS.map((link) => {
+              const isActive =
+                link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block px-3 py-2.5 font-sans text-sm font-semibold uppercase tracking-wide transition-colors"
+                  style={{
+                    color: isActive ? "#B5450A" : "var(--ink-mid)",
+                    borderLeft: isActive ? "2px solid #B5450A" : "2px solid transparent",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <div className="pt-3 mt-2" style={{ borderTop: "1px solid var(--border)" }}>
               <Link
                 href="#suscribir"
                 onClick={() => setOpen(false)}
-                className="block w-full text-center bg-teal-700 text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-teal-800 transition-colors"
+                className="block w-full text-center font-sans text-sm font-semibold uppercase tracking-wide px-4 py-2.5 text-white"
+                style={{ background: "#B5450A" }}
               >
                 Suscribirse al brief
               </Link>

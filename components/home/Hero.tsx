@@ -1,135 +1,286 @@
 import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getCategoryMeta } from "@/lib/categories";
 import { fetchNewsByCategory } from "@/lib/feeds";
-import { getLatestBrief } from "@/lib/data/brief";
-import HeroEmailForm from "./HeroEmailForm";
+import {
+  getNoticiasPrincipales,
+  getNoticiasDestacadas,
+  getUltimasNoticias,
+} from "@/lib/data/noticias";
+import DataStrip from "@/components/home/DataStrip";
 
-function relativeTime(iso: string): string {
-  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
-  if (diff < 1) return "ahora mismo";
-  if (diff < 60) return `hace ${diff} min`;
-  const h = Math.floor(diff / 60);
-  if (h < 24) return `hace ${h}h`;
-  return `hace ${Math.floor(h / 24)}d`;
+const KICKER_COLORS: Record<string, string> = {
+  economia:       "#1347CC",
+  finanzas:       "#0A6E4E",
+  innovacion:     "#7B35CC",
+  mercados:       "#B5450A",
+  emprendimiento: "#1A7070",
+  negocios:       "#3A3731",
+  marketing:      "#C0260F",
+  estrategia:     "#3A3731",
+};
+
+function Kicker({ categoria }: { categoria: string }) {
+  const meta = getCategoryMeta(categoria as never);
+  const color = KICKER_COLORS[categoria] ?? "#3A3731";
+  return (
+    <div
+      className="font-sans text-[9.5px] font-bold uppercase tracking-[0.14em] mb-2"
+      style={{ color }}
+    >
+      {meta.label}
+    </div>
+  );
+}
+
+function PorQueImporta({ text }: { text: string }) {
+  return (
+    <div
+      className="font-sans text-[12.5px] leading-relaxed mt-3"
+      style={{
+        borderLeft: "3px solid #B5450A",
+        background: "#F5EDE6",
+        padding: "10px 14px",
+        color: "var(--ink-mid)",
+      }}
+    >
+      <strong
+        className="block font-sans text-[9px] uppercase tracking-[0.12em] mb-1 font-bold"
+        style={{ color: "#B5450A" }}
+      >
+        Por qué importa
+      </strong>
+      {text}
+    </div>
+  );
+}
+
+function SourceTag({ fuente, pais }: { fuente: string; pais?: string }) {
+  return (
+    <span className="font-mono text-[10px]" style={{ color: "var(--ink-faint)" }}>
+      {fuente}{pais ? ` · ${pais}` : ""}
+    </span>
+  );
 }
 
 export default async function Hero() {
-  const fallbackBrief = getLatestBrief();
+  const principales = getNoticiasPrincipales();
+  const destacadas  = getNoticiasDestacadas();
+  const ultimas     = getUltimasNoticias(8).filter((n) => !n.principal && !n.destacada);
 
-  // Brief dinámico: top 3 de economia + finanzas + mercados
-  const { items: liveItems, fetchedAt } = await fetchNewsByCategory("economia", 5);
-  const useLive = liveItems.length >= 2;
-  const briefItems = useLive ? liveItems.slice(0, 3) : null;
+  const { items: liveItems } = await fetchNewsByCategory("economia", 6);
+
+  const lead      = principales[0];
+  const secondary = destacadas.slice(0, 2);
+  const tertiary  = [...destacadas.slice(2), ...ultimas].slice(0, 5);
 
   return (
-    <section className="bg-[#1F2937] dark:bg-gray-950 text-white pt-32 pb-14 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Headline + form */}
-        <div className="max-w-2xl mx-auto text-center mb-10">
-          <p className="text-teal-400 text-xs font-semibold uppercase tracking-widest mb-4">
-            Para ingenieros comerciales
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.1] mb-4 text-white">
-            Lo esencial en economía y negocios —{" "}
-            <span className="text-teal-400">en 5 minutos.</span>
-          </h1>
-          <p className="text-gray-400 text-lg leading-relaxed mb-8">
-            Curamos las noticias que importan y explicamos por qué son relevantes
-            para tus ramos, entrevistas y decisiones de negocio.
-          </p>
-          <HeroEmailForm />
-          <p className="text-xs text-gray-600 mt-4">
-            Sin spam. Puedes darte de baja cuando quieras.
-          </p>
-        </div>
+    <>
+      {/* Indicadores strip */}
+      <DataStrip />
 
-        {/* Brief del día */}
-        <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500" />
-              </span>
-              <span className="text-xs font-bold text-teal-300 uppercase tracking-widest">
-                Lo esencial de hoy
-              </span>
-              {useLive ? (
-                <span className="text-xs text-gray-500">
-                  Actualizado {relativeTime(fetchedAt)}
-                </span>
-              ) : (
-                <span className="text-xs text-gray-600">{fallbackBrief.fecha}</span>
-              )}
-            </div>
+      {/* Newspaper hero */}
+      <section className="pt-6 pb-0" style={{ borderBottom: "2px solid var(--ink)" }}>
+        <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+          {/* Section label bar */}
+          <div
+            className="flex items-center justify-between mb-4 pb-2"
+            style={{ borderBottom: "1px solid var(--border)" }}
+          >
+            <span
+              className="font-sans text-[9.5px] font-bold uppercase tracking-[0.16em]"
+              style={{ color: "#B5450A" }}
+            >
+              Lo esencial de hoy
+            </span>
             <Link
               href="/brief"
-              className="flex items-center gap-1 text-xs text-gray-500 hover:text-teal-300 transition-colors"
+              className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.08em] transition-colors hover:text-[#B5450A]"
+              style={{ color: "#1347CC" }}
             >
-              Ver completo <ArrowRight className="w-3 h-3" />
+              Ver brief completo <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
 
-          {/* 3 cards dinámicas */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {briefItems
-              ? briefItems.map((item, i) => {
-                  const cat = getCategoryMeta(item.categoria);
-                  return (
-                    <a
-                      key={i}
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex flex-col gap-2 bg-white/[0.04] hover:bg-white/10 border border-white/5 hover:border-teal-600/50 rounded-xl p-4 transition-all duration-200"
+          {/* 3-col grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1px_1fr_1px_1fr] gap-0">
+
+            {/* ── Lead story ── */}
+            <div className="pb-6 lg:pb-6 lg:pr-8">
+              {lead ? (
+                <>
+                  <Kicker categoria={lead.categoria} />
+                  <Link href={`/noticia/${lead.slug}`} className="group block">
+                    <h1
+                      className="font-serif font-bold leading-[1.15] mb-3 transition-colors group-hover:text-[#B5450A]"
+                      style={{
+                        fontSize: "clamp(24px, 3vw, 34px)",
+                        color: "var(--ink)",
+                        letterSpacing: "-0.01em",
+                      }}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
-                          {cat.label}
-                        </span>
-                        <span className="text-[10px] text-gray-600">
-                          {item.fuente} · {item.pais}
-                        </span>
-                        <ExternalLink className="w-2.5 h-2.5 text-gray-600 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
-                        {item.titulo}
+                      {lead.titulo}
+                    </h1>
+                  </Link>
+                  <p
+                    className="font-body text-[14.5px] leading-[1.55] mb-3"
+                    style={{ color: "var(--ink-mid)" }}
+                  >
+                    {lead.bajada}
+                  </p>
+                  <PorQueImporta text={lead.porQueImporta} />
+                  <div className="mt-3 flex items-center gap-3">
+                    <SourceTag fuente={lead.fuente} />
+                    <span className="font-mono text-[9.5px]" style={{ color: "var(--ink-faint)" }}>
+                      {lead.tiempoLectura} min de lectura
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <p className="font-body text-sm" style={{ color: "var(--ink-faint)" }}>
+                  Actualizando la noticia principal…
+                </p>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block" style={{ background: "var(--border)" }} />
+
+            {/* ── Secondary stories ── */}
+            <div className="py-6 lg:py-0 lg:px-8" style={{ borderTop: "1px solid var(--border)", borderTopWidth: "1px" }}>
+              {secondary.length > 0
+                ? secondary.map((n, i) => (
+                    <div
+                      key={n.slug}
+                      className="py-5"
+                      style={{ borderBottom: i < secondary.length - 1 ? "1px solid var(--border-light)" : "none" }}
+                    >
+                      <Kicker categoria={n.categoria} />
+                      <Link href={`/noticia/${n.slug}`} className="group block">
+                        <h2
+                          className="font-serif font-bold text-[20px] leading-[1.2] mb-2 transition-colors group-hover:text-[#B5450A]"
+                          style={{ color: "var(--ink)" }}
+                        >
+                          {n.titulo}
+                        </h2>
+                      </Link>
+                      <p
+                        className="font-body text-[13px] leading-[1.5] mb-2 line-clamp-2"
+                        style={{ color: "var(--ink-light)" }}
+                      >
+                        {n.bajada}
                       </p>
+                      <SourceTag fuente={n.fuente} />
+                    </div>
+                  ))
+                : liveItems.slice(0, 2).map((item, i) => (
+                    <div
+                      key={item.id}
+                      className="py-5"
+                      style={{ borderBottom: i === 0 ? "1px solid var(--border-light)" : "none" }}
+                    >
+                      <Kicker categoria={item.categoria} />
+                      <a href={item.link} target="_blank" rel="noopener noreferrer" className="group block">
+                        <h2
+                          className="font-serif font-bold text-[20px] leading-[1.2] mb-2 transition-colors group-hover:text-[#B5450A]"
+                          style={{ color: "var(--ink)" }}
+                        >
+                          {item.titulo}
+                        </h2>
+                      </a>
                       {item.resumen && (
-                        <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">
+                        <p
+                          className="font-body text-[13px] leading-[1.5] mb-2 line-clamp-2"
+                          style={{ color: "var(--ink-light)" }}
+                        >
                           {item.resumen}
                         </p>
                       )}
-                    </a>
-                  );
-                })
-              : fallbackBrief.items.map((item, i) => {
-                  const cat = getCategoryMeta(item.categoria);
-                  return (
-                    <Link
-                      key={i}
-                      href={`/noticia/${item.slug}`}
-                      className="group flex flex-col gap-2 bg-white/[0.04] hover:bg-white/10 border border-white/5 hover:border-teal-600/50 rounded-xl p-4 transition-all duration-200"
+                      <SourceTag fuente={item.fuente} pais={item.pais} />
+                    </div>
+                  ))}
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block" style={{ background: "var(--border)" }} />
+
+            {/* ── Tertiary list ── */}
+            <div className="pb-6 lg:pb-6 lg:pl-8" style={{ borderTop: "1px solid var(--border)", borderTopWidth: "1px" }}>
+              <div
+                className="font-sans text-[9.5px] font-bold uppercase tracking-[0.16em] mb-3 pb-2"
+                style={{ color: "var(--ink-faint)", borderBottom: "1px solid var(--border-light)" }}
+              >
+                Más noticias
+              </div>
+              {tertiary.map((n, i) => (
+                <div
+                  key={n.slug}
+                  className="flex gap-3 py-3"
+                  style={{ borderBottom: i < tertiary.length - 1 ? "1px solid var(--border-light)" : "none" }}
+                >
+                  <span
+                    className="font-mono text-[22px] font-medium shrink-0 leading-none pt-0.5"
+                    style={{ color: "var(--border)", letterSpacing: "-0.02em" }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0">
+                    <Link href={`/noticia/${n.slug}`} className="group">
+                      <h3
+                        className="font-serif font-semibold text-[14px] leading-[1.35] transition-colors group-hover:text-[#B5450A] line-clamp-2"
+                        style={{ color: "var(--ink)" }}
+                      >
+                        {n.titulo}
+                      </h3>
+                    </Link>
+                    <div className="mt-1">
+                      <SourceTag fuente={n.fuente} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Live feed preview */}
+              {liveItems.length > 0 && (
+                <div className="mt-4">
+                  <div
+                    className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.12em] mb-3"
+                    style={{ color: "#C0260F" }}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full inline-block"
+                      style={{ background: "#C0260F", animation: "pulse 2s infinite" }}
+                    />
+                    En vivo
+                  </div>
+                  {liveItems.slice(0, 2).map((item) => (
+                    <a
+                      key={item.id}
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group block py-2.5"
+                      style={{ borderBottom: "1px solid var(--border-light)" }}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/50 bg-white/10 border border-white/10 px-2 py-0.5 rounded-full">
-                          {cat.label}
-                        </span>
-                        <span className="text-[10px] text-gray-600">{item.fuente}</span>
-                      </div>
-                      <p className="text-white text-sm font-medium leading-snug line-clamp-2 group-hover:text-teal-200 transition-colors">
+                      <p
+                        className="font-serif text-[13px] font-semibold leading-snug line-clamp-2 transition-colors group-hover:text-[#B5450A]"
+                        style={{ color: "var(--ink)" }}
+                      >
                         {item.titulo}
                       </p>
-                      <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mt-auto">
-                        {item.resumen}
-                      </p>
-                    </Link>
-                  );
-                })}
+                      <SourceTag fuente={item.fuente} pais={item.pais} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <style>{`
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+      `}</style>
+    </>
   );
 }

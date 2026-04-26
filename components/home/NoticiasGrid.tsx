@@ -41,19 +41,26 @@ export default async function NoticiasGrid() {
   const hasLive = liveItems.length > 0;
 
   return (
-    <section className="py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-10" style={{ background: "var(--paper)" }}>
+      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
 
-        {/* ════════════════════════════════════════════════════════════
-            NOTICIAS CURADAS (análisis completo interno)
-        ════════════════════════════════════════════════════════════ */}
-        <div className="flex items-center justify-between mb-7">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Lo esencial de hoy</h2>
+        {/* Editorial section header */}
+        <div
+          className="flex items-baseline justify-between pb-2 mb-6"
+          style={{ borderBottom: "2px solid var(--ink)" }}
+        >
+          <h2
+            className="font-serif text-[18px] font-bold"
+            style={{ color: "var(--ink)", letterSpacing: "-0.01em" }}
+          >
+            Análisis y contexto
+          </h2>
           <Link
             href="/categoria/economia"
-            className="flex items-center gap-1 text-sm text-teal-700 dark:text-teal-400 font-medium hover:text-teal-800 dark:hover:text-teal-300 transition-colors"
+            className="font-mono text-[10px] uppercase tracking-[0.08em] transition-colors hover:text-[#B5450A]"
+            style={{ color: "#1347CC" }}
           >
-            Ver todo <ArrowRight className="w-4 h-4" />
+            Ver todo →
           </Link>
         </div>
 
@@ -79,22 +86,29 @@ export default async function NoticiasGrid() {
         )}
 
         {/* Más noticias curadas — lista compacta */}
-        <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mb-14">
-          <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-5">
-            Análisis y contexto
+        <div className="pt-8 mb-14" style={{ borderTop: "1px solid var(--border)" }}>
+          <h3
+            className="font-sans text-[9.5px] font-bold uppercase tracking-[0.16em] mb-5"
+            style={{ color: "var(--ink-faint)" }}
+          >
+            Más análisis
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10">
             {ultimas.slice(0, 8).map((n) => (
               <Link
                 key={n.slug}
                 href={`/noticia/${n.slug}`}
-                className="group flex items-start gap-3 py-3.5 border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/50 -mx-2 px-2 rounded-lg transition-colors duration-150"
+                className="group flex items-start gap-3 py-3.5 -mx-2 px-2 transition-colors duration-150"
+                style={{ borderBottom: "1px solid var(--border-light)" }}
               >
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 leading-snug group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors line-clamp-2">
+                  <h4
+                    className="font-serif text-sm font-semibold leading-snug transition-colors line-clamp-2 group-hover:text-[#B5450A]"
+                    style={{ color: "var(--ink)" }}
+                  >
                     {n.titulo}
                   </h4>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                  <p className="font-mono text-[10px] mt-0.5" style={{ color: "var(--ink-faint)" }}>
                     {n.fuente} · Chile
                   </p>
                 </div>
@@ -103,40 +117,56 @@ export default async function NoticiasGrid() {
           </div>
         </div>
 
-        {/* ════════════════════════════════════════════════════════════
-            FEED EN VIVO (~40 fuentes)
-        ════════════════════════════════════════════════════════════ */}
+        {/* Feed en vivo */}
         {hasLive && (
           <div>
-            {/* Header del feed */}
-            <div className="flex items-center justify-between mb-6">
+            <div
+              className="flex items-baseline justify-between pb-2 mb-6"
+              style={{ borderBottom: "2px solid var(--ink)" }}
+            >
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500" />
-                  </span>
-                  <Rss className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full inline-block"
+                    style={{ background: "#C0260F", animation: "pulse 2s infinite" }}
+                  />
+                  <Rss className="w-3.5 h-3.5" style={{ color: "#C0260F" }} />
+                  <h2
+                    className="font-serif text-[18px] font-bold"
+                    style={{ color: "var(--ink)", letterSpacing: "-0.01em" }}
+                  >
                     Feed en vivo
                   </h2>
                 </div>
-                <span className="text-xs text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
-                  {liveItems.length} artículos · {totalSources} fuentes
+                <span
+                  className="font-mono text-[9.5px] px-2 py-0.5"
+                  style={{
+                    color: "var(--ink-faint)",
+                    background: "var(--paper-dark)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  {liveItems.length} · {totalSources} fuentes
                 </span>
               </div>
-              <span className="text-xs text-gray-400 dark:text-gray-500">
+              <span className="font-mono text-[10px]" style={{ color: "var(--ink-faint)" }}>
                 Act. {relativeTime(fetchedAt)}
               </span>
             </div>
 
             {/* Top 8 en cards 4×2 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 mb-8">
               {liveItems.slice(0, 8).map((item) => (
-                <div key={item.id} className="flex flex-col">
-                  <NewsCardRSSCard item={item} />
-                  <div className="mt-1 px-1">
-                    <FuenteTag item={item} />
+                <div
+                  key={item.id}
+                  className="flex flex-col p-0"
+                  style={{ borderRight: "1px solid var(--border)" }}
+                >
+                  <div className="px-0 pr-5">
+                    <NewsCardRSSCard item={item} />
+                    <div className="mt-1">
+                      <FuenteTag item={item} />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -144,7 +174,13 @@ export default async function NoticiasGrid() {
 
             {/* Resto en lista compacta 2 columnas */}
             {liveItems.length > 8 && (
-              <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 px-4 py-2">
+              <div
+                className="px-4 py-2"
+                style={{
+                  background: "var(--paper-dark)",
+                  border: "1px solid var(--border)",
+                }}
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                   {liveItems.slice(8).map((item) => (
                     <NewsCardRSSCompact key={item.id} item={item} />

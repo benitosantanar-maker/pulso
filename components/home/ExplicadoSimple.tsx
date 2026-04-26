@@ -6,18 +6,18 @@ export default function ExplicadoSimple() {
   const featured = recursos.filter((r) => r.tipo === "concepto").slice(0, 3);
 
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-900/50 border-y border-gray-100 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12" style={{ background: "#F0EDE8", borderTop: "2px solid var(--ink)", borderBottom: "2px solid var(--ink)" }}>
+      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <BookOpen className="w-4 h-4 text-teal-700 dark:text-teal-400" />
-              <span className="text-xs font-semibold text-teal-700 dark:text-teal-400 uppercase tracking-wider">
-                Explicado simple
+              <BookOpen className="w-4 h-4" style={{ color: "#B5450A" }} />
+              <span className="font-sans text-[9.5px] font-bold uppercase tracking-[0.14em]" style={{ color: "#B5450A" }}>
+                Aprende
               </span>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Conceptos clave</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <h2 className="font-serif text-[22px] font-bold" style={{ color: "var(--ink)", letterSpacing: "-0.01em" }}>Conceptos clave</h2>
+            <p className="font-body text-sm mt-1" style={{ color: "var(--ink-light)" }}>
               Términos que aparecen en las noticias — explicados para usarlos en ramos y entrevistas.
             </p>
           </div>
