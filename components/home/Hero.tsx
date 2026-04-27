@@ -42,15 +42,10 @@ export default async function Hero() {
           {/* ── Brief del día (dark panel) ── */}
           <div className="hero-brief" style={{ background: "var(--dark-bg)", padding: "28px 28px 28px 0" }}>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+            <div style={{ marginBottom: "10px" }}>
               <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--amber)" }}>
                 ▸ Brief del día
               </div>
-              {brief.fuenteIA && (
-                <div style={{ fontFamily: "var(--mono)", fontSize: "8px", letterSpacing: "0.1em", color: "#3A3020", textTransform: "uppercase" }}>
-                  ✦ ia
-                </div>
-              )}
             </div>
 
             <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.08em", color: "#4A4740", marginBottom: "14px", textTransform: "capitalize" }}>

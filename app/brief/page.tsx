@@ -1,18 +1,13 @@
-/**
- * /brief — Brief del día completo
- * Página dedicada al análisis editorial diario generado con Claude.
- */
-
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getDynamicBrief } from "@/lib/brief/generator";
+import { getDynamicBrief, listBriefDates } from "@/lib/brief/generator";
 import type { BriefTema } from "@/types";
 
-export const revalidate = 10800; // 3 horas
+export const revalidate = 14400; // 4 horas
 
 export const metadata: Metadata = {
   title: "Brief del día — Café Comercial",
-  description: "Análisis editorial diario de las noticias económicas y de negocios más relevantes para Chile, generado con IA.",
+  description: "Análisis editorial diario de las noticias económicas y de negocios más relevantes para Chile.",
 };
 
 const TEMA_STYLES: Record<BriefTema, { bg: string; border: string; color: string }> = {
@@ -24,21 +19,24 @@ const TEMA_STYLES: Record<BriefTema, { bg: string; border: string; color: string
   "Emprendimiento": { bg: "var(--teal-light)",    border: "var(--teal)",      color: "var(--teal)"    },
 };
 
-function timeAgo(iso?: string): string {
-  if (!iso) return "";
-  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
-  if (diff < 1) return "justo ahora";
-  if (diff < 60) return `hace ${diff} min`;
-  const h = Math.floor(diff / 60);
-  return h < 24 ? `hace ${h}h` : `hace ${Math.floor(h / 24)}d`;
+function formatDateLabel(iso: string): string {
+  return new Date(iso + "T12:00:00").toLocaleDateString("es-CL", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  });
 }
 
 export default async function BriefPage() {
-  const brief = await getDynamicBrief();
+  const [brief, pastDates] = await Promise.all([
+    getDynamicBrief(),
+    Promise.resolve(listBriefDates()),
+  ]);
 
   const fechaDisplay = new Date().toLocaleDateString("es-CL", {
     weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
+
+  // Fechas pasadas = todas menos hoy
+  const archivedDates = pastDates.filter((d) => d !== brief.fecha);
 
   return (
     <div style={{ background: "var(--paper)", minHeight: "100vh" }}>
@@ -61,7 +59,7 @@ export default async function BriefPage() {
           <div className="brief-hero-grid">
             <div>
               <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--amber)", marginBottom: "12px" }}>
-                ▸ Análisis editorial
+                ▸ Brief del día
               </div>
               <h1 style={{ fontFamily: "var(--serif)", fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, color: "#F0EDE8", lineHeight: 1.1, marginBottom: "18px", letterSpacing: "-0.01em" }}>
                 {brief.titulo}
@@ -73,23 +71,12 @@ export default async function BriefPage() {
               )}
             </div>
 
-            {/* Meta derecha */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "flex-end", gap: "8px" }}>
               <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "#4A4740", letterSpacing: "0.06em", textAlign: "right", textTransform: "capitalize" }}>
                 {fechaDisplay}
               </div>
-              {brief.generadoEn && (
-                <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#3A3630" }}>
-                  Actualizado {timeAgo(brief.generadoEn)}
-                </div>
-              )}
-              {brief.fuenteIA && (
-                <div style={{ fontFamily: "var(--mono)", fontSize: "8px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--amber)", border: "1px solid #3A2010", padding: "3px 9px", marginTop: "4px" }}>
-                  ✦ Generado con IA
-                </div>
-              )}
-              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#2A2620", marginTop: "4px" }}>
-                {brief.items.length} temas analizados
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#2A2620" }}>
+                {brief.items.length} temas
               </div>
             </div>
           </div>
@@ -104,7 +91,6 @@ export default async function BriefPage() {
                   textTransform: "uppercase", padding: "4px 11px",
                   background: "#1A1714", color: s.color,
                   border: `1px solid ${s.border}33`, textDecoration: "none",
-                  transition: "background 0.15s",
                 }}>
                   {item.tema}
                 </a>
@@ -122,7 +108,7 @@ export default async function BriefPage() {
           <main>
             {brief.items.length === 0 ? (
               <div style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--ink-faint)", padding: "60px 0", textAlign: "center" }}>
-                No se pudieron cargar los artículos. Recarga la página.
+                Preparando el análisis del día...
               </div>
             ) : (
               brief.items.map((item, i) => {
@@ -134,25 +120,15 @@ export default async function BriefPage() {
                     id={`item-${i}`}
                     style={{ paddingBottom: "40px", marginBottom: "40px", borderBottom: isLast ? "none" : "1px solid var(--border-light)" }}
                   >
-                    {/* Cabecera */}
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px", flexWrap: "wrap" }}>
-                      <span style={{
-                        fontFamily: "var(--mono)", fontSize: "8px", letterSpacing: "0.12em",
-                        textTransform: "uppercase", padding: "3px 10px",
-                        background: s.bg, color: s.color, border: `1px solid ${s.border}55`,
-                      }}>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "8px", letterSpacing: "0.12em", textTransform: "uppercase", padding: "3px 10px", background: s.bg, color: s.color, border: `1px solid ${s.border}55` }}>
                         {item.tema}
                       </span>
                       <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--ink-faint)", letterSpacing: "0.04em" }}>
                         {item.fuente}
                       </span>
-                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--border)" }}>·</span>
-                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--ink-faint)", textTransform: "capitalize" }}>
-                        {item.categoria}
-                      </span>
                     </div>
 
-                    {/* Número + Título */}
                     <div style={{ display: "flex", gap: "16px", alignItems: "baseline", marginBottom: "14px" }}>
                       <span style={{ fontFamily: "var(--mono)", fontSize: "22px", fontWeight: 500, color: "var(--border)", flexShrink: 0, lineHeight: 1 }}>
                         {String(i + 1).padStart(2, "0")}
@@ -166,12 +142,10 @@ export default async function BriefPage() {
                       </h2>
                     </div>
 
-                    {/* Resumen analítico */}
                     <p style={{ fontFamily: "var(--body)", fontSize: "15.5px", color: "var(--ink-mid)", lineHeight: 1.7, marginBottom: "18px", paddingLeft: "38px" }}>
                       {item.resumen}
                     </p>
 
-                    {/* ¿Por qué importa? */}
                     {item.porQueImporta && !item.porQueImporta.startsWith("Noticia relevante") && (
                       <div style={{ background: "var(--amber-light)", borderLeft: "3px solid var(--amber)", padding: "13px 18px", marginBottom: "16px", marginLeft: "38px" }}>
                         <div style={{ fontFamily: "var(--mono)", fontSize: "8.5px", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--amber)", fontWeight: 700, marginBottom: "6px" }}>
@@ -183,14 +157,9 @@ export default async function BriefPage() {
                       </div>
                     )}
 
-                    {/* Link original */}
                     {item.link && (
                       <div style={{ paddingLeft: "38px" }}>
-                        <a href={item.link} target="_blank" rel="noopener noreferrer" style={{
-                          display: "inline-flex", alignItems: "center", gap: "6px",
-                          fontFamily: "var(--mono)", fontSize: "9.5px", letterSpacing: "0.08em",
-                          textTransform: "uppercase", color: "var(--blue)",
-                        }}>
+                        <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontFamily: "var(--mono)", fontSize: "9.5px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--blue)" }}>
                           Leer artículo original →
                         </a>
                       </div>
@@ -198,6 +167,31 @@ export default async function BriefPage() {
                   </article>
                 );
               })
+            )}
+
+            {/* ── Archivo de briefs anteriores ── */}
+            {archivedDates.length > 0 && (
+              <div style={{ marginTop: "48px", paddingTop: "32px", borderTop: "2px solid var(--ink)" }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-faint)", marginBottom: "20px" }}>
+                  Briefs anteriores
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+                  {archivedDates.map((date) => (
+                    <Link key={date} href={`/briefs/${date}`} style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      padding: "14px 0", borderBottom: "1px solid var(--border-light)",
+                      textDecoration: "none",
+                    }}>
+                      <span style={{ fontFamily: "var(--body)", fontSize: "15px", color: "var(--ink-mid)", textTransform: "capitalize" }}>
+                        {formatDateLabel(date)}
+                      </span>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--ink-faint)", letterSpacing: "0.06em" }}>
+                        Ver →
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             )}
           </main>
 
@@ -214,7 +208,7 @@ export default async function BriefPage() {
                 <a key={i} href={`#item-${i}`} style={{
                   display: "flex", gap: "10px", alignItems: "flex-start",
                   padding: "10px 18px", borderBottom: i < brief.items.length - 1 ? "1px solid var(--border-light)" : "none",
-                  textDecoration: "none", background: "none",
+                  textDecoration: "none",
                 }}>
                   <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--border)", flexShrink: 0, paddingTop: "2px" }}>
                     {String(i + 1).padStart(2, "0")}
@@ -231,25 +225,8 @@ export default async function BriefPage() {
               ))}
             </div>
 
-            {/* Info generación */}
-            <div style={{ background: "var(--dark-bg)", padding: "18px 20px", marginBottom: "20px" }}>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "8.5px", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--amber)", marginBottom: "10px" }}>
-                ▸ Cómo funciona
-              </div>
-              <p style={{ fontFamily: "var(--sans)", fontSize: "12px", color: "#6A6660", lineHeight: 1.55, margin: "0 0 10px" }}>
-                {brief.fuenteIA
-                  ? "Claude analiza +45 fuentes económicas y sintetiza las noticias más relevantes para el profesional chileno."
-                  : "Compilado automáticamente desde +45 fuentes económicas verificadas."}
-              </p>
-              {brief.generadoEn && (
-                <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#3A3630" }}>
-                  Actualizado {timeAgo(brief.generadoEn)}
-                </div>
-              )}
-            </div>
-
             {/* Newsletter CTA */}
-            <div style={{ border: "1px solid var(--border-light)", padding: "18px 20px" }}>
+            <div style={{ border: "1px solid var(--border-light)", padding: "18px 20px", marginBottom: "16px" }}>
               <div style={{ fontFamily: "var(--sans)", fontSize: "12px", fontWeight: 600, color: "var(--ink)", marginBottom: "8px" }}>
                 Recibe el brief en tu correo
               </div>
@@ -260,25 +237,20 @@ export default async function BriefPage() {
                 display: "block", textAlign: "center",
                 fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 700,
                 letterSpacing: "0.08em", textTransform: "uppercase",
-                background: "var(--ink)", color: "var(--paper)",
-                padding: "11px 16px",
+                background: "var(--ink)", color: "var(--paper)", padding: "11px 16px",
               }}>
                 Suscribirse →
               </Link>
             </div>
 
-            {/* Volver */}
-            <div style={{ marginTop: "16px" }}>
-              <Link href="/" style={{
-                display: "block", textAlign: "center",
-                fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600,
-                letterSpacing: "0.08em", textTransform: "uppercase",
-                color: "var(--ink-mid)", border: "1px solid var(--border)",
-                padding: "10px 16px",
-              }}>
-                ← Volver al inicio
-              </Link>
-            </div>
+            <Link href="/" style={{
+              display: "block", textAlign: "center",
+              fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600,
+              letterSpacing: "0.08em", textTransform: "uppercase",
+              color: "var(--ink-mid)", border: "1px solid var(--border)", padding: "10px 16px",
+            }}>
+              ← Volver al inicio
+            </Link>
           </aside>
         </div>
       </div>

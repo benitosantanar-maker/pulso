@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
 
   try {
     console.log("[cron/brief] Iniciando regeneración diaria...");
+    // forceRegenerate borra el cache del día y genera uno fresco
     const brief = await forceRegenerate();
     return NextResponse.json({
       ok: true,

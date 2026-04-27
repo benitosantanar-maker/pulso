@@ -4,10 +4,10 @@
  * Genera el "Brief del día" con Claude analizando ~60 artículos RSS.
  *
  * Arquitectura (cache en /tmp):
- *  - Lee /tmp/cafe-brief.json si tiene <3h → respuesta instantánea
+ *  - Lee /tmp/cafe-brief-YYYY-MM-DD.json si tiene <4h → respuesta instantánea
  *  - Si el cache es viejo o no existe → llama a Claude + guarda en /tmp
  *  - El cron de Vercel pre-genera cada mañana a las 8am Chile
- *  - En la primera request del día puede tardar 30-60s (por eso el cron existe)
+ *  - Cada día queda guardado en su propio archivo para el historial
  */
 
 import fs from "fs";
@@ -18,9 +18,12 @@ import type { Brief, BriefItem, BriefTema, Category } from "@/types";
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
-const CACHE_TTL_MS   = 3 * 60 * 60 * 1000; // 3 horas
-const CACHE_FILE     = path.join("/tmp", "cafe-brief.json");
+const CACHE_TTL_MS   = 4 * 60 * 60 * 1000; // 4 horas
 const MAX_ARTICLES   = 60;
+
+function cacheFileForDate(dateISO: string) {
+  return path.join("/tmp", `cafe-brief-${dateISO}.json`);
+}
 
 // ─── Helpers de fecha ────────────────────────────────────────────────────────
 
@@ -45,15 +48,14 @@ interface CacheEntry {
   cachedAt: number; // Date.now()
 }
 
-function readCache(): Brief | null {
+function readCache(dateISO: string): Brief | null {
   try {
-    if (!fs.existsSync(CACHE_FILE)) return null;
-    const raw = fs.readFileSync(CACHE_FILE, "utf-8");
+    const file = cacheFileForDate(dateISO);
+    if (!fs.existsSync(file)) return null;
+    const raw = fs.readFileSync(file, "utf-8");
     const entry: CacheEntry = JSON.parse(raw);
     const age = Date.now() - entry.cachedAt;
-    if (age > CACHE_TTL_MS) return null; // cache expirado
-    // Invalidar si el brief es de un día diferente al de hoy
-    if (entry.brief.fecha !== todayISO()) return null;
+    if (age > CACHE_TTL_MS) return null;
     return entry.brief;
   } catch {
     return null;
@@ -62,10 +64,39 @@ function readCache(): Brief | null {
 
 function writeCache(brief: Brief): void {
   try {
+    const file = cacheFileForDate(brief.fecha);
     const entry: CacheEntry = { brief, cachedAt: Date.now() };
-    fs.writeFileSync(CACHE_FILE, JSON.stringify(entry), "utf-8");
+    fs.writeFileSync(file, JSON.stringify(entry), "utf-8");
   } catch (err) {
     console.warn("[brief] No se pudo escribir cache:", (err as Error).message);
+  }
+}
+
+/** Lee un brief de cualquier fecha pasada (para el historial) */
+export function readBriefForDate(dateISO: string): Brief | null {
+  try {
+    const file = cacheFileForDate(dateISO);
+    if (!fs.existsSync(file)) return null;
+    const raw = fs.readFileSync(file, "utf-8");
+    const entry: CacheEntry = JSON.parse(raw);
+    return entry.brief;
+  } catch {
+    return null;
+  }
+}
+
+/** Lista todas las fechas con briefs guardados en /tmp, más recientes primero */
+export function listBriefDates(): string[] {
+  try {
+    const files = fs.readdirSync("/tmp")
+      .filter((f) => f.startsWith("cafe-brief-") && f.endsWith(".json"))
+      .map((f) => f.replace("cafe-brief-", "").replace(".json", ""))
+      .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+      .sort()
+      .reverse();
+    return files;
+  } catch {
+    return [];
   }
 }
 
@@ -265,7 +296,7 @@ let generating = false; // semáforo para evitar generaciones paralelas
  */
 export async function getDynamicBrief(): Promise<Brief> {
   // 1. Intentar cache
-  const cached = readCache();
+  const cached = readCache(todayISO());
   if (cached) {
     console.log("[brief] ✓ Sirviendo desde cache");
     return cached;
@@ -296,7 +327,7 @@ export async function getDynamicBrief(): Promise<Brief> {
  * Llamado por el cron diario.
  */
 export async function forceRegenerate(): Promise<Brief> {
-  try { fs.unlinkSync(CACHE_FILE); } catch { /* no existe */ }
+  try { fs.unlinkSync(cacheFileForDate(todayISO())); } catch { /* no existe */ }
   generating = false;
   return generateWithClaude(todayISO(), todayLabel());
 }
