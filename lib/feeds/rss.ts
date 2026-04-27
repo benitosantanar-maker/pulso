@@ -107,6 +107,43 @@ function toFeedItem(
   };
 }
 
+// ─── Filtro de relevancia ────────────────────────────────────────────────────
+
+// Palabras que indican artículo fuera de tema económico
+const OFF_TOPIC_RE = /\b(deporte|fútbol|futbol|tenis|atletismo|natación|pele|messi|ronaldo|mundial|liga|club deportivo|partido de|baloncesto|basketball|boxeo|pelea|round by round|pelea de|UFC|WWE|F1|fórmula 1|formula 1|GP de|gran premio|olimpiadas|olimpicos|juegos olímpicos|farandula|farándula|novela|serie de tv|película|pelicula|oscar|grammy|grammy|kpop|k-pop|reggaeton|concierto|gira musical|crimen|femicidio|narcotráfico|narcotrafico|policial|accidente de|choque|sismo|terremoto|incendio forestal|moda|fashion week|horóscopo|horoscopo|receta|gastronomia|gastronomía)\b/i;
+
+// Palabras que confirman relevancia económica/negocios
+const ON_TOPIC_RE = /\b(economía|economia|mercado|finanzas|inversión|inversion|empresa|pib|inflación|inflacion|tasa|banco|bolsa|acciones|dólar|dolar|uf|cotización|cotizacion|impuesto|presupuesto|exportación|exportacion|importación|importacion|comercio|empleo|desempleo|startup|tecnología|tecnologia|innovación|innovacion|cripto|bitcoin|ia |inteligencia artificial|fusión|fusion|adquisición|adquisicion|ipsa|fed|bch|bcch|fmi|ocde|minería|mineria|energia|energía|litio|cobre|celulosa|retail|pyme|multinacional|capital|deuda|bono|fondo|afp|pensión|pension|salario|sueldo|remunera|aranceles|aranceles|arancele|tarifa|proteccionismo|recesión|recesion)\b/i;
+
+function isRelevant(item: FeedItem, source: FeedSource): boolean {
+  // Fuentes especializadas (no generalistas): confiar en su categorización
+  if (source.tags?.includes("especializado")) return true;
+
+  const text = `${item.titulo} ${item.resumen}`;
+
+  // Si contiene señales off-topic claras → descartar
+  if (OFF_TOPIC_RE.test(text)) return false;
+
+  // Si la URL es un feed especializado (tiene "economia", "mercados", etc.) → confiar
+  const urlLower = source.url.toLowerCase();
+  if (
+    urlLower.includes("economia") ||
+    urlLower.includes("finanzas") ||
+    urlLower.includes("mercado") ||
+    urlLower.includes("negocios") ||
+    urlLower.includes("pulso") ||
+    urlLower.includes("empresas") ||
+    urlLower.includes("tech") ||
+    urlLower.includes("innovacion") ||
+    urlLower.includes("startup")
+  ) return true;
+
+  // Para fuentes generalistas: exigir al menos una señal on-topic
+  if (ON_TOPIC_RE.test(text)) return true;
+
+  return false;
+}
+
 // ─── Fetch RSS ────────────────────────────────────────────────────────────────
 
 /**
@@ -122,9 +159,11 @@ export async function fetchRSSSource(
   try {
     const feed = await parseURL(source.url);
     return feed.items
-      .slice(0, limit)
+      .slice(0, limit * 2) // fetch extra to compensate for filtered items
       .map((item) => toFeedItem(item, source))
-      .filter((item) => item.titulo && item.link);
+      .filter((item) => item.titulo && item.link)
+      .filter((item) => isRelevant(item, source))
+      .slice(0, limit);
   } catch (err) {
     console.warn(`[rss] fallo en ${source.fuente} (${source.url}):`, (err as Error).message);
     return [];

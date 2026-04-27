@@ -1,79 +1,66 @@
 import Link from "next/link";
-import { Coffee, ExternalLink } from "lucide-react";
 import FooterNewsletterForm from "@/components/layout/FooterNewsletterForm";
-
-const LINKS_SECCIONES = [
-  { href: "/categoria/economia", label: "Economía" },
-  { href: "/categoria/finanzas", label: "Finanzas" },
-  { href: "/categoria/marketing", label: "Marketing" },
-  { href: "/categoria/innovacion", label: "Innovación" },
-  { href: "/categoria/negocios", label: "Negocios" },
-  { href: "/categoria/estrategia", label: "Estrategia" },
-  { href: "/categoria/mercados", label: "Mercados" },
-  { href: "/categoria/emprendimiento", label: "Emprendimiento" },
-];
-
-const LINKS_PROYECTO = [
-  { href: "/brief", label: "Brief diario" },
-  { href: "/datos-chile", label: "Datos Chile" },
-  { href: "/recursos", label: "Recursos" },
-  { href: "/acerca", label: "Acerca del proyecto" },
-];
-
-const FUENTES = [
-  { nombre: "Diario Financiero", url: "https://www.df.cl" },
-  { nombre: "Financial Times", url: "https://www.ft.com" },
-  { nombre: "The Economist", url: "https://www.economist.com" },
-  { nombre: "El Mercurio Economía", url: "https://www.emol.com/economia/" },
-  { nombre: "La Tercera Pulso", url: "https://www.latercera.com/pulso/" },
-  { nombre: "Reuters Markets", url: "https://www.reuters.com/markets/" },
-  { nombre: "MIT Technology Review", url: "https://www.technologyreview.com" },
-  { nombre: "Marketing Brew", url: "https://www.marketingbrew.com" },
-  { nombre: "TechCrunch", url: "https://techcrunch.com" },
-  { nombre: "BCCh", url: "https://www.bcentral.cl" },
-  { nombre: "CMF", url: "https://www.cmfchile.cl" },
-  { nombre: "INE", url: "https://www.ine.gob.cl" },
-  { nombre: "FMI WEO", url: "https://www.imf.org/en/publications/weo" },
-  { nombre: "OCDE", url: "https://www.oecd.org" },
-  { nombre: "World Bank", url: "https://data.worldbank.org" },
-];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1F2937] text-gray-300 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer style={{ background: "var(--dark-mid)", borderTop: "3px solid var(--dark-bg)", padding: "48px 0 28px" }}>
+      <div className="cc-container">
+
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1.2fr", gap: "40px", marginBottom: "40px" }}>
+
           {/* Brand */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-teal-700 rounded-lg flex items-center justify-center">
-                <Coffee className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-white font-bold text-lg tracking-tight">
-                Café <span className="text-teal-400">Comercial</span>
-              </span>
-            </Link>
-            <p className="text-sm text-gray-400 leading-relaxed mb-4">
-              Las noticias y explicaciones que un ingeniero comercial necesita para entender el mundo de los negocios en pocos minutos.
+          <div>
+            <div style={{ fontFamily: "var(--serif)", fontSize: "24px", fontWeight: 900, color: "#F0EDE8", marginBottom: "10px" }}>
+              Café Comercial
+            </div>
+            <p style={{ fontFamily: "var(--body)", fontSize: "12.5px", color: "#6B6760", lineHeight: 1.6, marginBottom: "16px" }}>
+              Tu plataforma de conocimiento en economía y negocios. Noticias, análisis, conceptos y guías para entender lo que pasa en el mundo — y por qué importa.
             </p>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Para estudiantes y profesionales de Ingeniería Comercial.
-            </p>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "#3A3630" }}>
+              © {new Date().getFullYear()} Café Comercial
+            </div>
           </div>
 
-          {/* Categorías */}
+          {/* Conocimiento */}
           <div>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
+            <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6760", marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid #2A2620" }}>
+              Conocimiento
+            </div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "7px" }}>
+              {[
+                { href: "/recursos", label: "Aprende" },
+                { href: "/recursos", label: "Guías temáticas" },
+                { href: "/recursos", label: "Glosario" },
+                { href: "/brief", label: "Brief del día" },
+                { href: "/datos-chile", label: "Datos Chile" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} style={{ fontFamily: "var(--sans)", fontSize: "12.5px", color: "#8A8680", transition: "color 0.15s" }}
+                    className="footer-link">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Secciones */}
+          <div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6760", marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid #2A2620" }}>
               Secciones
-            </h3>
-            <ul className="space-y-2">
-              {LINKS_SECCIONES.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-400 hover:text-teal-400 transition-colors"
-                  >
-                    {link.label}
+            </div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "7px" }}>
+              {[
+                { href: "/categoria/economia", label: "Economía" },
+                { href: "/categoria/finanzas", label: "Finanzas" },
+                { href: "/categoria/mercados", label: "Mercados" },
+                { href: "/categoria/innovacion", label: "Innovación" },
+                { href: "/categoria/emprendimiento", label: "Emprendimiento" },
+                { href: "/categoria/economia", label: "Análisis" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} style={{ fontFamily: "var(--sans)", fontSize: "12.5px", color: "#8A8680" }}>
+                    {l.label}
                   </Link>
                 </li>
               ))}
@@ -82,61 +69,56 @@ export default function Footer() {
 
           {/* Proyecto */}
           <div>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
+            <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6760", marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid #2A2620" }}>
               Proyecto
-            </h3>
-            <ul className="space-y-2 mb-8">
-              {LINKS_PROYECTO.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-400 hover:text-teal-400 transition-colors"
-                  >
-                    {link.label}
+            </div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "7px" }}>
+              {[
+                { href: "/acerca", label: "Acerca" },
+                { href: "/brief", label: "Newsletter" },
+                { href: "#", label: "LinkedIn" },
+                { href: "#", label: "Instagram" },
+                { href: "#", label: "Twitter / X" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} style={{ fontFamily: "var(--sans)", fontSize: "12.5px", color: "#8A8680" }}>
+                    {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-3">
+          </div>
+
+          {/* Fuentes */}
+          <div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B6760", marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid #2A2620" }}>
               Fuentes curadas
-            </h3>
-            <div className="flex flex-wrap gap-x-2 gap-y-1">
-              {FUENTES.map((f) => (
-                <a
-                  key={f.nombre}
-                  href={f.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-gray-500 hover:text-teal-400 transition-colors inline-flex items-center gap-0.5"
-                >
-                  {f.nombre}
-                  <ExternalLink className="w-2 h-2 opacity-50" />
-                </a>
-              ))}
             </div>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "7px" }}>
+              {["Diario Financiero", "Financial Times", "The Economist", "Reuters Markets", "MIT Technology Review", "BCCh · INE · CMF · FMI"].map((f) => (
+                <li key={f}>
+                  <span style={{ fontFamily: "var(--sans)", fontSize: "12.5px", color: "#8A8680" }}>{f}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Newsletter */}
-          <div id="suscribir">
-            <h3 className="text-white text-xs font-bold uppercase tracking-wider mb-4">
-              Brief semanal
-            </h3>
-            <p className="text-sm text-gray-400 mb-4 leading-relaxed">
-              Recibe cada semana lo más importante en economía, finanzas y negocios. Sin ruido.
-            </p>
-            <FooterNewsletterForm />
-            <p className="text-xs text-gray-600 mt-2">Sin spam. Puedes darte de baja cuando quieras.</p>
+        </div>
+
+        {/* Bottom */}
+        <div style={{ borderTop: "1px solid #2A2620", paddingTop: "20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "#4A4740", letterSpacing: "0.04em" }}>
+            Plataforma de conocimiento en economía y negocios · Proyecto editorial independiente
+          </div>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            {["BCCh", "INE", "CMF", "FMI", "Bolsa de Santiago", "OCDE", "World Bank"].map((src) => (
+              <span key={src} style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#3A3630" }}>
+                {src}
+              </span>
+            ))}
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600">
-            © {new Date().getFullYear()} Café Comercial · Proyecto editorial independiente
-          </p>
-          <p className="text-xs text-gray-700">
-            Construido para reducir la carga cognitiva de ingenieros comerciales chilenos.
-          </p>
-        </div>
       </div>
     </footer>
   );

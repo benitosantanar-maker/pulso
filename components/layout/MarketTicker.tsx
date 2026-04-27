@@ -1,70 +1,32 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { TrendingUp, TrendingDown, Minus, RefreshCw } from "lucide-react";
 import type { MarketTick } from "@/types";
 
-// ─── Fallback visible mientras llega el fetch ─────────────────────────────────
-
-const PLACEHOLDER: MarketTick[] = [
-  { label: "Dólar",   value: "–",   change: "–", dir: "flat" },
-  { label: "UF",      value: "–",   change: "–", dir: "flat" },
-  { label: "TPM",     value: "–",   change: "–", dir: "flat" },
-  { label: "IPC",     value: "–",   change: "–", dir: "flat" },
+const STATIC: MarketTick[] = [
+  { label: "TPM",        value: "5,00%",     change: "—",      dir: "flat" },
+  { label: "IPC Anual",  value: "3,8%",      change: "▲+0,2pp",dir: "down" },
+  { label: "USD/CLP",    value: "$950",       change: "▲+0,3%", dir: "down" },
+  { label: "IPSA",       value: "7.218",      change: "▼−0,8%", dir: "down" },
+  { label: "Cobre",      value: "4,78 USD",   change: "▲+1,2%", dir: "up"   },
+  { label: "S&P 500",    value: "5.241",      change: "▲+0,6%", dir: "up"   },
+  { label: "Oro",        value: "3.320 USD",  change: "▲+2,1%", dir: "up"   },
+  { label: "BTC/USD",    value: "94.200",     change: "▲+3,4%", dir: "up"   },
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function relativeTime(iso: string): string {
+function relativeTime(iso: string) {
   const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
   if (diff < 1) return "ahora";
-  if (diff < 60) return `hace ${diff} min`;
+  if (diff < 60) return `hace ${diff}min`;
   return `hace ${Math.floor(diff / 60)}h`;
 }
 
-// ─── Componente Tick individual ───────────────────────────────────────────────
-
-function Tick({ t }: { t: MarketTick }) {
-  const upDown =
-    t.dir === "up"
-      ? "text-emerald-400"
-      : t.dir === "down"
-        ? "text-red-400"
-        : "text-gray-400";
-
-  const Icon =
-    t.dir === "up" ? TrendingUp : t.dir === "down" ? TrendingDown : Minus;
-
-  const showChange = t.change && t.change !== "–";
-
-  return (
-    <span className="inline-flex items-center gap-1.5 shrink-0 select-none">
-      <span className="text-gray-400 text-[11px] font-medium">{t.label}</span>
-      <span className="text-white text-[11px] font-bold tabular-nums">{t.value}</span>
-      {showChange && (
-        <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold ${upDown}`}>
-          <Icon className="w-2.5 h-2.5" />
-          {t.change}
-        </span>
-      )}
-    </span>
-  );
-}
-
-// ─── Separador ───────────────────────────────────────────────────────────────
-
-function Sep() {
-  return <span className="text-gray-700 text-xs select-none">|</span>;
-}
-
-// ─── MarketTicker ─────────────────────────────────────────────────────────────
-
 export default function MarketTicker() {
-  const [tickers, setTickers] = useState<MarketTick[]>(PLACEHOLDER);
-  const [fetchedAt, setFetchedAt] = useState<string>("");
+  const [tickers, setTickers] = useState<MarketTick[]>(STATIC);
+  const [fetchedAt, setFetchedAt] = useState("");
   const [live, setLive] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const ref = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [time, setTime] = useState("");
 
   async function loadData() {
     try {
@@ -75,58 +37,47 @@ export default function MarketTicker() {
         setFetchedAt(d.fetchedAt);
         setLive(true);
       }
-    } catch {
-      // silencioso
-    } finally {
-      setLoading(false);
-    }
+    } catch { /* silent */ }
   }
 
   useEffect(() => {
     loadData();
-    // Refrescar cada 60 minutos en el cliente
-    intervalRef.current = setInterval(loadData, 60 * 60 * 1000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    ref.current = setInterval(loadData, 60 * 60 * 1000);
+    return () => { if (ref.current) clearInterval(ref.current); };
   }, []);
 
+  useEffect(() => {
+    function update() {
+      setTime(new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }));
+    }
+    update();
+    const t = setInterval(update, 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  const doubled = [...tickers, ...tickers];
+
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-teal-950 border-b border-slate-800 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3 py-2 overflow-x-auto scrollbar-hide">
-
-          {/* Label fijo */}
-          <span className="text-[10px] font-bold text-teal-400 uppercase tracking-widest shrink-0">
-            Mercados
-          </span>
-
-          <Sep />
-
-          {/* Tickers */}
-          {tickers.map((t, i) => (
-            <span key={t.label} className="contents">
-              <Tick t={t} />
-              {i < tickers.length - 1 && <Sep />}
+    <div style={{ background: "var(--dark-bg)", color: "#C8C4BB", fontFamily: "var(--mono)", fontSize: "11.5px", padding: "0 var(--px)", display: "flex", alignItems: "center", height: "34px", overflow: "hidden", borderBottom: "1px solid #2A2620" }}>
+      <span style={{ color: "var(--amber)", textTransform: "uppercase", fontSize: "9px", letterSpacing: "0.12em", whiteSpace: "nowrap", marginRight: "20px", fontWeight: 500 }}>
+        ▸ Mercados
+      </span>
+      <div style={{ flex: 1, overflow: "hidden" }}>
+        <div style={{ display: "flex", whiteSpace: "nowrap", animation: "cc-ticker-scroll 50s linear infinite" }}>
+          {doubled.map((t, i) => (
+            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "6px", paddingRight: "32px" }}>
+              <span style={{ color: "#5A5650", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{t.label}</span>
+              <span style={{ color: "#F0EDE8", fontWeight: 500 }}>{t.value}</span>
+              <span style={{ color: t.dir === "up" ? "#4DB87A" : t.dir === "down" ? "#F06B55" : "#5A5650", fontWeight: 500 }}>{t.change}</span>
+              <span style={{ color: "#2A2620", marginRight: "32px" }}>|</span>
             </span>
           ))}
-
-          {/* Timestamp + fuente */}
-          <span className="text-[10px] text-gray-600 shrink-0 ml-auto hidden sm:flex items-center gap-1.5">
-            {loading ? (
-              <RefreshCw className="w-2.5 h-2.5 animate-spin text-gray-600" />
-            ) : live && fetchedAt ? (
-              <>
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 inline-block" />
-                Act. {relativeTime(fetchedAt)} · mindicador.cl
-              </>
-            ) : (
-              "datos de referencia"
-            )}
-          </span>
-
         </div>
       </div>
+      <span style={{ whiteSpace: "nowrap", color: "#4A4740", fontSize: "10px", letterSpacing: "0.06em", marginLeft: "20px" }}>
+        Santiago · {time}
+        {live && fetchedAt && <> · Act. {relativeTime(fetchedAt)}</>}
+      </span>
     </div>
   );
 }

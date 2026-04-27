@@ -2,32 +2,24 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ThemeProvider from "@/components/ui/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
-    default: "Café Comercial — Noticias para ingenieros comerciales",
+    default: "Café Comercial — Economía y Negocios",
     template: "%s | Café Comercial",
   },
   description:
-    "Las noticias y explicaciones que un ingeniero comercial necesita para entender el mundo de los negocios en pocos minutos. Economía, finanzas, marketing, innovación y estrategia.",
+    "Tu plataforma de conocimiento en economía y negocios. Noticias, análisis, conceptos y guías para entender lo que pasa en el mundo — y por qué importa.",
   keywords: [
-    "ingeniería comercial",
-    "economía",
-    "finanzas",
-    "marketing",
-    "innovación",
-    "negocios",
-    "noticias Chile",
-    "brief",
+    "economía", "finanzas", "negocios", "mercados", "innovación",
+    "emprendimiento", "Chile", "brief", "análisis",
   ],
   metadataBase: new URL("https://cafecomercial.vercel.app"),
   alternates: { canonical: "https://cafecomercial.vercel.app" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Café Comercial — Lo esencial para ingenieros comerciales",
-    description:
-      "Noticias de economía, finanzas, marketing e innovación para ingenieros comerciales. Sin ruido, con contexto.",
+    title: "Café Comercial — Economía y Negocios",
+    description: "Noticias, análisis, conceptos y guías de economía y negocios. Tu lugar de confianza para entender lo que está pasando.",
     url: "https://cafecomercial.vercel.app",
     type: "website",
     locale: "es_CL",
@@ -35,25 +27,19 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Café Comercial — Lo esencial para ingenieros comerciales",
-    description: "Economía · Finanzas · Marketing · Innovación. Sin ruido, con contexto.",
+    title: "Café Comercial — Economía y Negocios",
+    description: "Economía · Finanzas · Mercados · Innovación. Tu plataforma de conocimiento.",
     site: "@cafecomercial",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-[#F9FAFB] dark:bg-gray-950 transition-colors duration-200">
-        <ThemeProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </ThemeProvider>
+    <html lang="es">
+      <body style={{ background: "var(--paper)", color: "var(--ink)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <Header />
+        <main style={{ flex: 1 }}>{children}</main>
+        <Footer />
       </body>
     </html>
   );

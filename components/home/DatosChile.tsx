@@ -1,77 +1,91 @@
 import Link from "next/link";
-import { TrendingUp, TrendingDown, Minus, ArrowRight, ExternalLink } from "lucide-react";
 import { datosChile } from "@/lib/data/datosChile";
 
 export default function DatosChile() {
+  const indicators = datosChile.slice(0, 8);
+  const chartHeights = [40, 48, 44, 55, 60, 57, 66, 72, 68, 79, 83, 88, 93, 96, 100];
+
   return (
-    <section className="py-10 bg-white dark:bg-gray-900 border-y border-gray-100 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <p className="text-xs font-bold text-teal-700 dark:text-teal-400 uppercase tracking-widest mb-1">
-              Datos oficiales
+    <section style={{ background: "var(--dark-bg)", padding: "36px 0", borderTop: "3px solid var(--ink)" }}>
+      <div className="cc-container">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1px 2fr" }}>
+
+          {/* Left: description + mini chart */}
+          <div style={{ paddingRight: "40px" }}>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--amber)", marginBottom: "10px" }}>
+              ▸ Datos Chile
+            </div>
+            <h2 style={{ fontFamily: "var(--serif)", fontSize: "24px", fontWeight: 700, color: "#F0EDE8", lineHeight: 1.2, marginBottom: "10px" }}>
+              Indicadores oficiales de la economía chilena
+            </h2>
+            <p style={{ fontFamily: "var(--body)", fontSize: "13.5px", color: "#6A6660", lineHeight: 1.55 }}>
+              Datos actualizados de las fuentes oficiales — BCCh, INE, CMF, FMI — con contexto para entender qué significa cada número.
             </p>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Indicadores Chile</h2>
-          </div>
-          <Link
-            href="/datos-chile"
-            className="flex items-center gap-1 text-sm text-teal-700 dark:text-teal-400 font-medium hover:text-teal-800 dark:hover:text-teal-300 transition-colors"
-          >
-            Ver todos <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {datosChile.map((d) => {
-            const isUp = d.dir === "up";
-            const isDown = d.dir === "down";
-            const Icon = isUp ? TrendingUp : isDown ? TrendingDown : Minus;
-            const varColor = isUp
-              ? "text-emerald-600 dark:text-emerald-400"
-              : isDown
-              ? "text-red-500 dark:text-red-400"
-              : "text-gray-400 dark:text-gray-500";
+            <div style={{ marginTop: "24px" }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#3A3630", marginBottom: "12px" }}>
+                USD/CLP · Últimos 4 meses
+              </div>
+              <div style={{ height: "44px", display: "flex", alignItems: "flex-end", gap: "2px" }}>
+                {chartHeights.map((h, i) => (
+                  <div
+                    key={i}
+                    style={{ flex: 1, background: i === chartHeights.length - 1 ? "#1A2A4A" : "#1E1B17", borderTop: i === chartHeights.length - 1 ? "2px solid var(--blue)" : "2px solid #3A3630", minHeight: "4px", height: `${h}%` }}
+                  />
+                ))}
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--mono)", fontSize: "9px", color: "#3A3630", marginTop: "4px" }}>
+                <span>Ene 2026</span><span>Abr 2026</span>
+              </div>
+            </div>
 
-            return (
-              <a
-                key={d.indicador}
-                href={d.fuenteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={d.descripcion}
-                className="group flex flex-col gap-1.5 bg-gray-50 dark:bg-gray-800 hover:bg-teal-50 dark:hover:bg-teal-950/30 border border-gray-100 dark:border-gray-700 hover:border-teal-200 dark:hover:border-teal-800 rounded-xl p-4 transition-all duration-200"
+            <div style={{ marginTop: "24px" }}>
+              <Link
+                href="/datos-chile"
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#F0EDE8", border: "1px solid #3A3630", padding: "10px 20px", background: "none" }}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                    {d.indicador}
-                  </span>
-                  <ExternalLink className="w-3 h-3 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-base font-bold text-gray-900 dark:text-white tabular-nums leading-tight">
-                    {d.valor}
-                  </span>
-                  <span className={`inline-flex items-center gap-0.5 text-[11px] font-semibold ${varColor}`}>
-                    <Icon className="w-3 h-3" />
-                    {d.variacion}
-                  </span>
-                </div>
-                {d.microNota && (
-                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-snug mt-0.5">
-                    {d.microNota}
-                  </p>
-                )}
-                <span className="text-[10px] text-gray-300 dark:text-gray-600 mt-auto pt-1 border-t border-gray-100 dark:border-gray-700/50">
-                  {d.fuente} · {d.periodo}
-                </span>
-              </a>
-            );
-          })}
-        </div>
+                Ver dashboard completo →
+              </Link>
+            </div>
+          </div>
 
-        <p className="text-[11px] text-gray-300 dark:text-gray-700 mt-3 text-right">
-          Datos con fines educativos. Fuentes: BCCh · INE · CMF · Bolsa de Santiago.
-        </p>
+          <div style={{ background: "#2A2620", width: "1px" }} />
+
+          {/* Right: indicator grid */}
+          <div style={{ paddingLeft: "40px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", border: "1px solid #2A2620" }}>
+              {indicators.map((d, i) => (
+                <div
+                  key={d.indicador}
+                  style={{
+                    padding: "16px 20px",
+                    borderBottom: i < indicators.length - 2 ? "1px solid #2A2620" : "none",
+                    borderRight: i % 2 === 0 ? "1px solid #2A2620" : "none",
+                    cursor: "pointer",
+                    transition: "background 0.15s",
+                  }}
+                  className="cc-ind-item"
+                >
+                  <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#5A5650", marginBottom: "5px" }}>
+                    {d.indicador}
+                  </div>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: "22px", fontWeight: 500, color: "#F0EDE8", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: "4px" }}>
+                    {d.valor}
+                  </div>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: "11px", fontWeight: 500, color: d.dir === "up" ? "#4DB87A" : d.dir === "down" ? "#F06B55" : "#5A5650" }}>
+                    {d.variacion}
+                  </div>
+                  {d.microNota && (
+                    <p style={{ fontFamily: "var(--sans)", fontSize: "11px", color: "#5A5650", lineHeight: 1.4, marginTop: "6px" }}>
+                      {d.microNota}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );
