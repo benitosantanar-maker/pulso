@@ -47,10 +47,10 @@ export default async function BriefPage() {
 
           {/* Breadcrumb */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-            <Link href="/" style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#4A4740" }}>
+            <Link href="/" style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#7A7670" }}>
               Inicio
             </Link>
-            <span style={{ color: "#2A2620", fontFamily: "var(--mono)", fontSize: "10px" }}>›</span>
+            <span style={{ color: "#5A5650", fontFamily: "var(--mono)", fontSize: "10px" }}>›</span>
             <span style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--amber)" }}>
               Brief del día
             </span>
@@ -65,17 +65,17 @@ export default async function BriefPage() {
                 {brief.titulo}
               </h1>
               {brief.intro && (
-                <p style={{ fontFamily: "var(--body)", fontSize: "15px", color: "#7A7670", lineHeight: 1.65, maxWidth: "580px", borderLeft: "2px solid #2A2620", paddingLeft: "14px" }}>
+                <p style={{ fontFamily: "var(--body)", fontSize: "15px", color: "#A09C95", lineHeight: 1.65, maxWidth: "580px", borderLeft: "2px solid #3A3630", paddingLeft: "14px" }}>
                   {brief.intro}
                 </p>
               )}
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "flex-end", gap: "8px" }}>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "#4A4740", letterSpacing: "0.06em", textAlign: "right", textTransform: "capitalize" }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "#8A8680", letterSpacing: "0.06em", textAlign: "right", textTransform: "capitalize" }}>
                 {fechaDisplay}
               </div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#2A2620" }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#6A6660" }}>
                 {brief.items.length} temas
               </div>
             </div>

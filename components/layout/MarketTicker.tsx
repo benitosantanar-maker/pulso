@@ -66,15 +66,15 @@ export default function MarketTicker() {
         <div style={{ display: "flex", whiteSpace: "nowrap", animation: "cc-ticker-scroll 50s linear infinite" }}>
           {doubled.map((t, i) => (
             <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "6px", paddingRight: "32px" }}>
-              <span style={{ color: "#5A5650", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{t.label}</span>
+              <span style={{ color: "#9A9690", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{t.label}</span>
               <span style={{ color: "#F0EDE8", fontWeight: 500 }}>{t.value}</span>
-              <span style={{ color: t.dir === "up" ? "#4DB87A" : t.dir === "down" ? "#F06B55" : "#5A5650", fontWeight: 500 }}>{t.change}</span>
-              <span style={{ color: "#2A2620", marginRight: "32px" }}>|</span>
+              <span style={{ color: t.dir === "up" ? "#4DB87A" : t.dir === "down" ? "#F06B55" : "#9A9690", fontWeight: 500 }}>{t.change}</span>
+              <span style={{ color: "#4A4740", marginRight: "32px" }}>|</span>
             </span>
           ))}
         </div>
       </div>
-      <span style={{ whiteSpace: "nowrap", color: "#4A4740", fontSize: "10px", letterSpacing: "0.06em", marginLeft: "20px" }}>
+      <span style={{ whiteSpace: "nowrap", color: "#7A7670", fontSize: "10px", letterSpacing: "0.06em", marginLeft: "20px" }}>
         Santiago · {time}
         {live && fetchedAt && <> · Act. {relativeTime(fetchedAt)}</>}
       </span>

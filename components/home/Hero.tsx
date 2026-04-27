@@ -48,7 +48,7 @@ export default async function Hero() {
               </div>
             </div>
 
-            <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.08em", color: "#4A4740", marginBottom: "14px", textTransform: "capitalize" }}>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.08em", color: "#7A7670", marginBottom: "14px", textTransform: "capitalize" }}>
               {fechaDisplay}
             </div>
 
@@ -76,7 +76,7 @@ export default async function Hero() {
                       }}>
                         {item.tema}
                       </span>
-                      <span style={{ fontFamily: "var(--mono)", fontSize: "7.5px", color: "#3A3630", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "7.5px", color: "#7A7670", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                         {item.fuente}
                       </span>
                     </div>
@@ -93,12 +93,12 @@ export default async function Hero() {
                       </p>
                     )}
                     {/* Análisis */}
-                    <p style={{ fontFamily: "var(--body)", fontSize: "11.5px", color: "#6A6660", lineHeight: 1.45, marginBottom: "5px" }}>
+                    <p style={{ fontFamily: "var(--body)", fontSize: "11.5px", color: "#9A9690", lineHeight: 1.45, marginBottom: "5px" }}>
                       {item.resumen}
                     </p>
                     {/* Por qué importa */}
                     {item.porQueImporta && (
-                      <p style={{ fontFamily: "var(--sans)", fontSize: "11px", color: "#B5450A", lineHeight: 1.4, borderLeft: "2px solid #3A2010", paddingLeft: "7px" }}>
+                      <p style={{ fontFamily: "var(--sans)", fontSize: "11px", color: "#D4601A", lineHeight: 1.4, borderLeft: "2px solid #5A2E10", paddingLeft: "7px" }}>
                         {item.porQueImporta}
                       </p>
                     )}
