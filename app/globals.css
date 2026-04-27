@@ -256,6 +256,27 @@
 .pilar-card:hover   { background: #1A1714; }
 .cc-guia-card:hover { opacity: 0.8; }
 
+/* ── Brief page grids ── */
+.brief-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+}
+.brief-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 56px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .brief-hero-grid { grid-template-columns: 1fr; }
+  .brief-hero-grid > div:last-child { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+  .brief-body-grid { grid-template-columns: 1fr; }
+  .brief-body-grid aside { position: static; display: none; }
+}
+
 /* ── Hero grid ── */
 .hero-grid {
   display: grid;
