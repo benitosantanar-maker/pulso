@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [],
   },
   experimental: {
-    serverComponentsExternalPackages: ["rss-parser", "cheerio"],
+    serverComponentsExternalPackages: ["rss-parser", "cheerio", "@anthropic-ai/sdk"],
     staticGenerationMaxConcurrency: 1,
     staticGenerationRetryCount: 1,
   },

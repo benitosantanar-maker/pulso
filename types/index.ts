@@ -44,18 +44,31 @@ export interface Noticia {
   conceptosRelacionados?: ConceptoRelacionado[];
 }
 
+export type BriefTema =
+  | "Chile"
+  | "Mercados"
+  | "Global"
+  | "Innovación"
+  | "Empresas"
+  | "Emprendimiento";
+
 export interface BriefItem {
   titulo: string;
-  resumen: string;
+  resumen: string;         // 2-3 oraciones con análisis
+  porQueImporta: string;   // impacto concreto para el profesional/estudiante chileno
   fuente: string;
-  slug: string;
+  link?: string;           // URL original del artículo
+  slug?: string;           // para noticias curadas internas
   categoria: Category;
+  tema: BriefTema;         // agrupación temática en la UI
 }
 
 export interface Brief {
   fecha: string;
   titulo: string;
-  intro: string;
+  intro: string;           // 2-3 oraciones de contexto del día
+  generadoEn?: string;     // ISO timestamp de generación
+  fuenteIA?: boolean;      // true si fue generado con Claude
   items: BriefItem[];
 }
 
