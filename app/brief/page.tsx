@@ -170,12 +170,16 @@ export default async function BriefPage() {
             )}
 
             {/* ── Archivo de briefs anteriores ── */}
-            {archivedDates.length > 0 && (
-              <div style={{ marginTop: "48px", paddingTop: "32px", borderTop: "2px solid var(--ink)" }}>
-                <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-faint)", marginBottom: "20px" }}>
-                  Briefs anteriores
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+            <div style={{ marginTop: "48px", paddingTop: "32px", borderTop: "2px solid var(--ink)" }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-faint)", marginBottom: "20px" }}>
+                Briefs anteriores
+              </div>
+              {archivedDates.length === 0 ? (
+                <p style={{ fontFamily: "var(--sans)", fontSize: "13px", color: "var(--ink-faint)", lineHeight: 1.55 }}>
+                  Los briefs del día se acumulan aquí automáticamente. Vuelve mañana para ver el historial.
+                </p>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column" }}>
                   {archivedDates.map((date) => (
                     <Link key={date} href={`/briefs/${date}`} style={{
                       display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -191,8 +195,8 @@ export default async function BriefPage() {
                     </Link>
                   ))}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </main>
 
           {/* ── Sidebar ── */}
@@ -223,6 +227,45 @@ export default async function BriefPage() {
                   </div>
                 </a>
               ))}
+            </div>
+
+            {/* Archivo de briefs */}
+            <div style={{ border: "1px solid var(--border-light)", marginBottom: "20px" }}>
+              <div style={{ padding: "14px 18px", borderBottom: "1px solid var(--border-light)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ fontFamily: "var(--sans)", fontSize: "9.5px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-faint)" }}>
+                  Archivo
+                </div>
+              </div>
+              {archivedDates.length === 0 ? (
+                <div style={{ padding: "12px 18px" }}>
+                  <p style={{ fontFamily: "var(--sans)", fontSize: "11px", color: "var(--ink-faint)", lineHeight: 1.5, margin: 0 }}>
+                    Los briefs anteriores aparecerán aquí.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {archivedDates.slice(0, 5).map((date, i) => (
+                    <Link key={date} href={`/briefs/${date}`} style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      padding: "10px 18px",
+                      borderBottom: i < Math.min(archivedDates.length, 5) - 1 ? "1px solid var(--border-light)" : "none",
+                      textDecoration: "none",
+                    }}>
+                      <span style={{ fontFamily: "var(--sans)", fontSize: "11.5px", color: "var(--ink-mid)", textTransform: "capitalize" }}>
+                        {formatDateLabel(date)}
+                      </span>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--ink-faint)" }}>→</span>
+                    </Link>
+                  ))}
+                  {archivedDates.length > 5 && (
+                    <div style={{ padding: "10px 18px", borderTop: "1px solid var(--border-light)" }}>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--ink-faint)", letterSpacing: "0.06em" }}>
+                        + {archivedDates.length - 5} más abajo
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             {/* Newsletter CTA */}
