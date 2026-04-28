@@ -74,7 +74,7 @@ export default function MarketTicker() {
           ))}
         </div>
       </div>
-      <span style={{ whiteSpace: "nowrap", color: "#7A7670", fontSize: "10px", letterSpacing: "0.06em", marginLeft: "20px" }}>
+      <span style={{ whiteSpace: "nowrap", color: "#9A9690", fontSize: "10px", letterSpacing: "0.06em", marginLeft: "20px" }}>
         Santiago · {time}
         {live && fetchedAt && <> · Act. {relativeTime(fetchedAt)}</>}
       </span>

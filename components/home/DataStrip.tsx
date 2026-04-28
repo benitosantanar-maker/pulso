@@ -22,7 +22,7 @@ export default function DataStrip() {
               <div style={{ fontFamily: "var(--mono)", fontSize: "10px", fontWeight: 500, color: d.dir === "up" ? "var(--green)" : d.dir === "down" ? "var(--red)" : "var(--ink-mid)" }}>
                 {d.variacion}
               </div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "8.5px", color: "var(--ink-light)", marginTop: "3px" }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9.5px", color: "var(--ink-mid)", marginTop: "3px" }}>
                 {d.fuente} · {d.periodo}
               </div>
             </div>

@@ -48,13 +48,13 @@ export default async function Hero() {
               </div>
             </div>
 
-            <div style={{ fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.08em", color: "#7A7670", marginBottom: "14px", textTransform: "capitalize" }}>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "10px", letterSpacing: "0.06em", color: "#9A9690", marginBottom: "14px", textTransform: "capitalize" }}>
               {fechaDisplay}
             </div>
 
             {/* Intro / contexto del día */}
             {brief.intro && (
-              <p style={{ fontFamily: "var(--body)", fontSize: "12.5px", color: "#8A8680", lineHeight: 1.5, marginBottom: "18px", borderLeft: "2px solid #2A2620", paddingLeft: "10px" }}>
+              <p style={{ fontFamily: "var(--body)", fontSize: "13px", color: "#B0ACA5", lineHeight: 1.55, marginBottom: "18px", borderLeft: "2px solid #3A3630", paddingLeft: "10px" }}>
                 {brief.intro}
               </p>
             )}
@@ -69,14 +69,14 @@ export default async function Hero() {
                     {/* Etiqueta de tema */}
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
                       <span style={{
-                        fontFamily: "var(--mono)", fontSize: "7.5px", letterSpacing: "0.12em",
-                        textTransform: "uppercase", padding: "1px 5px",
+                        fontFamily: "var(--mono)", fontSize: "9px", letterSpacing: "0.1em",
+                        textTransform: "uppercase", padding: "2px 6px",
                         background: temaStyle.bg, color: temaStyle.color,
-                        border: `1px solid ${temaStyle.color}22`,
+                        border: `1px solid ${temaStyle.color}33`,
                       }}>
                         {item.tema}
                       </span>
-                      <span style={{ fontFamily: "var(--mono)", fontSize: "7.5px", color: "#7A7670", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                      <span style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "#8A8680", letterSpacing: "0.06em" }}>
                         {item.fuente}
                       </span>
                     </div>
@@ -93,12 +93,12 @@ export default async function Hero() {
                       </p>
                     )}
                     {/* Análisis */}
-                    <p style={{ fontFamily: "var(--body)", fontSize: "11.5px", color: "#9A9690", lineHeight: 1.45, marginBottom: "5px" }}>
+                    <p style={{ fontFamily: "var(--body)", fontSize: "12px", color: "#ADA9A2", lineHeight: 1.5, marginBottom: "5px" }}>
                       {item.resumen}
                     </p>
                     {/* Por qué importa */}
                     {item.porQueImporta && (
-                      <p style={{ fontFamily: "var(--sans)", fontSize: "11px", color: "#D4601A", lineHeight: 1.4, borderLeft: "2px solid #5A2E10", paddingLeft: "7px" }}>
+                      <p style={{ fontFamily: "var(--sans)", fontSize: "11.5px", color: "#E8733A", lineHeight: 1.4, borderLeft: "2px solid #6A3A18", paddingLeft: "7px" }}>
                         {item.porQueImporta}
                       </p>
                     )}
@@ -187,7 +187,7 @@ export default async function Hero() {
                   <Link href={`/noticia/${n.slug}`}>
                     <h4 className="cc-h-sm">{n.titulo}</h4>
                   </Link>
-                  <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--ink-faint)", marginTop: "4px" }}>
+                  <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--ink-light)", marginTop: "4px" }}>
                     {(n as any).lecturas ? `${(n as any).lecturas} lecturas · ` : ""}{getCategoryMeta(n.categoria).label}
                   </div>
                 </div>
