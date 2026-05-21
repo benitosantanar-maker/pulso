@@ -361,10 +361,15 @@
   .cc-h-xl { font-size: 26px; }
   .cc-h-lg { font-size: 18px; }
 
-  /* DataStrip: 2 columns on mobile */
+  /* DataStrip: scroll horizontal en mobile */
   .data-strip-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(8, minmax(130px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .data-strip-grid::-webkit-scrollbar { display: none; }
+  .data-strip-grid .cc-data-item { padding: 10px 14px !important; }
 
   /* Pilares: 2 across on mobile */
   .pilares-grid {

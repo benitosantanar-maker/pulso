@@ -24,9 +24,10 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const today = new Date().toLocaleDateString("es-CL", {
+  const todayRaw = new Date().toLocaleDateString("es-CL", {
     weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
+  const today = todayRaw.charAt(0).toUpperCase() + todayRaw.slice(1);
 
   return (
     <header style={{ borderBottom: "3px solid var(--ink)", background: "var(--paper)" }}>
@@ -36,7 +37,7 @@ export default function Header() {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px var(--px) 16px", borderBottom: "1px solid var(--border)" }}>
         {/* Date + status */}
         <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--ink-faint)", letterSpacing: "0.06em", textTransform: "uppercase", lineHeight: 1.7 }}>
-          <div style={{ textTransform: "capitalize" }}>{today}</div>
+          <div>{today}</div>
           <div style={{ color: "var(--amber)" }}>✦ Brief matinal disponible</div>
         </div>
 

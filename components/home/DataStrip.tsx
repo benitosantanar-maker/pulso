@@ -4,8 +4,8 @@ export default function DataStrip() {
   const items = datosChile.slice(0, 8);
 
   return (
-    <div style={{ background: "var(--paper-dark)", borderTop: "2px solid var(--ink)", borderBottom: "2px solid var(--ink)" }}>
-      <div className="cc-container">
+    <div style={{ background: "var(--paper-dark)", borderTop: "2px solid var(--ink)", borderBottom: "2px solid var(--ink)", overflow: "hidden" }}>
+      <div className="cc-container" style={{ overflow: "visible", padding: 0 }}>
         <div className="data-strip-grid">
           {items.map((d) => (
             <div
@@ -22,7 +22,7 @@ export default function DataStrip() {
               <div style={{ fontFamily: "var(--mono)", fontSize: "10px", fontWeight: 500, color: d.dir === "up" ? "var(--green)" : d.dir === "down" ? "var(--red)" : "var(--ink-mid)" }}>
                 {d.variacion}
               </div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "9.5px", color: "var(--ink-mid)", marginTop: "3px" }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9.5px", color: "var(--ink-mid)", marginTop: "3px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {d.fuente} · {d.periodo}
               </div>
             </div>

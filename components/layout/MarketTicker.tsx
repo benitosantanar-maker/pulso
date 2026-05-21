@@ -48,7 +48,8 @@ export default function MarketTicker() {
 
   useEffect(() => {
     function update() {
-      setTime(new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }));
+      const n = new Date();
+      setTime(`${String(n.getHours()).padStart(2, "0")}:${String(n.getMinutes()).padStart(2, "0")}`);
     }
     update();
     const t = setInterval(update, 60000);
