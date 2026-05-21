@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estudio MR — Diseño Gráfico & Branding · Santiago, Chile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #fafafa;
+      --gray-1: #f2f2f0;
+      --gray-2: #e0e0db;
+      --gray-3: #a0a09a;
+      --gray-4: #555550;
+      --accent: #c8b89a;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--white);
+      color: var(--black);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── CURSOR ── */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--black);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      transform: translate(-50%, -50%);
+    }
+    .cursor.hover { width: 40px; height: 40px; background: transparent; border: 1px solid var(--black); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: var(--white);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    nav.scrolled { border-color: var(--gray-2); }
+
+    .nav-logo {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex; gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-4);
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      padding: 8px 20px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav-cta:hover { background: var(--black); color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 120px 48px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 32px;
+    }
+
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(52px, 9vw, 130px);
+      line-height: 0.95;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      max-width: 900px;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gray-3);
+    }
+
+    .hero-bottom {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gray-2);
+    }
+
+    .hero-desc {
+      max-width: 340px;
+      font-size: 14px;
+      color: var(--gray-4);
+      line-height: 1.7;
+    }
+
+    .hero-scroll {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      display: flex; align-items: center; gap: 16px;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 48px; height: 1px;
+      background: var(--gray-3);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--gray-2);
+      border-bottom: 1px solid var(--gray-2);
+      padding: 18px 0;
+      background: var(--gray-1);
+    }
+    .marquee-track {
+      display: flex; gap: 0;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      padding: 0 40px;
+      display: flex; align-items: center; gap: 40px;
+    }
+    .marquee-item::after {
+      content: '·';
+      color: var(--accent);
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 120px 48px; }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 64px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--gray-3);
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio { background: var(--white); padding-top: 0; }
+
+    .portfolio-filters {
+      display: flex; gap: 8px;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border: 1px solid var(--gray-2);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-sans);
+      color: var(--gray-4);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--black); color: var(--white); border-color: var(--black);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--gray-1);
+      cursor: pointer;
+    }
+
+    .portfolio-item:nth-child(1)  { grid-column: span 8; aspect-ratio: 16/10; }
+    .portfolio-item:nth-child(2)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(3)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(4)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(5)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(6)  { grid-column: span 6; aspect-ratio: 16/10; }
+    .portfolio-item:nth-child(7)  { grid-column: span 6; aspect-ratio: 16/10; }
+    .portfolio-item:nth-child(8)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(9)  { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(10) { grid-column: span 4; aspect-ratio: 4/5; }
+    .portfolio-item:nth-child(11) { grid-column: span 8; aspect-ratio: 16/9; }
+    .portfolio-item:nth-child(12) { grid-column: span 4; aspect-ratio: 4/5; }
+
+    .portfolio-img {
+      width: 100%; height: 100%;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: var(--gray-2);
+    }
+
+    /* placeholder color blocks */
+    .portfolio-item:nth-child(1)  .portfolio-img { background: #d4c9b8; }
+    .portfolio-item:nth-child(2)  .portfolio-img { background: #b8c9d4; }
+    .portfolio-item:nth-child(3)  .portfolio-img { background: #c9d4b8; }
+    .portfolio-item:nth-child(4)  .portfolio-img { background: #d4b8c9; }
+    .portfolio-item:nth-child(5)  .portfolio-img { background: #b8d4c9; }
+    .portfolio-item:nth-child(6)  .portfolio-img { background: #c9b8d4; }
+    .portfolio-item:nth-child(7)  .portfolio-img { background: #d4c4a8; }
+    .portfolio-item:nth-child(8)  .portfolio-img { background: #a8b8d4; }
+    .portfolio-item:nth-child(9)  .portfolio-img { background: #d4a8b8; }
+    .portfolio-item:nth-child(10) .portfolio-img { background: #b8d4a8; }
+    .portfolio-item:nth-child(11) .portfolio-img { background: #c0b0a0; }
+    .portfolio-item:nth-child(12) .portfolio-img { background: #a8c0d4; }
+
+    .portfolio-item:hover .portfolio-img { transform: scale(1.04); }
+
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: var(--black);
+      opacity: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      transition: opacity 0.3s ease;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 0.82; }
+
+    .portfolio-client {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .portfolio-name {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--white);
+      font-weight: 400;
+    }
+    .portfolio-cat {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-top: 8px;
+    }
+
+    /* ── SERVICIOS ── */
+    .services { background: var(--black); color: var(--white); }
+    .services .section-label { color: var(--gray-3); }
+    .services .section-label::before { background: var(--gray-3); }
+
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 80px;
+    }
+    .services-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 72px);
+      line-height: 1.05;
+      font-weight: 400;
+      max-width: 520px;
+    }
+    .services-headline em { font-style: italic; color: var(--accent); }
+    .services-intro {
+      max-width: 280px;
+      font-size: 13px;
+      color: var(--gray-3);
+      line-height: 1.7;
+    }
+
+    .services-list { list-style: none; }
+    .service-item {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: padding-left 0.3s ease;
+    }
+    .service-item:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+    .service-item:hover { padding-left: 12px; }
+
+    .service-num {
+      font-size: 11px;
+      color: var(--gray-4);
+      letter-spacing: 0.1em;
+      width: 40px;
+      flex-shrink: 0;
+    }
+    .service-name {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 3.5vw, 48px);
+      font-weight: 400;
+      flex: 1;
+    }
+    .service-tags {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 320px;
+    }
+    .service-tag {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+
+    /* ── ESTUDIO ── */
+    .about { background: var(--gray-1); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-visual {
+      aspect-ratio: 4/5;
+      background: var(--gray-2);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-visual-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #d4c9b8 0%, #b8c4d4 100%);
+    }
+    .about-badge {
+      position: absolute;
+      bottom: 32px; right: 32px;
+      background: var(--white);
+      padding: 16px 24px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .about-content { padding-top: 16px; }
+    .about-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 4vw, 58px);
+      line-height: 1.1;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+    .about-headline em { font-style: italic; color: var(--gray-3); }
+    .about-text {
+      font-size: 15px;
+      color: var(--gray-4);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gray-2);
+      margin-top: 56px;
+      border: 1px solid var(--gray-2);
+    }
+    .stat-item {
+      background: var(--white);
+      padding: 28px 24px;
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+    }
+
+    .about-membership {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gray-2);
+    }
+    .about-membership-badge {
+      width: 48px; height: 48px;
+      border: 1px solid var(--gray-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+      text-align: center; line-height: 1.3;
+      color: var(--gray-3);
+      flex-shrink: 0;
+    }
+    .about-membership-text {
+      font-size: 12px; color: var(--gray-3); line-height: 1.5;
+    }
+
+    /* ── CLIENTES ── */
+    .clients { padding: 80px 48px; border-top: 1px solid var(--gray-2); }
+
+    .clients-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 48px;
+    }
+
+    .clients-grid {
+      display: flex; flex-wrap: wrap; gap: 0;
+    }
+    .client-item {
+      flex: 0 0 16.666%;
+      padding: 28px 32px;
+      border-right: 1px solid var(--gray-2);
+      border-bottom: 1px solid var(--gray-2);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--gray-4);
+      transition: color 0.2s ease;
+    }
+    .client-item:hover { color: var(--black); }
+
+    /* ── CONTACTO ── */
+    .contact {
+      background: var(--black);
+      color: var(--white);
+      min-height: 80vh;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .contact-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 6vw, 88px);
+      line-height: 1.0;
+      font-weight: 400;
+    }
+    .contact-headline em { font-style: italic; color: var(--accent); }
+
+    .contact-info { display: flex; flex-direction: column; gap: 40px; }
+
+    .contact-block { }
+    .contact-block-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 10px;
+    }
+    .contact-block-value {
+      font-size: 15px;
+      color: var(--white);
+      line-height: 1.6;
+    }
+    .contact-block-value a:hover { color: var(--accent); transition: color 0.2s; }
+
+    .contact-cta {
+      display: inline-flex; align-items: center; gap: 16px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px 32px;
+      margin-top: 48px;
+      transition: all 0.3s ease;
+    }
+    .contact-cta:hover {
+      background: var(--white); color: var(--black);
+      border-color: var(--white);
+    }
+    .contact-cta svg { transition: transform 0.3s ease; }
+    .contact-cta:hover svg { transform: translate(4px, -4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--gray-4);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-links {
+      display: flex; gap: 32px;
+    }
+    .footer-links a {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-4);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .hero { padding: 100px 24px 56px; }
+      .portfolio-item:nth-child(1)  { grid-column: span 12; }
+      .portfolio-item:nth-child(2)  { grid-column: span 6; }
+      .portfolio-item:nth-child(3)  { grid-column: span 6; }
+      .portfolio-item:nth-child(4)  { grid-column: span 12; }
+      .portfolio-item:nth-child(5)  { grid-column: span 12; }
+      .portfolio-item:nth-child(6)  { grid-column: span 12; }
+      .portfolio-item:nth-child(7)  { grid-column: span 12; }
+      .portfolio-item:nth-child(8)  { grid-column: span 6; }
+      .portfolio-item:nth-child(9)  { grid-column: span 6; }
+      .portfolio-item:nth-child(10) { grid-column: span 12; }
+      .portfolio-item:nth-child(11) { grid-column: span 12; }
+      .portfolio-item:nth-child(12) { grid-column: span 12; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 56px; }
+      .services-header { flex-direction: column; gap: 24px; }
+      .service-tags { display: none; }
+      .client-item { flex: 0 0 33.333%; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .clients { padding: 80px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">Estudio MR</div>
+    <ul class="nav-links">
+      <li><a href="#portafolio">Portafolio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#estudio">Estudio</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Conversemos</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <p class="hero-tag reveal">Estudio de Diseño — Santiago, Chile</p>
+    <h1 class="hero-headline reveal">
+      Diseño que<br><em>comunica</em><br>con precisión
+    </h1>
+    <div class="hero-bottom reveal">
+      <p class="hero-desc">
+        Creamos identidades de marca, sistemas gráficos y piezas digitales para empresas que entienden que el buen diseño no es un gasto, es una inversión.
+      </p>
+      <span class="hero-scroll">Explorar portafolio</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Identidad Corporativa</span>
+      <span class="marquee-item">Branding</span>
+      <span class="marquee-item">Diseño Editorial</span>
+      <span class="marquee-item">Diseño Web</span>
+      <span class="marquee-item">Packaging</span>
+      <span class="marquee-item">Infografía</span>
+      <span class="marquee-item">Señalética</span>
+      <span class="marquee-item">E-Commerce</span>
+      <span class="marquee-item">Comunicación Corporativa</span>
+      <span class="marquee-item">Identidad Corporativa</span>
+      <span class="marquee-item">Branding</span>
+      <span class="marquee-item">Diseño Editorial</span>
+      <span class="marquee-item">Diseño Web</span>
+      <span class="marquee-item">Packaging</span>
+      <span class="marquee-item">Infografía</span>
+      <span class="marquee-item">Señalética</span>
+      <span class="marquee-item">E-Commerce</span>
+      <span class="marquee-item">Comunicación Corporativa</span>
+    </div>
+  </div>
+
+  <!-- PORTAFOLIO -->
+  <section class="portfolio" id="portafolio" style="padding-bottom: 0;">
+    <div class="section-label reveal">Portafolio selecto</div>
+    <div class="portfolio-filters reveal">
+      <button class="filter-btn active">Todo</button>
+      <button class="filter-btn">Branding</button>
+      <button class="filter-btn">Editorial</button>
+      <button class="filter-btn">Web</button>
+      <button class="filter-btn">Packaging</button>
+      <button class="filter-btn">Institucional</button>
+    </div>
+    <div class="portfolio-grid">
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">MBL</p>
+          <h3 class="portfolio-name">Identidad Corporativa</h3>
+          <p class="portfolio-cat">Branding · Sistema de Marca</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Natura</p>
+          <h3 class="portfolio-name">Campaña de Lanzamiento</h3>
+          <p class="portfolio-cat">Campaña · Packaging</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Banco Central</p>
+          <h3 class="portfolio-name">Publicaciones Económicas</h3>
+          <p class="portfolio-cat">Editorial · Diseño de Contenido</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">SONDA</p>
+          <h3 class="portfolio-name">Sistema de Infografías</h3>
+          <p class="portfolio-cat">Infografía · Data Viz</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Teiko</p>
+          <h3 class="portfolio-name">Identidad Corporativa</h3>
+          <p class="portfolio-cat">Branding</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Alzatec</p>
+          <h3 class="portfolio-name">Catálogo de Producto</h3>
+          <p class="portfolio-cat">Editorial · Web</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Redbus Urbano</p>
+          <h3 class="portfolio-name">Revista Corporativa</h3>
+          <p class="portfolio-cat">Editorial · Comunicación Interna</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">GFT</p>
+          <h3 class="portfolio-name">Manual de Identidad</h3>
+          <p class="portfolio-cat">Branding · Normativa</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">CONICYT</p>
+          <h3 class="portfolio-name">Campaña de Comunicación</h3>
+          <p class="portfolio-cat">Campaña · Institucional</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Aislantes y Envases</p>
+          <h3 class="portfolio-name">Plataforma E-Commerce</h3>
+          <p class="portfolio-cat">Web · UX · Diseño Digital</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">Subdere</p>
+          <h3 class="portfolio-name">Colección Editorial</h3>
+          <p class="portfolio-cat">Editorial · Publicación</p>
+        </div>
+      </div>
+
+      <div class="portfolio-item">
+        <div class="portfolio-img"></div>
+        <div class="portfolio-overlay">
+          <p class="portfolio-client">CCHC</p>
+          <h3 class="portfolio-name">Presentación Institucional</h3>
+          <p class="portfolio-cat">Diseño · Presentación</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="services" id="servicios">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-label">Lo que hacemos</div>
+        <h2 class="services-headline">Servicios de<br><em>diseño estratégico</em></h2>
+      </div>
+      <p class="services-intro">
+        Cada proyecto comienza con una pregunta: ¿qué necesita comunicar tu marca para conectar con quien importa?
+      </p>
+    </div>
+    <ul class="services-list">
+      <li class="service-item reveal">
+        <span class="service-num">01</span>
+        <span class="service-name">Identidad & Branding</span>
+        <div class="service-tags">
+          <span class="service-tag">Logotipo</span>
+          <span class="service-tag">Sistema de Marca</span>
+          <span class="service-tag">Manual</span>
+        </div>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">02</span>
+        <span class="service-name">Diseño Editorial</span>
+        <div class="service-tags">
+          <span class="service-tag">Catálogos</span>
+          <span class="service-tag">Revistas</span>
+          <span class="service-tag">Libros</span>
+          <span class="service-tag">Brochures</span>
+        </div>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">03</span>
+        <span class="service-name">Diseño Web & Digital</span>
+        <div class="service-tags">
+          <span class="service-tag">Sitios Web</span>
+          <span class="service-tag">E-Commerce</span>
+          <span class="service-tag">UI/UX</span>
+        </div>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">04</span>
+        <span class="service-name">Packaging & Etiquetas</span>
+        <div class="service-tags">
+          <span class="service-tag">Envases</span>
+          <span class="service-tag">Etiquetas</span>
+          <span class="service-tag">POP</span>
+        </div>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">05</span>
+        <span class="service-name">Comunicación Corporativa</span>
+        <div class="service-tags">
+          <span class="service-tag">Infografía</span>
+          <span class="service-tag">Presentaciones</span>
+          <span class="service-tag">Señalética</span>
+        </div>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">06</span>
+        <span class="service-name">Campañas Publicitarias</span>
+        <div class="service-tags">
+          <span class="service-tag">Gigantografía</span>
+          <span class="service-tag">Material POP</span>
+          <span class="service-tag">Campaña</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ESTUDIO -->
+  <section class="about" id="estudio">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-visual-inner"></div>
+        <div class="about-badge">Est. Santiago<br>Chile</div>
+      </div>
+      <div class="about-content">
+        <div class="section-label reveal">El estudio</div>
+        <h2 class="about-headline reveal">
+          Diseño con<br>propósito,<br><em>detalle y rigor</em>
+        </h2>
+        <p class="about-text reveal">
+          Estudio MR es una agencia boutique de diseño gráfico y comunicación visual radicada en Santiago de Chile. Trabajamos con empresas que valoran el diseño como herramienta estratégica para construir presencia, coherencia y relevancia de marca.
+        </p>
+        <p class="about-text reveal">
+          Nuestro equipo integra disciplinas de diseño gráfico, identidad corporativa, diseño editorial y digital para entregar soluciones completas, cuidadas y efectivas.
+        </p>
+
+        <div class="about-stats reveal">
+          <div class="stat-item">
+            <div class="stat-num">15+</div>
+            <div class="stat-label">Años de experiencia</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Proyectos realizados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">80+</div>
+            <div class="stat-label">Clientes activos</div>
+          </div>
+        </div>
+
+        <div class="about-membership reveal">
+          <div class="about-membership-badge">Chile<br>Design</div>
+          <p class="about-membership-text">
+            Miembros activos de la Sociedad Chilena de Diseño,<br>
+            comprometidos con la excelencia y la ética profesional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTES -->
+  <div class="clients">
+    <p class="clients-label">Han confiado en nosotros</p>
+    <div class="clients-grid">
+      <div class="client-item">Natura</div>
+      <div class="client-item">MBL</div>
+      <div class="client-item">SONDA</div>
+      <div class="client-item">Banco Central</div>
+      <div class="client-item">Redbus Urbano</div>
+      <div class="client-item">GFT</div>
+      <div class="client-item">CONICYT</div>
+      <div class="client-item">Alzatec</div>
+      <div class="client-item">Subdere</div>
+      <div class="client-item">SENDA</div>
+      <div class="client-item">MINSAL</div>
+      <div class="client-item">Teiko</div>
+      <div class="client-item">CCHC</div>
+      <div class="client-item">Barbie</div>
+      <div class="client-item">Trento</div>
+      <div class="client-item">Novofarma</div>
+      <div class="client-item">Europa Press</div>
+      <div class="client-item">Partner Consultores</div>
+    </div>
+  </div>
+
+  <!-- CONTACTO -->
+  <section class="contact" id="contacto">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label" style="color:var(--gray-3)">
+          <span style="display:block;width:24px;height:1px;background:var(--gray-3)"></span>
+          Contacto
+        </div>
+        <h2 class="contact-headline reveal">
+          Hablemos<br>de tu <em>próximo<br>proyecto</em>
+        </h2>
+        <a href="mailto:hola@estudiomr.cl" class="contact-cta reveal">
+          Iniciar conversación
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </a>
+      </div>
+      <div class="contact-info reveal">
+        <div class="contact-block">
+          <p class="contact-block-label">Email</p>
+          <p class="contact-block-value">
+            <a href="mailto:hola@estudiomr.cl">hola@estudiomr.cl</a>
+          </p>
+        </div>
+        <div class="contact-block">
+          <p class="contact-block-label">Teléfono</p>
+          <p class="contact-block-value">
+            <a href="tel:+56993592306">+56 9 9359 2306</a>
+          </p>
+        </div>
+        <div class="contact-block">
+          <p class="contact-block-label">Ubicación</p>
+          <p class="contact-block-value">
+            El Maitén 731 C<br>Ciudad Empresarial, Huechuraba<br>Santiago, Chile
+          </p>
+        </div>
+        <div class="contact-block">
+          <p class="contact-block-label">Horario</p>
+          <p class="contact-block-value">
+            Lunes a Viernes · 8:30 — 18:00
+          </p>
+        </div>
+        <div class="contact-block">
+          <p class="contact-block-label">Redes</p>
+          <p class="contact-block-value" style="display:flex;gap:24px">
+            <a href="#">LinkedIn</a>
+            <a href="#">Instagram</a>
+            <a href="#">WhatsApp</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">© 2025 Estudio MR Design. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="#">LinkedIn</a>
+      <a href="#">Instagram</a>
+      <a href="mailto:hola@estudiomr.cl">hola@estudiomr.cl</a>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .portfolio-item, .service-item').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Portfolio filters
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

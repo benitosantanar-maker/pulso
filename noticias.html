@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pulso — Ingeniero Comercial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #E3120B;
+      --dark:     #0d0d0d;
+      --text:     #1a1a1a;
+      --text-2:   #444;
+      --text-3:   #888;
+      --bg:       #ffffff;
+      --border:   #ccc;
+      --border-2: #e8e8e8;
+      --serif:    'Playfair Display', Georgia, 'Times New Roman', serif;
+      --sans:     'Source Sans 3', 'Arial Narrow', Arial, sans-serif;
+
+      /* colores por fuente */
+      --df:        #1a7a4a;
+      --economist: #E3120B;
+      --ft:        #FCC000;
+      --pulso:     #1a56db;
+      --emol:      #c0392b;
+      --bloomberg: #000000;
+      --hbr:       #b02a18;
+      --forbes:    #1a1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── RED TOP BAR ── */
+    .top-bar { height: 4px; background: var(--red); }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      background: var(--dark);
+      padding: 16px max(20px, calc(50% - 660px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo-wrap { display: flex; align-items: baseline; gap: 14px; }
+    .logo {
+      font-family: var(--serif);
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .logo .dot { color: var(--red); }
+    .logo-tagline {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,.4);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .masthead-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .live-indicator {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .live-indicator::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--red);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .countdown {
+      font-size: 11px; color: rgba(255,255,255,.35);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cd-track { width: 44px; height: 2px; background: rgba(255,255,255,.15); border-radius: 1px; overflow:hidden; }
+    .cd-fill  { height: 100%; background: var(--red); transition: width 1s linear; }
+
+    .btn-update {
+      font-family: var(--sans);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--dark); background: #fff;
+      border: none; padding: 7px 16px;
+      cursor: pointer; transition: background .15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-update:hover { background: #eee; }
+    .btn-update.loading { opacity: .5; pointer-events: none; }
+
+    /* ── SOURCE STRIP ── */
+    .source-strip {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 8px max(20px, calc(50% - 660px));
+      display: flex; align-items: center; gap: 6px;
+      overflow-x: auto;
+    }
+    .source-strip::-webkit-scrollbar { display: none; }
+    .source-strip-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      white-space: nowrap; margin-right: 4px;
+    }
+    .src-chip {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 2px;
+      white-space: nowrap; cursor: pointer;
+      border: 1px solid transparent;
+      transition: all .15s;
+      color: rgba(255,255,255,.5);
+      background: none;
+      font-family: var(--sans);
+    }
+    .src-chip:hover { color: #fff; border-color: rgba(255,255,255,.2); }
+    .src-chip.active { color: #fff; border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.08); }
+
+    /* ── SECTION NAV ── */
+    .section-nav {
+      background: var(--bg);
+      border-bottom: 2px solid var(--dark);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .section-nav-inner {
+      padding: 0 max(20px, calc(50% - 660px));
+      display: flex; overflow-x: auto;
+    }
+    .section-nav-inner::-webkit-scrollbar { display: none; }
+    .sec-btn {
+      font-family: var(--sans);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--text-3);
+      background: none; border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      padding: 13px 18px;
+      white-space: nowrap; cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .sec-btn:hover { color: var(--text-2); }
+    .sec-btn.active { color: var(--dark); border-bottom-color: var(--red); }
+
+    /* ── PAGE ── */
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 max(20px, calc(50% - 660px));
+    }
+
+    /* ── FEATURED ── */
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    @media (max-width: 880px) {
+      .featured { grid-template-columns: 1fr; }
+      .feat-sidebar { border-left: none !important; border-top: 1px solid var(--border); padding: 20px 0 0; margin-top: 20px; }
+    }
+
+    .feat-lead { padding-right: 36px; }
+    .area-label {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 10px; display: block;
+    }
+    .feat-headline {
+      font-family: var(--serif);
+      font-size: 36px; font-weight: 900;
+      line-height: 1.1; color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .feat-lead a:hover .feat-headline { color: var(--red); }
+    .feat-meta {
+      font-size: 11px; color: var(--text-3);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .feat-meta .src-name { font-weight: 700; color: var(--text-2); }
+
+    .feat-sidebar {
+      border-left: 1px solid var(--border);
+      padding-left: 24px;
+      display: flex; flex-direction: column;
+    }
+    .side-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-2);
+    }
+    .side-item:last-child { border-bottom: none; }
+    .side-item a:hover .side-headline { color: var(--red); }
+    .side-headline {
+      font-family: var(--serif);
+      font-size: 17px; font-weight: 700;
+      line-height: 1.28; color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .side-meta {
+      font-size: 11px; color: var(--text-3);
+      display: flex; gap: 8px;
+    }
+    .side-meta .src-name { font-weight: 700; color: var(--text-2); }
+
+    /* ── SECTIONS ── */
+    .section-block { padding: 30px 0 8px; }
+
+    .section-header {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-2);
+      padding-bottom: 10px;
+    }
+    .section-bar { width: 4px; height: 28px; background: var(--red); margin-right: 12px; flex-shrink: 0; }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 20px; font-weight: 900;
+      color: var(--dark); letter-spacing: -.2px;
+      flex: 1;
+    }
+    .section-count {
+      font-size: 11px; color: var(--text-3);
+      font-weight: 600;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    @media (max-width: 1100px) { .articles-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 760px)  { .articles-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px)  { .articles-grid { grid-template-columns: 1fr; } }
+
+    .a-card {
+      padding: 16px 16px 16px 0;
+      border-right: 1px solid var(--border-2);
+      border-bottom: 1px solid var(--border-2);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .a-card:nth-child(4n) { border-right: none; }
+    @media (max-width: 1100px) { .a-card:nth-child(4n) { border-right: 1px solid var(--border-2); } .a-card:nth-child(3n) { border-right: none; } }
+    @media (max-width: 760px)  { .a-card:nth-child(3n) { border-right: 1px solid var(--border-2); } .a-card:nth-child(2n) { border-right: none; } }
+
+    .a-card a { display: flex; flex-direction: column; gap: 5px; height: 100%; }
+    .a-card a:hover .a-headline { color: var(--red); }
+
+    .a-source {
+      font-size: 9px; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .a-source.df        { color: var(--df); }
+    .a-source.economist { color: var(--economist); }
+    .a-source.ft        { color: #8a6e00; }
+    .a-source.pulso     { color: var(--pulso); }
+    .a-source.emol      { color: var(--emol); }
+    .a-source.bloomberg { color: #555; }
+    .a-source.hbr       { color: var(--hbr); }
+    .a-source.forbes    { color: #666; }
+
+    .a-headline {
+      font-family: var(--serif);
+      font-size: 15px; font-weight: 700;
+      line-height: 1.32; color: var(--dark);
+      flex: 1;
+      transition: color .12s;
+    }
+    .a-time { font-size: 10px; color: var(--text-3); margin-top: auto; }
+
+    /* ── STATES ── */
+    .empty-msg {
+      grid-column: 1/-1;
+      padding: 40px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-3);
+    }
+
+    /* ── SKELETON ── */
+    .skel {
+      height: 12px; border-radius: 2px;
+      background: linear-gradient(90deg,#ececec 25%,#f8f8f8 50%,#ececec 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.3s infinite;
+      margin-bottom: 7px;
+    }
+    .skel.h22 { height: 22px; } .skel.w90{width:90%} .skel.w70{width:70%} .skel.w45{width:45%}
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* ── SPINNER ── */
+    .spin {
+      width: 10px; height: 10px;
+      border: 2px solid rgba(0,0,0,.2);
+      border-top-color: var(--dark);
+      border-radius: 50%;
+      animation: spin .5s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--dark);
+      padding: 28px max(20px, calc(50% - 660px));
+      margin-top: 48px;
+      display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left { font-size: 13px; color: rgba(255,255,255,.3); line-height: 1.7; }
+    .footer-left strong { color: rgba(255,255,255,.6); font-weight: 600; }
+    .footer-sources {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      align-items: flex-start;
+    }
+    .footer-sources a {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      transition: color .15s;
+    }
+    .footer-sources a:hover { color: rgba(255,255,255,.7); }
+
+    @media (max-width: 640px) {
+      .logo { font-size: 26px; }
+      .logo-tagline { display: none; }
+      .countdown { display: none; }
+      .page { padding: 0 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="logo-wrap">
+    <div class="logo">Pulso<span class="dot">.</span></div>
+    <div class="logo-tagline">Ingeniero Comercial · Chile</div>
+  </div>
+  <div class="masthead-right">
+    <div class="live-indicator">En vivo</div>
+    <div class="countdown">
+      <span id="cd-text">—</span>
+      <div class="cd-track"><div class="cd-fill" id="cd-fill" style="width:100%"></div></div>
+    </div>
+    <button class="btn-update" id="btn-update" onclick="load()">
+      <span class="spin" id="spin" style="display:none"></span>
+      <span id="btn-text">Actualizar</span>
+    </button>
+  </div>
+</header>
+
+<!-- SOURCE FILTER STRIP -->
+<div class="source-strip">
+  <span class="source-strip-label">Fuentes:</span>
+  <button class="src-chip active" data-src="all"       onclick="setSrc('all')">Todas</button>
+  <button class="src-chip"        data-src="df"        onclick="setSrc('df')">Diario Financiero</button>
+  <button class="src-chip"        data-src="economist" onclick="setSrc('economist')">The Economist</button>
+  <button class="src-chip"        data-src="ft"        onclick="setSrc('ft')">Financial Times</button>
+  <button class="src-chip"        data-src="bloomberg" onclick="setSrc('bloomberg')">Bloomberg</button>
+  <button class="src-chip"        data-src="hbr"       onclick="setSrc('hbr')">Harvard Business Review</button>
+  <button class="src-chip"        data-src="pulso"     onclick="setSrc('pulso')">La Tercera · Pulso</button>
+  <button class="src-chip"        data-src="emol"      onclick="setSrc('emol')">Emol Economía</button>
+  <button class="src-chip"        data-src="forbes"    onclick="setSrc('forbes')">Forbes</button>
+</div>
+
+<!-- SECTION NAV -->
+<nav class="section-nav">
+  <div class="section-nav-inner">
+    <button class="sec-btn active" data-topic="all"          onclick="setTopic('all')">Todo</button>
+    <button class="sec-btn"        data-topic="economia"     onclick="setTopic('economia')">Economía</button>
+    <button class="sec-btn"        data-topic="mercados"     onclick="setTopic('mercados')">Mercados</button>
+    <button class="sec-btn"        data-topic="finanzas"     onclick="setTopic('finanzas')">Finanzas</button>
+    <button class="sec-btn"        data-topic="estrategia"   onclick="setTopic('estrategia')">Estrategia</button>
+    <button class="sec-btn"        data-topic="marketing"    onclick="setTopic('marketing')">Marketing</button>
+    <button class="sec-btn"        data-topic="emprendimiento" onclick="setTopic('emprendimiento')">Emprendimiento</button>
+    <button class="sec-btn"        data-topic="tecnologia"   onclick="setTopic('tecnologia')">Tecnología</button>
+    <button class="sec-btn"        data-topic="internacional" onclick="setTopic('internacional')">Internacional</button>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="page" id="main-content">
+  <!-- skeleton inicial -->
+  <div style="padding:32px 0 8px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #e8e8e8">
+      <div style="width:4px;height:28px;background:#eee;flex-shrink:0"></div>
+      <div class="skel w45" style="margin:0;height:18px;"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr)">
+      <div style="padding:16px 16px 16px 0;border-right:1px solid #f0f0f0">
+        <div class="skel w45"></div><div class="skel w90 h22"></div><div class="skel w70"></div><div class="skel w45"></div>
+      </div>
+      <div style="padding:16px 16px 16px 0;border-right:1px solid #f0f0f0">
+        <div class="skel w45"></div><div class="skel w90 h22"></div><div class="skel w70"></div>
+      </div>
+      <div style="padding:16px 16px 16px 0;border-right:1px solid #f0f0f0">
+        <div class="skel w45"></div><div class="skel w90 h22"></div><div class="skel w70"></div><div class="skel w45"></div>
+      </div>
+      <div style="padding:16px 0">
+        <div class="skel w45"></div><div class="skel w90 h22"></div><div class="skel w70"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <strong>Pulso.</strong> Centralizador de noticias para el Ingeniero Comercial<br>
+    Economía · Finanzas · Mercados · Estrategia · Marketing · Emprendimiento<br>
+    Actualización automática cada 4 minutos
+  </div>
+  <div class="footer-sources">
+    <a href="https://www.df.cl"           target="_blank" rel="noopener">Diario Financiero</a>
+    <a href="https://www.economist.com"   target="_blank" rel="noopener">The Economist</a>
+    <a href="https://www.ft.com"          target="_blank" rel="noopener">Financial Times</a>
+    <a href="https://www.bloomberg.com"   target="_blank" rel="noopener">Bloomberg</a>
+    <a href="https://hbr.org"             target="_blank" rel="noopener">Harvard Business Review</a>
+    <a href="https://www.latercera.com/canal/pulso/" target="_blank" rel="noopener">La Tercera · Pulso</a>
+    <a href="https://www.emol.com"        target="_blank" rel="noopener">Emol Economía</a>
+    <a href="https://www.forbes.com"      target="_blank" rel="noopener">Forbes</a>
+  </div>
+</footer>
+
+<script>
+  const REFRESH_MS = 4 * 60 * 1000;
+
+  const TOPIC_META = {
+    all:            { label: 'Todo' },
+    economia:       { label: 'Economía' },
+    mercados:       { label: 'Mercados' },
+    finanzas:       { label: 'Finanzas' },
+    estrategia:     { label: 'Estrategia' },
+    marketing:      { label: 'Marketing' },
+    emprendimiento: { label: 'Emprendimiento' },
+    tecnologia:     { label: 'Tecnología' },
+    internacional:  { label: 'Internacional' },
+  };
+  const TOPIC_ORDER = ['economia','mercados','finanzas','estrategia','marketing','emprendimiento','tecnologia','internacional'];
+
+  let allItems     = [];
+  let currentTopic = 'all';
+  let currentSrc   = 'all';
+  let nextLoad     = Date.now() + REFRESH_MS;
+  let cdTimer;
+
+  /* ── UTILS ── */
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    const s = Math.floor((Date.now() - d) / 1000);
+    if (s < 90)    return 'Hace un momento';
+    if (s < 3600)  return `Hace ${Math.floor(s/60)} min`;
+    if (s < 86400) return `Hace ${Math.floor(s/3600)} h`;
+    return `Hace ${Math.floor(s/86400)} d`;
+  }
+
+  /* ── COUNTDOWN ── */
+  function startCountdown() {
+    clearInterval(cdTimer);
+    nextLoad = Date.now() + REFRESH_MS;
+    cdTimer  = setInterval(() => {
+      const rem = Math.max(0, nextLoad - Date.now());
+      const m   = Math.floor(rem / 60000);
+      const s   = Math.floor((rem % 60000) / 1000);
+      document.getElementById('cd-text').textContent = `${m}:${String(s).padStart(2,'0')}`;
+      document.getElementById('cd-fill').style.width = (rem / REFRESH_MS * 100) + '%';
+    }, 1000);
+  }
+
+  /* ── FILTER ── */
+  function filtered() {
+    return allItems.filter(i =>
+      (currentSrc   === 'all' || i.source === currentSrc) &&
+      (currentTopic === 'all' || i.topic  === currentTopic)
+    );
+  }
+
+  /* ── RENDER CARD ── */
+  function makeCard(item) {
+    const div = document.createElement('div');
+    div.className = 'a-card';
+    div.innerHTML = `<a href="${item.link||'#'}" target="_blank" rel="noopener noreferrer">
+      <span class="a-source ${item.source}">${item.sourceName}</span>
+      <span class="a-headline">${item.title}</span>
+      <span class="a-time">${timeAgo(item.pubDate)}</span>
+    </a>`;
+    return div;
+  }
+
+  /* ── RENDER FEATURED ── */
+  function makeFeatured(items) {
+    const wrap = document.createElement('div');
+    wrap.className = 'featured';
+
+    const lead = items[0];
+    const lDiv = document.createElement('div');
+    lDiv.className = 'feat-lead';
+    lDiv.innerHTML = `<a href="${lead.link||'#'}" target="_blank" rel="noopener noreferrer">
+      <span class="area-label">${TOPIC_META[lead.topic]?.label || lead.topic}</span>
+      <div class="feat-headline">${lead.title}</div>
+      <div class="feat-meta">
+        <span class="src-name">${lead.sourceName}</span>
+        <span>${timeAgo(lead.pubDate)}</span>
+      </div>
+    </a>`;
+    wrap.appendChild(lDiv);
+
+    const sDiv = document.createElement('div');
+    sDiv.className = 'feat-sidebar';
+    items.slice(1,4).forEach(item => {
+      const d = document.createElement('div');
+      d.className = 'side-item';
+      d.innerHTML = `<a href="${item.link||'#'}" target="_blank" rel="noopener noreferrer">
+        <span class="area-label">${TOPIC_META[item.topic]?.label || item.topic}</span>
+        <div class="side-headline">${item.title}</div>
+        <div class="side-meta">
+          <span class="src-name">${item.sourceName}</span>
+          <span>${timeAgo(item.pubDate)}</span>
+        </div>
+      </a>`;
+      sDiv.appendChild(d);
+    });
+    wrap.appendChild(sDiv);
+    return wrap;
+  }
+
+  /* ── RENDER SECTION ── */
+  function makeSection(topicKey, items) {
+    if (!items.length) return null;
+    const block = document.createElement('div');
+    block.className = 'section-block';
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `
+      <div class="section-bar"></div>
+      <div class="section-title">${TOPIC_META[topicKey]?.label || topicKey}</div>
+      <div class="section-count">${items.length} artículos</div>`;
+    block.appendChild(header);
+    const grid = document.createElement('div');
+    grid.className = 'articles-grid';
+    items.forEach(i => grid.appendChild(makeCard(i)));
+    block.appendChild(grid);
+    return block;
+  }
+
+  /* ── RENDER ALL ── */
+  function render() {
+    const main  = document.getElementById('main-content');
+    main.innerHTML = '';
+    const items = filtered();
+
+    if (!items.length) {
+      main.innerHTML = '<div style="padding:60px 0;text-align:center;color:#999;font-size:14px">Sin artículos para esta selección.</div>';
+      return;
+    }
+
+    if (currentTopic === 'all') {
+      // Featured strip
+      main.appendChild(makeFeatured(items));
+
+      // Sections grouped by topic
+      const grouped = {};
+      TOPIC_ORDER.forEach(t => grouped[t] = []);
+      items.slice(4).forEach(i => {
+        if (grouped[i.topic]) grouped[i.topic].push(i);
+        else grouped['economia'].push(i);
+      });
+      TOPIC_ORDER.forEach(t => {
+        const block = makeSection(t, grouped[t]);
+        if (block) main.appendChild(block);
+      });
+    } else {
+      // Single section view
+      const block = document.createElement('div');
+      block.style.paddingTop = '30px';
+      const grid = document.createElement('div');
+      grid.className = 'articles-grid';
+      grid.style.borderTop = '2px solid var(--dark)';
+      items.forEach(i => grid.appendChild(makeCard(i)));
+      block.appendChild(grid);
+      main.appendChild(block);
+    }
+  }
+
+  /* ── SETTERS ── */
+  function setTopic(topic) {
+    currentTopic = topic;
+    document.querySelectorAll('.sec-btn').forEach(b => b.classList.toggle('active', b.dataset.topic === topic));
+    render();
+  }
+
+  function setSrc(src) {
+    currentSrc = src;
+    document.querySelectorAll('.src-chip').forEach(b => b.classList.toggle('active', b.dataset.src === src));
+    render();
+  }
+
+  /* ── LOAD ── */
+  async function load() {
+    const btn = document.getElementById('btn-update');
+    const sp  = document.getElementById('spin');
+    const txt = document.getElementById('btn-text');
+    btn.classList.add('loading');
+    sp.style.display = 'inline-block';
+    txt.textContent  = 'Cargando…';
+
+    try {
+      const res = await fetch('/api/news');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      allItems = await res.json();
+      render();
+      startCountdown();
+    } catch(e) {
+      document.getElementById('main-content').innerHTML =
+        `<div style="padding:40px 0;color:var(--red);font-size:13px">Error al cargar: ${e.message}</div>`;
+    }
+
+    btn.classList.remove('loading');
+    sp.style.display = 'none';
+    txt.textContent  = 'Actualizar';
+  }
+
+  // Refresh tiempos relativos cada minuto
+  setInterval(() => { if (allItems.length) render(); }, 60000);
+
+  load();
+  setInterval(load, REFRESH_MS);
+</script>
+</body>
+</html>

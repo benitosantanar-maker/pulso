@@ -20,7 +20,7 @@ export default async function TendenciasSection() {
   if (!lead) return null;
 
   // Tags dinámicos desde los items
-  const tags = [...new Set(items.flatMap(i => i.tags ?? []))].slice(0, 5);
+  const tags = Array.from(new Set(items.flatMap(i => i.tags ?? []))).slice(0, 5);
 
   return (
     <section style={{ background: "var(--paper-dark)", borderTop: "1px solid var(--border)", padding: "32px 0" }}>

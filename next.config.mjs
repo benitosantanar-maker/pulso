@@ -4,11 +4,10 @@ const nextConfig = {
     remotePatterns: [],
   },
   experimental: {
+    // Paquetes que deben ejecutarse en Node.js (no bundleados por webpack)
     serverComponentsExternalPackages: ["rss-parser", "cheerio", "@anthropic-ai/sdk"],
-    staticGenerationMaxConcurrency: 1,
-    staticGenerationRetryCount: 1,
   },
-  // Allow more time for static generation (RSS feeds can be slow)
+  // Tiempo extra para generación estática (RSS feeds pueden ser lentos)
   staticPageGenerationTimeout: 180,
 };
 
